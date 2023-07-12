@@ -19,7 +19,7 @@ export function isRawAtmInfo(arg: any): arg is rawAtmInfo {
     typeof arg.brand === "string" &&
     arg.address &&
     typeof arg.address === "string" &&
-    arg.postalCode &&
+    arg.postalCode !== undefined &&
     typeof arg.postalCode === "string"
   );
 }

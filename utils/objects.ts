@@ -20,6 +20,7 @@ export const isArrayOfInterface = (
   if (arr.length <= 0) return false;
 
   return arr.every((value) => {
+    // if (interfaceCheckCallback(value) !== true) console.log(value);
     return interfaceCheckCallback(value);
   });
 };

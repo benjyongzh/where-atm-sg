@@ -2,6 +2,7 @@ import bankEndpoints, {
   rawAtmInfo,
   baseBankAtmListUrl,
   divClassName,
+  isRawAtmInfo,
 } from "@/lib/webscraping-data";
 import { JSDOM } from "jsdom";
 import { errorMessageObject } from "./errors";
@@ -41,7 +42,7 @@ export const getBankAtmList = async (bankName: string) => {
           address: textSplit[1],
           postalCode: textSplit[2],
         };
-        atmDocArray.push(atmInfo); //second console output
+        if (isRawAtmInfo(atmInfo)) atmDocArray.push(atmInfo); //sanitize
       }
     }
 
