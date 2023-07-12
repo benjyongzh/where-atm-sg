@@ -1,8 +1,5 @@
-export async function loadAtmData() {
-  const atmData = await fetch("/api/getAtmData");
+export async function getAllAtmData() {
+  const atmData = await fetch(`${process.env.NEXT_PUBLIC_API_URL}getAtmData`);
   const data = await atmData.json();
-
-  console.log("loading atm data: ", data);
-
   return data;
 }
