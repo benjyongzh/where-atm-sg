@@ -3,6 +3,12 @@ export const baseBankAtmListUrl = "https://sgbanks.com/branches/";
 
 export const divClassName = "lstbranches";
 
+export interface rawAtmInfo {
+  name: string;
+  address: string;
+  postalCode: string;
+}
+
 export interface bankEndpoint {
   bankInfo: string;
   atmList: string;
