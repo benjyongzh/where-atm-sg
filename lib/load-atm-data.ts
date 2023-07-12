@@ -7,6 +7,19 @@ import bankEndpoints, {
 import { JSDOM } from "jsdom";
 import { errorMessageObject } from "./errors";
 
+export const bankNameList: string[] = [
+  "DBS",
+  "UOB",
+  "CitiBank",
+  "MayBank",
+  "StandardChartered",
+  "OCBC",
+  "HSBC",
+  "ANZ",
+  "CIMB",
+  "RHB",
+];
+
 export async function getAllAtmData() {
   //webscraping done here
   const atmData = await fetch(`${process.env.NEXT_PUBLIC_API_URL}getAtmData`, {
@@ -15,6 +28,34 @@ export async function getAllAtmData() {
   const data = await atmData.json();
   return data;
 }
+
+//sanitizing
+const isValidAtmData = (atmData: {
+  location: string;
+  address: string;
+  postalCode: string;
+}) => {
+  return (
+    isValidLocation(atmData.location) &&
+    isValidAddress(atmData.address) &&
+    isValidPostalCode(atmData.postalCode)
+  );
+};
+
+const isValidLocation = (postalCode: string) => {
+  //use regex to check
+  return true;
+};
+
+const isValidAddress = (postalCode: string) => {
+  //use regex to check
+  return true;
+};
+
+const isValidPostalCode = (postalCode: string) => {
+  //use regex to check
+  return true;
+};
 
 export const getBankAtmList = async (bankName: string) => {
   try {
@@ -34,15 +75,16 @@ export const getBankAtmList = async (bankName: string) => {
 
     for (let i = 0; i < atmDocList!.length; i++) {
       const text = atmDocList![i].textContent;
-      if (text !== "") {
-        const textSplit = text!.split("\n");
+      const [location, address, postalCode] = text!.split("\n");
+      if (isValidAtmData({ location, address, postalCode })) {
         const atmInfo: rawAtmInfo = {
-          name: textSplit[0],
+          location,
           brand: bankName,
-          address: textSplit[1],
-          postalCode: textSplit[2],
+          address,
+          postalCode,
         };
-        if (isRawAtmInfo(atmInfo)) atmDocArray.push(atmInfo); //sanitize
+        //sanitize
+        if (isRawAtmInfo(atmInfo)) atmDocArray.push(atmInfo);
       }
     }
 
