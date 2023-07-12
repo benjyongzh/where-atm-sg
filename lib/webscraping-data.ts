@@ -5,8 +5,23 @@ export const divClassName = "lstbranches";
 
 export interface rawAtmInfo {
   name: string;
+  brand: string;
   address: string;
   postalCode: string;
+}
+
+export function isRawAtmInfo(arg: any): arg is rawAtmInfo {
+  return (
+    arg &&
+    arg.name &&
+    typeof arg.name === "string" &&
+    arg.brand &&
+    typeof arg.brand === "string" &&
+    arg.address &&
+    typeof arg.address === "string" &&
+    arg.postalCode &&
+    typeof arg.postalCode === "string"
+  );
 }
 
 export interface bankEndpoint {
@@ -69,7 +84,7 @@ const bankEndpoints = {
   uob: uobEndpoints,
   citibank: citibankEndpoints,
   maybank: maybankEndpoints,
-  standardChartered: standardCharteredEndpoints,
+  standardchartered: standardCharteredEndpoints,
   ocbc: ocbcEndpoints,
   hsbc: hsbcEndpoints,
   anz: anzEndpoints,
