@@ -4,7 +4,7 @@ export const baseBankAtmListUrl = "https://sgbanks.com/branches/";
 export const divClassName = "lstbranches";
 
 export interface rawAtmInfo {
-  name: string;
+  location: string;
   brand: string;
   address: string;
   postalCode: string;
@@ -13,8 +13,8 @@ export interface rawAtmInfo {
 export function isRawAtmInfo(arg: any): arg is rawAtmInfo {
   return (
     arg &&
-    arg.name &&
-    typeof arg.name === "string" &&
+    arg.location &&
+    typeof arg.location === "string" &&
     arg.brand &&
     typeof arg.brand === "string" &&
     arg.address &&
