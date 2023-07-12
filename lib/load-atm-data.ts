@@ -5,7 +5,6 @@ import bankEndpoints, {
   isRawAtmInfo,
 } from "@/lib/webscraping-data";
 import { JSDOM } from "jsdom";
-import { errorMessageObject } from "./errors";
 
 export const bankNameList: string[] = [
   "DBS",
@@ -30,31 +29,51 @@ export async function getAllAtmData() {
 }
 
 //sanitizing
-const isValidAtmData = (atmData: {
-  location: string;
-  address: string;
-  postalCode: string;
-}) => {
-  return (
-    isValidLocation(atmData.location) &&
-    isValidAddress(atmData.address) &&
-    isValidPostalCode(atmData.postalCode)
-  );
+const sanitizeAtmData = (atmDataText: string | null) => {
+  if (typeof atmDataText === null) return {};
+
+  // console.log("info: ", atmDataText);
+  const splitText = atmDataText!.split("\n");
+  const location = splitText[0];
+  if (!isValidLocation(location)) return {};
+
+  let addressLines: string[] = [];
+  let infoLines: string[] = [];
+
+  let endOfAddress = false;
+  for (let i = 1; i < splitText.length; i++) {
+    if (!endOfAddress) {
+      addressLines.push(splitText[i]);
+      //check if end of real address using regex and postalcode
+      if (containsValidPostalCode(splitText[i])) {
+        endOfAddress = true;
+      }
+    } else {
+      infoLines.push(splitText[i]);
+    }
+  }
+  const fullAddress = addressLines.join(", ");
+
+  if (!isValidAddress(fullAddress)) return {};
+  console.log("ATM: ", location, fullAddress, infoLines);
+  return { location, address: fullAddress, info: infoLines };
 };
 
-const isValidLocation = (postalCode: string) => {
-  //use regex to check
-  return true;
+const isValidLocation = (locationText: string) => {
+  //how to check if location is valid?
+  return locationText !== "";
 };
 
-const isValidAddress = (postalCode: string) => {
-  //use regex to check
-  return true;
+const isValidAddress = (addressText: string) => {
+  //check if address is valid. how?
+  return addressText !== "";
 };
 
-const isValidPostalCode = (postalCode: string) => {
+const containsValidPostalCode = (postalCode: string) => {
   //use regex to check
-  return true;
+  let pattern = /(Singapore\s[0-9]{5,6}$)|^Singapore$/g;
+  // if (!pattern.test(postalCode)) console.log(postalCode);
+  return pattern.test(postalCode);
 };
 
 export const getBankAtmList = async (bankName: string) => {
@@ -75,13 +94,13 @@ export const getBankAtmList = async (bankName: string) => {
 
     for (let i = 0; i < atmDocList!.length; i++) {
       const text = atmDocList![i].textContent;
-      const [location, address, postalCode] = text!.split("\n");
-      if (isValidAtmData({ location, address, postalCode })) {
+      const atmData = sanitizeAtmData(text);
+      if (atmData) {
         const atmInfo: rawAtmInfo = {
-          location,
+          location: atmData.location!,
           brand: bankName,
-          address,
-          postalCode,
+          address: atmData.address!,
+          info: atmData.info,
         };
         //sanitize
         if (isRawAtmInfo(atmInfo)) atmDocArray.push(atmInfo);

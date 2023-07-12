@@ -20,7 +20,11 @@ export default async function Home() {
           <div>{atm.location}</div>
           <div>{atm.brand}</div>
           <div>{atm.address}</div>
-          <div>{atm.postalCode}</div>
+          <div>
+            {atm.info?.map((infoline, i) => (
+              <div key={i}>{infoline}</div>
+            ))}
+          </div>
         </div>
       ))}
     </main>

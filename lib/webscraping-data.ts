@@ -7,7 +7,7 @@ export interface rawAtmInfo {
   location: string;
   brand: string;
   address: string;
-  postalCode: string;
+  info?: string[];
 }
 
 export function isRawAtmInfo(arg: any): arg is rawAtmInfo {
@@ -18,9 +18,7 @@ export function isRawAtmInfo(arg: any): arg is rawAtmInfo {
     arg.brand &&
     typeof arg.brand === "string" &&
     arg.address &&
-    typeof arg.address === "string" &&
-    arg.postalCode !== undefined &&
-    typeof arg.postalCode === "string"
+    typeof arg.address === "string"
   );
 }
 
