@@ -1,19 +1,12 @@
 import { errorMessageObject } from "@/lib/errors";
 import { getAllAtmData, bankNameList } from "@/lib/load-atm-data";
-import { rawAtmInfo } from "@/lib/webscraping-data";
 
 import FilterButton from "@/components/FilterButton";
 import AtmList from "@/components/AtmList";
 
-// import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
-// import { setAtmData } from "@/features/atmData/atmDataSlice";
-
 export default async function Home() {
   //save atmList to redux?
-  // const dispatch = useAppDispatch();
-  // const storedAtmData = useAppSelector((state) => state.atmData.allAtms);
   const dataToUse = await getAllAtmData();
-  // dispatch(setAtmData(dataToUse));
   const { atmList, errors } = dataToUse;
 
   return atmList.length || errors.length ? (
