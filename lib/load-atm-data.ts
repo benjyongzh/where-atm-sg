@@ -5,6 +5,7 @@ import bankEndpoints, {
   isRawAtmInfo,
 } from "@/lib/webscraping-data";
 import { JSDOM } from "jsdom";
+import { errorMessageObject, isErrorMessageObject } from "./errors";
 
 export const bankNameList: string[] = [
   "DBS",
@@ -21,11 +22,31 @@ export const bankNameList: string[] = [
 
 export async function getAllAtmData() {
   //webscraping done here
-  const atmData = await fetch(`${process.env.NEXT_PUBLIC_API_URL}getAtmData`, {
-    cache: "no-store",
-  }); //for production, set to caching
-  const data = await atmData.json();
-  return data;
+  let atmList: rawAtmInfo[] = [];
+  let errors: errorMessageObject[] = [];
+
+  for (let i = 0; i < bankNameList.length; i++) {
+    let Atms: rawAtmInfo[] | errorMessageObject = await getBankAtmList(
+      bankNameList[i]
+    );
+    if (Array.isArray(Atms)) {
+      atmList = atmList.concat(Atms);
+    } else if (isErrorMessageObject(Atms)) {
+      errors.push(Atms);
+    }
+  }
+
+  console.log("total number of ATMs: ", atmList.length);
+  console.log("total number of errors: ", errors.length);
+  // console.log({
+  //   atmList,
+  //   errors,
+  // });
+
+  return {
+    atmList,
+    errors,
+  };
 }
 
 //sanitizing
@@ -55,7 +76,7 @@ const sanitizeAtmData = (atmDataText: string | null) => {
   const fullAddress = addressLines.join(", ");
 
   if (!isValidAddress(fullAddress)) return {};
-  console.log("ATM: ", location, fullAddress, infoLines);
+  // console.log("ATM: ", location, fullAddress, infoLines);
   return { location, address: fullAddress, info: infoLines };
 };
 
@@ -81,7 +102,10 @@ export const getBankAtmList = async (bankName: string) => {
     const endpoint: string = bankName.toLowerCase();
     const dbsAtms = await fetch(
       baseBankAtmListUrl +
-        bankEndpoints[endpoint as keyof typeof bankEndpoints].atmList
+        bankEndpoints[endpoint as keyof typeof bankEndpoints].atmList, //caching option here
+      {
+        cache: "no-store",
+      }
     ).then((data) => data.text());
 
     const dom = new JSDOM(dbsAtms);
