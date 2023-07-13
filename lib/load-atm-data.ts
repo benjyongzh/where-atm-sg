@@ -37,12 +37,7 @@ export async function getAllAtmData() {
   }
 
   console.log("total number of ATMs: ", atmList.length);
-  console.log("total number of errors: ", errors.length);
-  // console.log({
-  //   atmList,
-  //   errors,
-  // });
-
+  console.log("total number of fetching errors: ", errors.length);
   return {
     atmList,
     errors,
