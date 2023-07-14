@@ -5,6 +5,7 @@ import FilterButton from "@/components/FilterButton";
 import AtmList from "@/components/AtmList";
 import RangeSetting from "@/components/RangeSetting";
 import AddressInput from "@/components/AddressInput";
+import FilterSection from "@/components/FilterSection";
 
 export default async function Home() {
   return (
@@ -13,11 +14,7 @@ export default async function Home() {
         Where ATM SG?
       </header>
 
-      <AddressInput updateReduxOnInput={true} />
-
-      <div className="section">
-        <RangeSetting />
-      </div>
+      <FilterSection />
       {/* 
       <div className="flex flex-wrap items-center justify-center gap-3 p-5">
         {bankNameList.map((bank) => (

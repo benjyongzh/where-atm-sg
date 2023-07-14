@@ -10,44 +10,28 @@ const RangeSetting = () => {
   const dispatch = useAppDispatch();
 
   const handleChange = (value: string) => {
-    setRangeValue(parseInt(value));
-  };
-
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    const validInput = validateMaxRangeInput(rangeValue);
-    setRangeValue(validInput);
-    dispatch(setMaxRange(validInput));
+    const int = parseInt(value);
+    setRangeValue(int);
+    dispatch(setMaxRange(int));
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex items-center justify-center w-full"
-    >
-      {/* <div>storedrange: {storedRange}</div>
-      <div>rangeValue: {rangeValue}</div> */}
-      <div className="flex items-center justify-center w-full gap-3 p-4">
-        <label htmlFor="rangeSetting">Search Radius</label>
-        <input
-          id="rangeSetting"
-          className=""
-          type="number"
-          name="rangeSetting"
-          required
-          onChange={(e) => handleChange(e.target.value)}
-          value={rangeValue}
-        ></input>
-      </div>
-      <button className="px-3 py-1 rounded-md bg-sky-500" type="submit">
-        Confirm
-      </button>
-      {/* <ErrorList
-        errors={errors}
-        includePaths={[inputName]}
-        checkFormInputValidityStyle={(bool) => setHasError(bool)}
-      /> */}
-    </form>
+    <div className="flex flex-col items-center justify-center w-full gap-3 section form-control">
+      <label className="label" htmlFor="rangeSetting">
+        Search Radius
+      </label>
+      <input
+        id="rangeSetting"
+        className="range"
+        type="range"
+        name="rangeSetting"
+        min="10"
+        max="3000"
+        required
+        onChange={(e) => handleChange(e.target.value)}
+        value={rangeValue}
+      ></input>
+    </div>
   );
 };
 
