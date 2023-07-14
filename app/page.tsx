@@ -8,12 +8,14 @@ import AddressInput from "@/components/AddressInput";
 
 export default async function Home() {
   return (
-    <main className="flex flex-col items-stretch justify-start min-h-screen gap-8 p-24">
-      <header className="w-full m-5 text-xl text-center">Where ATM SG?</header>
-      <div className="flex items-center justify-center gap-3 p-5">
-        <AddressInput updateReduxOnInput={true} />
-      </div>
-      <div className="flex items-center justify-center gap-3 p-5">
+    <main className="main-bg">
+      <header className="w-full text-4xl text-center section">
+        Where ATM SG?
+      </header>
+
+      <AddressInput updateReduxOnInput={true} />
+
+      <div className="section">
         <RangeSetting />
       </div>
       {/* 

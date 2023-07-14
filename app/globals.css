@@ -2,26 +2,106 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+main {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@layer components {
+  .main-bg {
+    @apply bg-gradient-to-br from-bglightmode-light to-bglightmode-dark dark:from-bgdarkmode-light dark:to-bgdarkmode-dark;
   }
-}
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  .section {
+    @apply mx-auto my-8 max-w-7xl;
+  }
+
+  .input {
+    @apply w-full h-full p-2 m-0 rounded-full outline-none;
+  }
+
+  .btn-circle-primary {
+    @apply text-textlightmode bg-primarylightmode hover:bg-primarylightmode-light focus:ring-4 focus:outline-none font-bold rounded-full text-base p-2.5 text-center inline-flex items-center aspect-square;
+  }
+
+  .btn-circle-popup {
+    @apply text-textlightmode brightness-90 dark:brightness-100 bg-primarydarkmode hover:bg-primarydarkmode-light dark:bg-primarylightmode dark:hover:bg-primarylightmode-light focus:ring-4 focus:outline-none font-bold rounded-full text-base p-2.5 text-center inline-flex items-center aspect-square;
+  }
+
+  .btn-primary {
+    @apply flex items-center justify-center gap-3 px-5 py-2 text-lg font-bold transition-all duration-200 rounded-full cursor-pointer bg-primarylightmode text-textlightmode-dark hover:bg-primarylightmode-light;
+  }
+
+  .btn-secondary {
+    @apply flex items-center justify-center gap-3 px-5 py-2 text-lg font-bold transition-all duration-200 bg-transparent border-2 rounded-full cursor-pointer text-textlightmode-dark dark:text-textdarkmode dark:hover:text-textlightmode-dark border-primarylightmode hover:bg-primarylightmode;
+  }
+
+  .btn-popup-primary-blue {
+    @apply flex items-center justify-center gap-3 px-5 py-2 text-lg font-bold transition-all duration-200 bg-transparent rounded-full cursor-pointer text-accentdarkmode bg-secondarydarkmode hover:bg-secondarydarkmode-light dark:text-accentlightmode-dark dark:bg-secondarylightmode dark:hover:bg-secondarylightmode-dark;
+  }
+
+  .btn-popup-secondary-blue {
+    @apply flex items-center justify-center gap-3 px-5 py-2 text-lg font-bold transition-all duration-200 bg-transparent border-2 rounded-full cursor-pointer text-accentlightmode-dark hover:text-accentdarkmode border-secondarydarkmode hover:bg-secondarydarkmode dark:hover:text-accentlightmode-dark dark:text-accentdarkmode dark:border-secondarylightmode dark:hover:bg-secondarylightmode;
+  }
+
+  .btn-popup-primary-brown {
+    @apply flex items-center justify-center gap-3 px-5 py-2 text-lg font-bold transition-all duration-200 bg-transparent rounded-full cursor-pointer text-textdarkmode-light bg-accentlightmode hover:bg-accentlightmode-light dark:text-textlightmode-dark dark:bg-accentdarkmode dark:hover:bg-accentdarkmode-dark;
+  }
+
+  .btn-popup-secondary-brown {
+    @apply flex items-center justify-center gap-3 px-5 py-2 text-lg font-bold transition-all duration-200 bg-transparent border-2 rounded-full cursor-pointer text-textlightmode-dark hover:text-textdarkmode-light border-accentlightmode hover:bg-accentlightmode dark:text-textdarkmode-light dark:hover:text-textlightmode-dark dark:border-accentdarkmode dark:hover:bg-accentdarkmode;
+  }
+
+  .nav-dropdown {
+    @apply relative flex flex-col items-center justify-center;
+  }
+
+  .nav-dropdown-btn {
+    @apply flex items-center justify-center h-full p-3 text-lg bg-transparent text-textlightmode dark:text-textdarkmode;
+  }
+
+  .nav-dropdown-menu {
+    @apply absolute flex flex-col items-end justify-start gap-3 bg-transparent right-3 top-14;
+  }
+
+  .nav-link {
+    @apply flex items-center justify-center text-xl font-medium bg-transparent cursor-default dark:text-textlightmode hover:text-primarydarkmode active:font-bold text-textdarkmode dark:hover:text-primarylightmode-dark;
+  }
+
+  .nav-icon {
+    @apply top-0 bottom-0 flex flex-col items-center justify-center bg-transparent cursor-pointer;
+  }
+
+  .link-icon {
+    @apply flex items-center justify-center bg-transparent cursor-pointer brightness-90 dark:brightness-100 text-primarylightmode dark:text-primarydarkmode hover:text-primarylightmode-dark dark:hover:text-primarydarkmode-light;
+  }
+
+  .pageText {
+    @apply text-textlightmode dark:text-accentdarkmode;
+  }
+
+  .pageText-hover {
+    @apply text-textlightmode-light dark:text-accentdarkmode-light;
+  }
+
+  .pageText-bigTitle {
+    @apply text-3xl tracking-widest font-extralight sm:text-5xl md:text-7xl;
+  }
+
+  .pageText-pageTitle {
+    @apply text-2xl font-light tracking-widest sm:text-3xl md:text-4xl lg:text-5xl;
+  }
+
+  .pageText-header {
+    @apply text-lg tracking-wide sm:text-xl md:text-2xl lg:text-3xl;
+  }
+
+  .pageText-bodytext {
+    @apply text-sm text-justify sm:text-base;
+  }
 }
