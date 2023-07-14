@@ -1,11 +1,24 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 // import { getCurrentBreakpoint } from "@/utils/display";
 
-type InitialState = { bankFilterOut: string[]; maxRange: number };
+export interface IGeoCode {
+  lat: number;
+  long: number;
+}
+
+type InitialState = {
+  bankFilterOut: string[];
+  maxRange: number;
+  searchLocationPoint: IGeoCode;
+};
 
 const initialState: InitialState = {
   bankFilterOut: [],
   maxRange: 2000,
+  searchLocationPoint: {
+    lat: 0,
+    long: 0,
+  },
 };
 
 // create slice takes an object with name, initialState and reducers
@@ -24,9 +37,17 @@ const settingsSlice = createSlice({
     setMaxRange: (state, action: PayloadAction<number>) => {
       state.maxRange = action.payload;
     },
+
+    setSearchLocationPoint: (state, action: PayloadAction<IGeoCode>) => {
+      state.searchLocationPoint = action.payload;
+    },
   },
 });
 
 export default settingsSlice.reducer;
-export const { addBankFilter, removeBankFilter, setMaxRange } =
-  settingsSlice.actions;
+export const {
+  addBankFilter,
+  removeBankFilter,
+  setMaxRange,
+  setSearchLocationPoint,
+} = settingsSlice.actions;
