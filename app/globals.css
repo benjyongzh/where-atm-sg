@@ -14,17 +14,26 @@ main {
 
 @layer components {
   .main-bg {
-    @apply bg-gradient-to-br from-bglightmode-light to-bglightmode-dark dark:from-bgdarkmode-light dark:to-bgdarkmode-dark;
+    @apply bg-base-100;
   }
 
   .section {
     @apply mx-auto my-8 max-w-7xl;
   }
 
+  .label {
+    @apply p-1 text-base;
+  }
+
+  .form-control {
+    @apply flex flex-col items-start justify-between sm:flex-row sm:items-center;
+  }
+  /* 
   .input {
     @apply w-full h-full p-2 m-0 rounded-full outline-none;
   }
 
+  
   .btn-circle-primary {
     @apply text-textlightmode bg-primarylightmode hover:bg-primarylightmode-light focus:ring-4 focus:outline-none font-bold rounded-full text-base p-2.5 text-center inline-flex items-center aspect-square;
   }
@@ -80,7 +89,6 @@ main {
   .link-icon {
     @apply flex items-center justify-center bg-transparent cursor-pointer brightness-90 dark:brightness-100 text-primarylightmode dark:text-primarydarkmode hover:text-primarylightmode-dark dark:hover:text-primarydarkmode-light;
   }
-
   .pageText {
     @apply text-textlightmode dark:text-accentdarkmode;
   }
@@ -103,5 +111,5 @@ main {
 
   .pageText-bodytext {
     @apply text-sm text-justify sm:text-base;
-  }
+  } */
 }

@@ -9,7 +9,10 @@ module.exports = {
     "./lib/**/*.{js,ts,jsx,tsx,mdx}",
     "./features/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  darkMode: "class",
+  daisyui: {
+    themes: ["cupcake"],
+  } /* 
+  darkMode: "class" 
   theme: {
     extend: {
       colors: {
@@ -70,7 +73,7 @@ module.exports = {
           dark: "#051622", //original
         },
       },
-    },
-  },
+    }, 
+  },*/,
   plugins: [require("daisyui")],
 };

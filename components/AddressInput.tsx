@@ -52,13 +52,16 @@ const AddressInput = (props: { updateReduxOnInput: boolean }) => {
       onSubmit={handleSubmit}
       className="flex flex-col items-center justify-center w-full gap-4 p-5 sm:flex-row section"
     >
-      <div className="flex items-center justify-center w-full gap-4">
-        <label className="whitespace-nowrap" htmlFor="inputAddress">
+      <div className="w-full gap-3 form-control">
+        <label
+          className="label label-text whitespace-nowrap"
+          htmlFor="inputAddress"
+        >
           Search Address
         </label>
         <input
           id="inputAddress"
-          className="input"
+          className="w-full input input-bordered input-primary"
           type="text"
           placeholder="location address"
           name="inputAddress"
@@ -67,7 +70,7 @@ const AddressInput = (props: { updateReduxOnInput: boolean }) => {
           value={addressInput}
         ></input>
       </div>
-      <button className="w-full btn-primary sm:w-auto" type="submit">
+      <button className="w-full btn btn-primary sm:w-auto" type="submit">
         Search
       </button>
     </form>
