@@ -1,7 +1,5 @@
 "use client";
 import { useState } from "react";
-import { getLatLongFromGeoCodeResult } from "@/features/googleAPI/geocoder";
-
 //components
 import AddressInput from "./AddressInput";
 import RangeSetting from "./RangeSetting";
@@ -43,57 +41,69 @@ const FilterSection = () => {
     const result = await response.json();
     console.log(result);
 
-    const searchPos: IGeoCode = getLatLongFromGeoCodeResult(result.searchPoint);
-    console.log(searchPos);
-
-    dispatch(setSearchLocationPoint(searchPos));
+    dispatch(setSearchLocationPoint(result.searchPointLatLong));
     dispatch(setMaxRange(rangeValue));
   };
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col items-center justify-center w-full gap-4 p-5 sm:flex-row section"
+      className="flex flex-col items-center justify-center w-full gap-6 p-5 section"
     >
-      {/* addressInput */}
-      <div className="w-full gap-3 form-control">
-        <label
-          className="label label-text whitespace-nowrap"
-          htmlFor="inputAddress"
-        >
-          Search Address
-        </label>
-        <input
-          id="inputAddress"
-          className="w-full input input-bordered input-primary"
-          type="text"
-          placeholder="location address"
-          name="inputAddress"
-          required
-          onChange={(e) => setAddressInput(e.target.value)}
-        ></input>
-      </div>
+      <div className="flex flex-col items-center justify-between w-full gap-4 sm:gap-16 sm:flex-row">
+        {/* addressInput */}
+        <div className="w-full gap-1 sm:gap-3 form-control">
+          <label
+            className="label label-text whitespace-nowrap"
+            htmlFor="inputAddress"
+          >
+            Search Address
+          </label>
+          <input
+            id="inputAddress"
+            className="w-full input input-bordered input-primary"
+            type="text"
+            placeholder="location address"
+            name="inputAddress"
+            required
+            onChange={(e) => setAddressInput(e.target.value)}
+          ></input>
+        </div>
 
-      {/* Range Setting */}
-      <div className="flex flex-col items-center justify-center w-full gap-3 section form-control">
-        <label className="label" htmlFor="rangeSetting">
-          Search Radius
-        </label>
-        <input
-          id="rangeSetting"
-          className="range"
-          type="range"
-          name="rangeSetting"
-          min="10"
-          max="3000"
-          required
-          onChange={(e) => setRangeValue(parseInt(e.target.value))}
-          value={rangeValue}
-        ></input>
+        {/* Range Setting */}
+        <div className="flex flex-col w-full gap-1 sm:flex-row sm:gap-3 form-control">
+          <label
+            className="label label-text whitespace-nowrap"
+            htmlFor="rangeSetting"
+          >
+            Search Radius
+          </label>
+          <div className="flex items-center justify-between w-full gap-3">
+            <input
+              id="rangeBar"
+              className="range range-primary"
+              type="range"
+              name="rangeBar"
+              min="10"
+              max="3000"
+              required
+              onChange={(e) => setRangeValue(parseInt(e.target.value))}
+              value={rangeValue}
+            />
+            <input
+              id="rangeNumber"
+              className="w-24 text-center input input-bordered input-primary"
+              type="number"
+              name="rangeNumber"
+              value={rangeValue}
+              onChange={(e) => setRangeValue(parseInt(e.target.value))}
+            ></input>
+          </div>
+        </div>
       </div>
 
       {/* Submit */}
-      <button className="w-full btn btn-primary sm:w-auto" type="submit">
+      <button className="w-full mt-5 btn btn-primary sm:w-auto" type="submit">
         Search
       </button>
     </form>
