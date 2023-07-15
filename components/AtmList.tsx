@@ -7,7 +7,7 @@ import {
   bankNameList,
 } from "@/lib/atmObject";
 
-const AtmList = async () => {
+const AtmList = () => {
   const storedRange = useAppSelector((state) => state.settings.maxRange);
   const fullAtmList: rawFetchedNearbyPlacesInfo[] = useAppSelector(
     (state) => state.atmData.allAtms
@@ -28,11 +28,11 @@ const AtmList = async () => {
     ));
 
   return fullAtmList.length ? (
-    <ul className="flex flex-col items-start justify-center w-full gap-6 p-5 section">
+    <ul className="flex flex-col items-center justify-start w-full gap-6 p-5 section">
       {filteredAtmList}
     </ul>
   ) : (
-    <div className="flex flex-col items-start justify-center w-full gap-6 p-5 section">
+    <div className="flex flex-col items-center justify-center w-full gap-6 p-5 section">
       No Atms Found
     </div>
   );
