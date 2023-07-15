@@ -4,7 +4,7 @@ import {
   getLatLongFromGeoCodeResult,
 } from "@/features/googleAPI/geocoder";
 import { getNearbyAtms } from "@/features/googleAPI/nearbySearch";
-import { IGeoCode } from "@/features/settings/settingsSlice";
+import { IGeoCode } from "@/features/googleAPI/geocoder";
 import { errorMessageObject } from "@/lib/errors";
 
 export async function POST(req: NextRequest) {

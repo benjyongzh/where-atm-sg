@@ -1,11 +1,11 @@
-import { IGeoCode } from "../settings/settingsSlice";
+import { IGeoCode } from "./geocoder";
 
 export async function getNearbyAtms(params: {
   searchPoint: IGeoCode;
   searchRadius: number;
-  bank: string;
+  bank?: string;
 }) {
-  const { searchPoint, searchRadius, bank } = params;
+  const { searchPoint, searchRadius, bank = "" } = params;
   const res = await getNearbyPlaces({
     searchPoint,
     searchRadius,

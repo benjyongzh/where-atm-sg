@@ -1,6 +1,7 @@
-// var geocoder;
-
-import { IGeoCode } from "../settings/settingsSlice";
+export interface IGeoCode {
+  lat: number;
+  long: number;
+}
 
 // geocoder = new google.maps.Geocoder();
 

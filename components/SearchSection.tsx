@@ -1,18 +1,13 @@
 "use client";
 import { useState } from "react";
-//components
-import AddressInput from "./AddressInput";
-import RangeSetting from "./RangeSetting";
-
-import { minSearchRange, maxSearchRange } from "@/lib/maxRange";
-
 //redux
-import {
-  setSearchLocationPoint,
-  setMaxRange,
-} from "@/features/settings/settingsSlice";
+import { setSearchLocationPoint } from "@/features/settings/settingsSlice";
+import { setAtmData } from "@/features/atmData/atmDataSlice";
 import { useAppDispatch } from "@/hooks/reduxHooks";
+
+import { maxSearchRange } from "@/lib/maxRange";
 import { errorMessageObject, isErrorMessageObject } from "@/lib/errors";
+import { rawFetchedNearbyPlacesInfo } from "@/lib/atmObject";
 
 const SearchSection = () => {
   const [addressInput, setAddressInput] = useState("");
@@ -20,10 +15,6 @@ const SearchSection = () => {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-    // const storedSearchAddress = useAppSelector(
-    //   (state) => state.settings.searchLocationPoint
-    // );
-
     const endpoint = "/api/search";
 
     // Form the request for sending data to the server.
@@ -44,7 +35,7 @@ const SearchSection = () => {
     // Get the response data from server as JSON.
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
-    console.log(result);
+    // console.log(result);
     dispatch(setSearchLocationPoint(result.searchPointLatLong));
     if (!isErrorMessageObject(result)) {
       // overall fetching success
@@ -52,11 +43,29 @@ const SearchSection = () => {
       result.errorMessages.forEach((error: errorMessageObject) => {
         console.log(error);
       });
-      console.log("nearbyATMs: ", result.nearbyAtms);
+      storeSearchedAtms(result.nearbyAtms.results);
     } else {
       //fetching failed
       console.log("Fetching error: ", result.errorMessage);
     }
+  };
+
+  const storeSearchedAtms = (allAtms: Array<any>) => {
+    const processedAtmData: rawFetchedNearbyPlacesInfo[] = allAtms.map(
+      (atmInfo: any) => {
+        return {
+          location: {
+            lat: atmInfo.geometry.location.lat,
+            long: atmInfo.geometry.location.lng,
+          },
+          name: atmInfo.name,
+          place_id: atmInfo.place_id,
+          vicinity: atmInfo.vicinity,
+        };
+      }
+    );
+    // console.log("processedAtmData: ", processedAtmData);
+    dispatch(setAtmData(processedAtmData));
   };
 
   return (

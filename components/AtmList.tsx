@@ -1,22 +1,40 @@
-import { rawAtmInfo } from "@/lib/webscraping-data";
-import { getAllAtmData } from "@/lib/load-atm-data";
-import FilteredAtmList from "./FilteredAtmList";
+"use client";
+
+import { useAppSelector } from "@/hooks/reduxHooks";
+import {
+  rawFetchedNearbyPlacesInfo,
+  getBrandFromRawPlacesInfo,
+  bankNameList,
+} from "@/lib/atmObject";
 
 const AtmList = async () => {
-  const atmData = await getAllAtmData();
-  const { atmList, errors } = atmData;
+  const storedRange = useAppSelector((state) => state.settings.maxRange);
+  const fullAtmList: rawFetchedNearbyPlacesInfo[] = useAppSelector(
+    (state) => state.atmData.allAtms
+  );
+  const storedBankFilter = useAppSelector(
+    (state) => state.settings.bankFilterOut
+  );
 
-  return atmData ? (
-    <div>
-      <ul>
-        {errors.map((error, index) => (
-          <div key={index}>error.errorMessage</div>
-        ))}
-      </ul>
-      <FilteredAtmList fullAtmList={atmList} />
-    </div>
+  const filteredAtmList = fullAtmList
+    .filter((atm) => {
+      const atmBrand = getBrandFromRawPlacesInfo(atm);
+      return !storedBankFilter.includes(atmBrand);
+    })
+    .map((atm, i) => (
+      <div key={i} className="flex items-center justify-center">
+        {atm.vicinity}
+      </div>
+    ));
+
+  return fullAtmList.length ? (
+    <ul className="flex flex-col items-start justify-center w-full gap-6 p-5 section">
+      {filteredAtmList}
+    </ul>
   ) : (
-    <div>Loading...</div>
+    <div className="flex flex-col items-start justify-center w-full gap-6 p-5 section">
+      No Atms Found
+    </div>
   );
 };
 

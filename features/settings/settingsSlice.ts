@@ -1,10 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-// import { getCurrentBreakpoint } from "@/utils/display";
-
-export interface IGeoCode {
-  lat: number;
-  long: number;
-}
+import { IGeoCode } from "../googleAPI/geocoder";
 
 type InitialState = {
   bankFilterOut: string[];

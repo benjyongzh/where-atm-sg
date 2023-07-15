@@ -1,14 +1,14 @@
 //components
 import FilterButton from "./FilterButton";
 import RangeSetting from "./RangeSetting";
-import { bankNameList } from "@/lib/load-atm-data";
+import { bankNameList } from "@/lib/atmObject";
 
 const FilterSection = () => {
   return (
     <div className="flex flex-col items-center justify-center w-full gap-6 p-5 section">
       <RangeSetting />
-      {/* add filter buttons here as well */}
-      <ul>
+
+      <ul className="flex flex-wrap items-center justify-center gap-3 p-5">
         {bankNameList.map((name) => (
           <FilterButton name={name} />
         ))}

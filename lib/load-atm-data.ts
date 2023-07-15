@@ -7,18 +7,7 @@ import bankEndpoints, {
 import { JSDOM } from "jsdom";
 import { errorMessageObject, isErrorMessageObject } from "./errors";
 
-export const bankNameList: string[] = [
-  "DBS",
-  "UOB",
-  "CitiBank",
-  "MayBank",
-  "StandardChartered",
-  "OCBC",
-  "HSBC",
-  "ANZ",
-  "CIMB",
-  "RHB",
-];
+import { bankNameList } from "./atmObject";
 
 export async function getAllAtmData() {
   //webscraping done here

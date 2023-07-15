@@ -1,12 +1,7 @@
-import { bankNameList } from "@/lib/load-atm-data";
-
 //components
-import FilterButton from "@/components/FilterButton";
-import AtmList from "@/components/AtmList";
-import RangeSetting from "@/components/RangeSetting";
-import AddressInput from "@/components/AddressInput";
 import SearchSection from "@/components/SearchSection";
 import FilterSection from "@/components/FilterSection";
+import AtmList from "@/components/AtmList";
 
 export default async function Home() {
   return (
@@ -17,14 +12,7 @@ export default async function Home() {
 
       <SearchSection />
       <FilterSection />
-      {/* 
-      <div className="flex flex-wrap items-center justify-center gap-3 p-5">
-        {bankNameList.map((bank) => (
-          <FilterButton key={bank + "filterbutton"} name={bank} />
-        ))}
-      </div>
-
-      <AtmList /> */}
+      <AtmList />
     </main>
   );
 }

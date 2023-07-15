@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { rawAtmInfo } from "@/lib/webscraping-data";
+import { IGeoCode } from "../googleAPI/geocoder";
+import { rawFetchedNearbyPlacesInfo } from "@/lib/atmObject";
 
-type InitialState = { allAtms: Array<rawAtmInfo> };
+type InitialState = { allAtms: Array<rawFetchedNearbyPlacesInfo> };
 
 const initialState: InitialState = {
   allAtms: [], //array of valid atms
@@ -12,7 +13,10 @@ const atmDataSlice = createSlice({
   name: "atmData",
   initialState,
   reducers: {
-    setAtmData: (state, action: PayloadAction<Array<rawAtmInfo>>) => {
+    setAtmData: (
+      state,
+      action: PayloadAction<Array<rawFetchedNearbyPlacesInfo>>
+    ) => {
       // console.log("add action. payload: ", action.payload);
       state.allAtms = action.payload;
     },
