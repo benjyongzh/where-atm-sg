@@ -3,5 +3,5 @@ export type errorMessageObject = {
 };
 
 export function isErrorMessageObject(arg: any): arg is errorMessageObject {
-  return arg && arg.merrorMessage && typeof arg.errorMessage === "string";
+  return arg && arg.errorMessage && typeof arg.errorMessage === "string";
 }

@@ -11,6 +11,7 @@ import {
   setMaxRange,
 } from "@/features/settings/settingsSlice";
 import { useAppDispatch } from "@/hooks/reduxHooks";
+import { errorMessageObject, isErrorMessageObject } from "@/lib/errors";
 
 const FilterSection = () => {
   const [addressInput, setAddressInput] = useState("");
@@ -40,9 +41,17 @@ const FilterSection = () => {
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
     console.log(result);
-
     dispatch(setSearchLocationPoint(result.searchPointLatLong));
     dispatch(setMaxRange(rangeValue));
+    if (!isErrorMessageObject(result)) {
+      // overall fetching success
+      // check for handled error messages
+      result.errorMessages.forEach((error: errorMessageObject) => {
+        console.log(error);
+      });
+    } else {
+      //fetching failed
+    }
   };
 
   return (
