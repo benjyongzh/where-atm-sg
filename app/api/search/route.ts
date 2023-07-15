@@ -9,12 +9,12 @@ import { errorMessageObject } from "@/lib/errors";
 
 export async function POST(req: NextRequest) {
   try {
-    const { addressInput, rangeValue } = await req.json();
+    const { addressInput, searchRange } = await req.json();
 
     let errorMessages: errorMessageObject[] = [];
 
+    // geocoding input address
     const geocodedAddress = await getAddressGeocoded(addressInput);
-
     if (geocodedAddress.status !== "OK") {
       errorMessages.push({
         errorMessage: `Geocoding Error: ${geocodedAddress.status}. ${
@@ -22,15 +22,15 @@ export async function POST(req: NextRequest) {
         }`,
       });
     }
-
     const searchPointLatLong: IGeoCode = getLatLongFromGeoCodeResult(
       geocodedAddress.results[0]
     );
 
+    //find all nearby ATMs
     const nearbyAtms = await getNearbyAtms({
       searchPoint: searchPointLatLong,
-      searchRadius: rangeValue,
-      bank: "dbs", //need an input for this
+      searchRadius: searchRange,
+      // bank: "dbs", //need an input for this
     });
 
     if (nearbyAtms.status !== "OK") {
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
 
     const searchData = {
       searchPointLatLong,
-      rangeValue,
+      searchRange,
       nearbyAtms,
       errorMessages,
     };

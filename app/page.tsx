@@ -5,6 +5,7 @@ import FilterButton from "@/components/FilterButton";
 import AtmList from "@/components/AtmList";
 import RangeSetting from "@/components/RangeSetting";
 import AddressInput from "@/components/AddressInput";
+import SearchSection from "@/components/SearchSection";
 import FilterSection from "@/components/FilterSection";
 
 export default async function Home() {
@@ -14,6 +15,7 @@ export default async function Home() {
         Where ATM SG?
       </header>
 
+      <SearchSection />
       <FilterSection />
       {/* 
       <div className="flex flex-wrap items-center justify-center gap-3 p-5">

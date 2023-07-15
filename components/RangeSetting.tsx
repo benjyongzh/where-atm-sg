@@ -2,7 +2,7 @@
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
 import { setMaxRange } from "@/features/settings/settingsSlice";
 import { useState } from "react";
-import { validateMaxRangeInput } from "@/lib/maxRange";
+import { minSearchRange, maxSearchRange } from "@/lib/maxRange";
 
 const RangeSetting = () => {
   const storedRange = useAppSelector((state) => state.settings.maxRange);
@@ -16,21 +16,34 @@ const RangeSetting = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full gap-3 section form-control">
-      <label className="label" htmlFor="rangeSetting">
+    <div className="flex flex-col w-full gap-1 sm:flex-row sm:gap-3 form-control">
+      <label
+        className="label label-text whitespace-nowrap"
+        htmlFor="rangeSetting"
+      >
         Search Radius
       </label>
-      <input
-        id="rangeSetting"
-        className="range"
-        type="range"
-        name="rangeSetting"
-        min="10"
-        max="3000"
-        required
-        onChange={(e) => handleChange(e.target.value)}
-        value={rangeValue}
-      ></input>
+      <div className="flex items-center justify-between w-full gap-3">
+        <input
+          id="rangeBar"
+          className="range range-primary"
+          type="range"
+          name="rangeBar"
+          min={minSearchRange}
+          max={maxSearchRange}
+          required
+          onChange={(e) => handleChange(e.target.value)}
+          value={rangeValue}
+        />
+        <input
+          id="rangeNumber"
+          className="w-24 text-center input input-bordered input-primary"
+          type="number"
+          name="rangeNumber"
+          value={rangeValue}
+          onChange={(e) => handleChange(e.target.value)}
+        ></input>
+      </div>
     </div>
   );
 };
