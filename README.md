@@ -6,14 +6,13 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 
 - Webscraping with jsdom
 - Using RegEx to filter webscraped data
-- GMaps API (geocoding, reverse geocoding, nearby places)
+- GMaps API (geocoding, nearby places, place detail with ID)
 
 ## To-do list
 
-- filterData should be better written. separate API steps. Get geocoded current address (cache it). Get all atms around current address based on radius (cache it). Reverse geocode each of these ATM Places?
-
-- Use googlemapsAPI to get distance, directions and commute time
+- Place Detail required? To get proper address and therefore distance and directions(?)
 - Paginate to top 5 or 10 relevant results
+- Loading animations for buttons and lists
 
 ## Problem
 

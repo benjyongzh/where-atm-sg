@@ -7,9 +7,22 @@ import {
   removeBankFilter,
 } from "@/features/settings/settingsSlice";
 
+import {
+  rawFetchedNearbyPlacesInfo,
+  getBrandFromRawPlacesInfo,
+} from "@/lib/atmObject";
+
 const FilterButton = (props: { name: string }) => {
   const [activated, setActivated] = useState(true);
   const dispatch = useAppDispatch();
+  const fullAtmList: rawFetchedNearbyPlacesInfo[] = useAppSelector(
+    (state) => state.atmData.allAtms
+  );
+
+  const brandCount = fullAtmList.filter((atm) => {
+    const atmBrand = getBrandFromRawPlacesInfo(atm);
+    return atmBrand === props.name;
+  }).length;
 
   const handleClick = () => {
     activated
@@ -19,15 +32,22 @@ const FilterButton = (props: { name: string }) => {
   };
 
   return (
-    <button
-      type="button"
-      onClick={handleClick}
-      className={`px-3 py-1 rounded-md ${
-        activated ? "bg-sky-500" : "bg-slate-400"
-      }`}
-    >
-      {props.name}
-    </button>
+    <div className={`indicator ${brandCount > 0 ? "mr-3" : ""}`}>
+      {brandCount > 0 ? (
+        <span className="p-3 rounded-full aspect-square indicator-item badge badge-secondary">
+          {brandCount}
+        </span>
+      ) : null}
+      <button
+        type="button"
+        onClick={handleClick}
+        className={`px-3 py-1 rounded-md ${
+          activated ? "bg-info" : "bg-neutral-content"
+        } `}
+      >
+        {props.name}
+      </button>
+    </div>
   );
 };
 
