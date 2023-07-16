@@ -49,8 +49,8 @@ const AtmList = () => {
   return (
     <div className="flex flex-col items-center justify-start w-full gap-6 section">
       <div className="flex items-center justify-center w-full">
-        {fullAtmList.length
-          ? `${fullAtmList.length} ATMs found within ${storedRange}m`
+        {finalList.length
+          ? `${finalList.length} ATMs found within ${storedRange}m`
           : "No ATMs found"}
       </div>
       {fullAtmList.length ? (
