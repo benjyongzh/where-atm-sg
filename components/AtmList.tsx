@@ -42,16 +42,24 @@ const AtmList = () => {
         distance,
       };
     })
+    .filter((atm) => atm.distance! <= storedRange) //filter out ATMs further than filter distance
     .sort((atmA, atmB) => atmA.distance! - atmB.distance!) //sort from shortest distance to longest
     .map((atm: IAtmObject) => <AtmListItem key={atm.place_id} atmData={atm} />);
 
-  return fullAtmList.length ? (
-    <ul className="flex flex-col items-center justify-start w-full gap-6 p-5 section">
-      {finalList}
-    </ul>
-  ) : (
-    <div className="flex flex-col items-center justify-center w-full gap-6 p-5 section">
-      No Atms Found
+  return (
+    <div className="flex flex-col items-center justify-start w-full gap-6 section">
+      <div className="flex items-center justify-center w-full">
+        {fullAtmList.length
+          ? `${fullAtmList.length} ATMs found within ${storedRange}m`
+          : "No ATMs found"}
+      </div>
+      {fullAtmList.length ? (
+        <ul className="flex flex-col items-center justify-start w-full gap-4">
+          {finalList}
+        </ul>
+      ) : (
+        ""
+      )}
     </div>
   );
 };
