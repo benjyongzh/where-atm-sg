@@ -4,7 +4,6 @@ import { useAppSelector } from "@/hooks/reduxHooks";
 import {
   rawFetchedNearbyPlacesInfo,
   getBrandFromRawPlacesInfo,
-  bankNameList,
 } from "@/lib/atmObject";
 
 const AtmList = () => {
@@ -16,20 +15,29 @@ const AtmList = () => {
     (state) => state.settings.bankFilterOut
   );
 
-  const filteredAtmList = fullAtmList
+  const finalList = fullAtmList
     .filter((atm) => {
       const atmBrand = getBrandFromRawPlacesInfo(atm);
-      return !storedBankFilter.includes(atmBrand);
+      return !storedBankFilter.includes(atmBrand) && atmBrand !== "";
     })
-    .map((atm, i) => (
-      <div key={i} className="flex items-center justify-center">
-        {atm.vicinity}
+    .map((atm) => {
+      const atmBrand = getBrandFromRawPlacesInfo(atm);
+      return { brand: atmBrand, name: atm.name, address: atm.vicinity }; // need to get distance and info
+    })
+    .map((atm, index) => (
+      <div
+        className="flex flex-col justify-center w-full item-start"
+        key={index}
+      >
+        <div>{atm.brand}</div>
+        <div>{atm.name}</div>
+        <div>{atm.address}</div>
       </div>
     ));
 
   return fullAtmList.length ? (
     <ul className="flex flex-col items-center justify-start w-full gap-6 p-5 section">
-      {filteredAtmList}
+      {finalList}
     </ul>
   ) : (
     <div className="flex flex-col items-center justify-center w-full gap-6 p-5 section">

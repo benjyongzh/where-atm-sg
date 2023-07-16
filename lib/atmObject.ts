@@ -2,20 +2,21 @@ import { IGeoCode } from "@/features/googleAPI/geocoder";
 
 export const bankNameList: string[] = [
   "DBS",
+  "POSB",
   "UOB",
   "CitiBank",
   "MayBank",
-  "StandardChartered",
+  "Standard Chartered",
   "OCBC",
   "HSBC",
   "ANZ",
   "CIMB",
   "RHB",
-  "AXS",
 ];
 
 export interface IAtmObject {
   brand: string;
+  name: string;
   address: string;
   info?: string[];
   distance?: number;
@@ -30,10 +31,20 @@ export interface rawFetchedNearbyPlacesInfo {
 
 export const getBrandFromRawPlacesInfo = (arg: rawFetchedNearbyPlacesInfo) => {
   //use includes between bankNameList and arg.name
-  bankNameList.forEach((bankName) => {
-    if (arg.name.toLowerCase().includes(bankName.toLowerCase())) {
-      return bankName;
+  for (let i = 0; i < bankNameList.length; i++) {
+    if (arg.name.toLowerCase().includes(bankNameList[i].toLowerCase())) {
+      return bankNameList[i];
     }
-  });
+  }
+  /* bankNameList.forEach((bankName) => {
+    console.log(`checking for bank: `, bankName.toLowerCase());
+    console.log(`atm name: `, arg.name.toLowerCase());
+    console.log(
+      `match: `,
+      arg.name.toLowerCase().includes(bankName.toLowerCase())
+    );
+
+    
+  }); */
   return "";
 };
