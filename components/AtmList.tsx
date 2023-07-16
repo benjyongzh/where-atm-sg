@@ -58,7 +58,7 @@ const AtmList = () => {
           : "No ATMs found nearby"}
       </div>
       {fullAtmList.length ? (
-        <ul className="flex flex-col items-center justify-start w-full gap-4">
+        <ul className="flex flex-col items-center justify-start w-full gap-6">
           {finalList}
         </ul>
       ) : null}
