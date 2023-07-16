@@ -47,19 +47,21 @@ const AtmList = () => {
     .map((atm: IAtmObject) => <AtmListItem key={atm.place_id} atmData={atm} />);
 
   return (
-    <div className="flex flex-col items-center justify-start w-full gap-6 section">
+    <div className="flex flex-col items-center justify-start w-full gap-6 mt-4 section">
       <div className="flex items-center justify-center w-full">
-        {finalList.length
-          ? `${finalList.length} ATMs found within ${storedRange}m`
-          : "No ATMs found"}
+        {storedSearchPoint.lat === 0 && storedSearchPoint.long === 0
+          ? "Search for nearby ATMs"
+          : fullAtmList.length
+          ? fullAtmList.length === 1
+            ? "1 ATM found nearby"
+            : `${fullAtmList.length} ATMs found nearby`
+          : "No ATMs found nearby"}
       </div>
       {fullAtmList.length ? (
         <ul className="flex flex-col items-center justify-start w-full gap-4">
           {finalList}
         </ul>
-      ) : (
-        ""
-      )}
+      ) : null}
     </div>
   );
 };
