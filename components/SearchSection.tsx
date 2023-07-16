@@ -74,7 +74,7 @@ const SearchSection = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col items-center justify-center w-full gap-5 p-5 sm:flex-row section"
+      className="flex flex-col items-center justify-center w-full gap-5 sm:flex-row section"
     >
       {/* addressInput */}
       <div className="w-full gap-1 sm:gap-3 form-control">

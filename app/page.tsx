@@ -5,7 +5,7 @@ import AtmList from "@/components/AtmList";
 
 export default async function Home() {
   return (
-    <main className="main-bg">
+    <main className="flex flex-col gap-4 main-bg">
       <header className="text-4xl text-center page-header">
         Where ATM SG?
       </header>
