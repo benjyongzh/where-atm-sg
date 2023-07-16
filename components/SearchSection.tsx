@@ -71,7 +71,7 @@ const SearchSection = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col items-center justify-center w-full gap-6 p-5 section"
+      className="flex flex-col items-center justify-center w-full gap-5 p-5 sm:flex-row section"
     >
       {/* addressInput */}
       <div className="w-full gap-1 sm:gap-3 form-control">
@@ -93,7 +93,7 @@ const SearchSection = () => {
       </div>
 
       {/* Submit */}
-      <button className="w-full mt-5 btn btn-primary sm:w-auto" type="submit">
+      <button className="w-full btn btn-primary sm:w-auto" type="submit">
         Search
       </button>
     </form>

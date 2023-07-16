@@ -17,8 +17,12 @@ main {
     @apply bg-base-100;
   }
 
+  .page-header {
+    @apply w-full my-8 sm:mt-16 sm:mb-8;
+  }
+
   .section {
-    @apply mx-auto my-8 max-w-7xl;
+    @apply mx-auto my-1 sm:my-3 max-w-7xl;
   }
 
   .label {
@@ -27,6 +31,10 @@ main {
 
   .form-control {
     @apply flex flex-col items-start justify-between sm:flex-row sm:items-center;
+  }
+
+  .btn {
+    @apply px-5;
   }
   /* 
   .input {
