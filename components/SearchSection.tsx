@@ -10,11 +10,13 @@ import { errorMessageObject, isErrorMessageObject } from "@/lib/errors";
 import { rawFetchedNearbyPlacesInfo } from "@/lib/atmObject";
 
 const SearchSection = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [addressInput, setAddressInput] = useState("");
   const dispatch = useAppDispatch();
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
+    setIsLoading(true);
     const endpoint = "/api/search";
 
     // Form the request for sending data to the server.
@@ -48,6 +50,7 @@ const SearchSection = () => {
       //fetching failed
       console.log("Fetching error: ", result.errorMessage);
     }
+    setIsLoading(false);
   };
 
   const storeSearchedAtms = (allAtms: Array<any>) => {
@@ -93,8 +96,18 @@ const SearchSection = () => {
       </div>
 
       {/* Submit */}
-      <button className="w-full btn btn-primary sm:w-auto" type="submit">
-        Search
+      <button
+        disabled={isLoading}
+        className={`w-full btn ${
+          !isLoading ? "btn-primary" : "btn-disabled"
+        } sm:w-36`}
+        type="submit"
+      >
+        {isLoading ? (
+          <span className="loading loading-dots loading-xs"></span>
+        ) : (
+          "Search"
+        )}
       </button>
     </form>
   );
