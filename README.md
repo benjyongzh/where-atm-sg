@@ -14,6 +14,7 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 - Paginate to top 5 or 10 relevant results
 - Loading animations for buttons and lists
 - Display error messages
+- option and API for using current location vs static searched location
 
 ## Problem
 
