@@ -8,9 +8,15 @@ import {
 } from "@/lib/atmObject";
 
 import AtmListItem from "./AtmListItem";
+import { IGeoCode } from "@/features/googleAPI/geocoder";
+import { haversine_distance } from "@/utils/distance";
 
 const AtmList = () => {
   const storedRange = useAppSelector((state) => state.settings.maxRange);
+  const storedSearchPoint: IGeoCode = useAppSelector(
+    (state) => state.settings.searchLocationPoint
+  );
+
   const fullAtmList: rawFetchedNearbyPlacesInfo[] = useAppSelector(
     (state) => state.atmData.allAtms
   );
@@ -19,19 +25,24 @@ const AtmList = () => {
   );
 
   const finalList = fullAtmList
-    .filter((atm: rawFetchedNearbyPlacesInfo) => {
+    .filter((atm: rawFetchedNearbyPlacesInfo): boolean => {
       const atmBrand = getBrandFromRawPlacesInfo(atm);
       return !storedBankFilter.includes(atmBrand) && atmBrand !== "";
     })
-    .map((atm: rawFetchedNearbyPlacesInfo) => {
+    .map((atm: rawFetchedNearbyPlacesInfo): IAtmObject => {
       const atmBrand = getBrandFromRawPlacesInfo(atm);
+
+      // log distances from each ATM
+      const distance = haversine_distance(storedSearchPoint, atm.location);
       return {
         brand: atmBrand,
         name: atm.name,
         place_id: atm.place_id,
         address: atm.vicinity,
-      }; // need to get distance and info
+        distance,
+      };
     })
+    .sort((atmA, atmB) => atmA.distance! - atmB.distance!) //sort from shortest distance to longest
     .map((atm: IAtmObject) => <AtmListItem key={atm.place_id} atmData={atm} />);
 
   return fullAtmList.length ? (

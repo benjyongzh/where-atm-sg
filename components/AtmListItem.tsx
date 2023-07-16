@@ -8,6 +8,7 @@ const AtmListItem = (props: { atmData: IAtmObject }) => {
       <div>{atm.brand}</div>
       <div>{atm.name}</div>
       <div>{atm.address}</div>
+      <div>Distance: {atm.distance}m</div>
     </div>
   );
 };
