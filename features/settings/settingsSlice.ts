@@ -9,7 +9,7 @@ type InitialState = {
 
 const initialState: InitialState = {
   bankFilterOut: [],
-  maxRange: 2000,
+  maxRange: 1500,
   searchLocationPoint: {
     lat: 0,
     long: 0,

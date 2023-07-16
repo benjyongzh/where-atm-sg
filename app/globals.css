@@ -18,7 +18,7 @@ main {
   }
 
   .page-header {
-    @apply w-full my-8 sm:mt-16 sm:mb-8;
+    @apply w-full mt-10 mb-3 sm:mt-16;
   }
 
   .section {
