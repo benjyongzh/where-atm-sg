@@ -4,7 +4,10 @@ import { useAppSelector } from "@/hooks/reduxHooks";
 import {
   rawFetchedNearbyPlacesInfo,
   getBrandFromRawPlacesInfo,
+  IAtmObject,
 } from "@/lib/atmObject";
+
+import AtmListItem from "./AtmListItem";
 
 const AtmList = () => {
   const storedRange = useAppSelector((state) => state.settings.maxRange);
@@ -16,24 +19,20 @@ const AtmList = () => {
   );
 
   const finalList = fullAtmList
-    .filter((atm) => {
+    .filter((atm: rawFetchedNearbyPlacesInfo) => {
       const atmBrand = getBrandFromRawPlacesInfo(atm);
       return !storedBankFilter.includes(atmBrand) && atmBrand !== "";
     })
-    .map((atm) => {
+    .map((atm: rawFetchedNearbyPlacesInfo) => {
       const atmBrand = getBrandFromRawPlacesInfo(atm);
-      return { brand: atmBrand, name: atm.name, address: atm.vicinity }; // need to get distance and info
+      return {
+        brand: atmBrand,
+        name: atm.name,
+        place_id: atm.place_id,
+        address: atm.vicinity,
+      }; // need to get distance and info
     })
-    .map((atm, index) => (
-      <div
-        className="flex flex-col justify-center w-full item-start"
-        key={index}
-      >
-        <div>{atm.brand}</div>
-        <div>{atm.name}</div>
-        <div>{atm.address}</div>
-      </div>
-    ));
+    .map((atm: IAtmObject) => <AtmListItem key={atm.place_id} atmData={atm} />);
 
   return fullAtmList.length ? (
     <ul className="flex flex-col items-center justify-start w-full gap-6 p-5 section">

@@ -17,6 +17,7 @@ export const bankNameList: string[] = [
 export interface IAtmObject {
   brand: string;
   name: string;
+  place_id: string;
   address: string;
   info?: string[];
   distance?: number;
