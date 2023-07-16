@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { rawAtmInfo, isRawAtmInfo } from "@/lib/webscraping-data";
-import { bankNameList, getBankAtmList } from "@/lib/load-atm-data";
+import { getBankAtmList } from "@/lib/load-atm-data";
+import { bankNameList } from "@/lib/atmObject";
 
 import { errorMessageObject, isErrorMessageObject } from "@/lib/errors";
 
