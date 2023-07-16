@@ -10,9 +10,10 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 
 ## To-do list
 
-- Place Detail required? To get proper address and therefore distance and directions(?)
+- Place Detail required? To get proper address and directions(?)
 - Paginate to top 5 or 10 relevant results
 - Loading animations for buttons and lists
+- Display error messages
 
 ## Problem
 
