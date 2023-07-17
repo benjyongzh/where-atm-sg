@@ -36,6 +36,10 @@ main {
   .btn {
     @apply px-5;
   }
+
+  .googlemap-container {
+    @apply w-full h-80;
+  }
   /* 
   .input {
     @apply w-full h-full p-2 m-0 rounded-full outline-none;
