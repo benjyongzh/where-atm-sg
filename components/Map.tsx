@@ -109,13 +109,13 @@ export default function Map(props: MapProps) {
   const { atms, zoom } = props;
   return (
     // Important! Always set the container height explicitly
-    <div className="w-full h-60">
+    <div className="googlemap-container">
       <GoogleMapReact
         bootstrapURLKeys={{ key: "" }}
         defaultCenter={center}
         defaultZoom={zoom}
       >
-        {/* <AnyReactComponent lat={59.955413} lng={30.337844} text="My Marker" /> */}
+        {/* <AnyReactComponent lat={center.lat} lng={center.lng} text="My Marker" /> */}
       </GoogleMapReact>
     </div>
   );
