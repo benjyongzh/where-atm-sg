@@ -38,7 +38,7 @@ main {
   }
 
   .googlemap-container {
-    @apply w-full h-80;
+    @apply w-full h-96;
   }
   /* 
   .input {
