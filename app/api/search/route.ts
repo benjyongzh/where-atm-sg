@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
     return new NextResponse(JSON.stringify(searchData));
   } catch (err) {
     return new NextResponse(
-      JSON.stringify({ errorMessage: "failed to fetch data" })
+      JSON.stringify({ errorMessage: "failed to fetch data, " + err })
     );
   }
 }
