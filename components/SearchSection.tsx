@@ -17,6 +17,7 @@ const SearchSection = () => {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     setIsLoading(true);
+    //should validate and sanitize addressInput string here first
     const endpoint = "/api/search";
 
     // Form the request for sending data to the server.
