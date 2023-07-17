@@ -59,7 +59,7 @@ const SearchSection = () => {
         return {
           location: {
             lat: atmInfo.geometry.location.lat,
-            long: atmInfo.geometry.location.lng,
+            lng: atmInfo.geometry.location.lng,
           },
           name: atmInfo.name,
           place_id: atmInfo.place_id,

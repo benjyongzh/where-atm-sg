@@ -1,6 +1,6 @@
 export interface IGeoCode {
   lat: number;
-  long: number;
+  lng: number;
 }
 
 // geocoder = new google.maps.Geocoder();
@@ -29,6 +29,6 @@ export async function getAddressGeocoded(address: string) {
 export function getLatLongFromGeoCodeResult(res: any): IGeoCode {
   return {
     lat: res.geometry.location.lat,
-    long: res.geometry.location.lng,
+    lng: res.geometry.location.lng,
   };
 }
