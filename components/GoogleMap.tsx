@@ -3,6 +3,7 @@ import {
   GoogleMap,
   useLoadScript,
   MarkerF,
+  CircleF,
   InfoWindow,
 } from "@react-google-maps/api";
 import { IGeoCode } from "@/features/googleAPI/geocoder";
@@ -27,12 +28,15 @@ type MapProps = {
   atms: IAtmObject[];
 };
 
-function Map({ googleMapsApiKey }: MapProps) {
+function Map(props: MapProps) {
   // infers type from default value
   const center: IGeoCode = useAppSelector(
     (state) => state.settings.searchLocationPoint
   );
+  const storedRange = useAppSelector((state) => state.settings.maxRange);
   const [selectedMarker, setSelectedMarker] = useState<IGeoCode | null>(center);
+  const { googleMapsApiKey, atms } = props;
+
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: googleMapsApiKey,
   });
@@ -41,7 +45,7 @@ function Map({ googleMapsApiKey }: MapProps) {
     <>
       <div className="mx-20 my-8 md:my-10">
         <GoogleMap
-          zoom={10}
+          zoom={10} //zoom integer setting
           center={center}
           mapContainerClassName="googlemap-container"
         >
@@ -65,7 +69,46 @@ function Map({ googleMapsApiKey }: MapProps) {
             )}
           </MarkerF>
 
+          <CircleF
+            options={{
+              strokeColor: "hsl(var(--p))",
+              strokeOpacity: 0.7,
+              strokeWeight: 2,
+              fillColor: "hsl(var(--p))",
+              fillOpacity: 0.2,
+              clickable: false,
+              draggable: false,
+              editable: false,
+              visible: true,
+              zIndex: 1,
+            }}
+            center={center}
+            radius={storedRange}
+          ></CircleF>
+
           {/* set atm locations across map */}
+          {atms.map((atm) => (
+            <MarkerF
+              position={atm.location} //marker position
+              onClick={() => {
+                setSelectedMarker(atm.location); //marker position
+              }}
+            >
+              {selectedMarker && (
+                <InfoWindow
+                  onCloseClick={() => {
+                    setSelectedMarker(null);
+                  }}
+                  position={atm.location} //marker position
+                >
+                  <p>{atm.brand}</p>
+                  <p>{atm.name}</p>
+                  <p>{atm.address}</p>
+                  <p>{atm.distance}m away</p>
+                </InfoWindow>
+              )}
+            </MarkerF>
+          ))}
         </GoogleMap>
       </div>
     </>

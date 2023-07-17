@@ -8,6 +8,7 @@ import {
 } from "@/lib/atmObject";
 
 import AtmListItem from "./AtmListItem";
+import GoogleMaps from "./GoogleMap";
 import { IGeoCode } from "@/features/googleAPI/geocoder";
 import { haversine_distance } from "@/utils/distance";
 
@@ -25,11 +26,24 @@ const AtmList = () => {
     (state) => state.settings.bankFilterOut
   );
 
-  const finalList = fullAtmList
-    .filter((atm: rawFetchedNearbyPlacesInfo): boolean => {
+  const convertedAtmList = fullAtmList.map(
+    (atm: rawFetchedNearbyPlacesInfo): IAtmObject => {
       const atmBrand = getBrandFromRawPlacesInfo(atm);
-      return !storedBankFilter.includes(atmBrand) && atmBrand !== "";
-    })
+
+      // log distances from each ATM
+      const distance = haversine_distance(storedSearchPoint, atm.location);
+      return {
+        brand: atmBrand,
+        name: atm.name,
+        location: atm.location,
+        place_id: atm.place_id,
+        address: atm.vicinity,
+        distance,
+      };
+    }
+  );
+
+  const filteredAtmList = fullAtmList
     .map((atm: rawFetchedNearbyPlacesInfo): IAtmObject => {
       const atmBrand = getBrandFromRawPlacesInfo(atm);
 
@@ -44,7 +58,10 @@ const AtmList = () => {
         distance,
       };
     })
-    .filter((atm) => atm.distance! <= storedRange) //filter out ATMs further than filter distance
+    .filter((atm: IAtmObject): boolean => {
+      return !storedBankFilter.includes(atm.brand) && atm.brand !== "";
+    })
+    .filter((atm) => atm.distance <= storedRange) //only use ATMs in range
     .sort((atmA, atmB) => atmA.distance! - atmB.distance!) //sort from shortest distance to longest
     .map((atm: IAtmObject) => <AtmListItem key={atm.place_id} atmData={atm} />);
 
@@ -74,7 +91,7 @@ const AtmList = () => {
                 type="checkbox"
                 className="toggle toggle-md"
                 checked={viewMode === "Map"}
-                onClick={toggleViewMode}
+                onChange={toggleViewMode}
               />
             </label>
           </div>
@@ -83,9 +100,11 @@ const AtmList = () => {
       {fullAtmList.length ? (
         viewMode === "List" ? (
           <ul className="flex flex-col items-center justify-start w-full gap-6">
-            {finalList}
+            {filteredAtmList}
           </ul>
-        ) : null //mapview here
+        ) : (
+          <GoogleMaps atms={convertedAtmList} />
+        ) //mapview here
       ) : null}
     </div>
   );
