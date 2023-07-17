@@ -1,5 +1,5 @@
 "use client";
-
+import { useState } from "react";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import {
   rawFetchedNearbyPlacesInfo,
@@ -12,6 +12,7 @@ import { IGeoCode } from "@/features/googleAPI/geocoder";
 import { haversine_distance } from "@/utils/distance";
 
 const AtmList = () => {
+  const [viewMode, setViewMode] = useState("List"); //"List" or "Map"
   const storedRange = useAppSelector((state) => state.settings.maxRange);
   const storedSearchPoint: IGeoCode = useAppSelector(
     (state) => state.settings.searchLocationPoint
@@ -46,9 +47,17 @@ const AtmList = () => {
     .sort((atmA, atmB) => atmA.distance! - atmB.distance!) //sort from shortest distance to longest
     .map((atm: IAtmObject) => <AtmListItem key={atm.place_id} atmData={atm} />);
 
+  const toggleViewMode = () => {
+    viewMode === "List" ? setViewMode("Map") : setViewMode("List");
+  };
+
   return (
-    <div className="flex flex-col items-center justify-start w-full gap-6 mt-4 section">
-      <div className="flex items-center justify-center w-full">
+    <div className="flex flex-col items-center justify-start w-full gap-6 section">
+      <div
+        className={`flex items-center ${
+          fullAtmList.length ? "justify-between" : "justify-center"
+        } w-full`}
+      >
         {storedSearchPoint.lat === 0 && storedSearchPoint.long === 0
           ? "Search for nearby ATMs"
           : fullAtmList.length
@@ -56,11 +65,26 @@ const AtmList = () => {
             ? "1 ATM found nearby"
             : `${fullAtmList.length} ATMs found nearby`
           : "No ATMs found nearby"}
+        {fullAtmList.length ? (
+          <div className="form-control">
+            <label className="cursor-pointer label">
+              <span className="mr-3 label-text">{viewMode} View</span>
+              <input
+                type="checkbox"
+                className="toggle toggle-md"
+                checked={viewMode === "Map"}
+                onClick={toggleViewMode}
+              />
+            </label>
+          </div>
+        ) : null}
       </div>
       {fullAtmList.length ? (
-        <ul className="flex flex-col items-center justify-start w-full gap-6">
-          {finalList}
-        </ul>
+        viewMode === "List" ? (
+          <ul className="flex flex-col items-center justify-start w-full gap-6">
+            {finalList}
+          </ul>
+        ) : null //mapview here
       ) : null}
     </div>
   );
