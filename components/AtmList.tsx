@@ -38,6 +38,7 @@ const AtmList = () => {
       return {
         brand: atmBrand,
         name: atm.name,
+        location: atm.location,
         place_id: atm.place_id,
         address: atm.vicinity,
         distance,
@@ -58,7 +59,7 @@ const AtmList = () => {
           fullAtmList.length ? "justify-between" : "justify-center"
         } w-full`}
       >
-        {storedSearchPoint.lat === 0 && storedSearchPoint.long === 0
+        {storedSearchPoint.lat === 0 && storedSearchPoint.lng === 0
           ? "Search for nearby ATMs"
           : fullAtmList.length
           ? fullAtmList.length === 1
