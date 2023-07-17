@@ -1,16 +1,22 @@
 import SearchSection from "@/components/SearchSection";
 import FilterSection from "@/components/FilterSection";
 import AtmList from "@/components/AtmList";
+import Link from "next/link";
 
 const page = () => {
   return (
     <main className="flex flex-col gap-6 sm:gap-8 main-bg">
-      <header className="text-4xl text-center page-header">
+      <Link
+        href="/"
+        className="text-4xl text-center cursor-pointer page-header"
+      >
         Where ATM SG?
-      </header>
+      </Link>
 
       <SearchSection />
+      {/* <div className="divider"></div> */}
       <FilterSection />
+      {/* <div className="divider"></div> */}
       <AtmList />
     </main>
   );
