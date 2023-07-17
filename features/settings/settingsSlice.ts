@@ -12,7 +12,7 @@ const initialState: InitialState = {
   maxRange: 1500,
   searchLocationPoint: {
     lat: 0,
-    long: 0,
+    lng: 0,
   },
 };
 
