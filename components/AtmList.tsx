@@ -9,6 +9,7 @@ import {
 
 import AtmListItem from "./AtmListItem";
 import GoogleMaps from "./GoogleMap";
+import Map from "./Map";
 import { IGeoCode } from "@/features/googleAPI/geocoder";
 import { haversine_distance } from "@/utils/distance";
 
@@ -76,7 +77,9 @@ const AtmList = () => {
           fullAtmList.length ? "justify-between" : "justify-center"
         } w-full`}
       >
-        {storedSearchPoint.lat === 0 && storedSearchPoint.lng === 0
+        {storedSearchPoint &&
+        storedSearchPoint.lat === 0 &&
+        storedSearchPoint.lng === 0
           ? "Search for nearby ATMs"
           : fullAtmList.length
           ? fullAtmList.length === 1
@@ -103,8 +106,9 @@ const AtmList = () => {
             {filteredAtmList}
           </ul>
         ) : (
-          <GoogleMaps atms={convertedAtmList} />
-        ) //mapview here
+          // {/* <Map zoom={13} atms={convertedAtmList} /> */}
+          <GoogleMaps center={storedSearchPoint} atms={convertedAtmList} />
+        )
       ) : null}
     </div>
   );
