@@ -5,7 +5,7 @@ export function haversine_distance(mk1: IGeoCode, mk2: IGeoCode) {
   const rlat1 = mk1.lat * (Math.PI / 180); // Convert degrees to radians
   const rlat2 = mk2.lat * (Math.PI / 180); // Convert degrees to radians
   const difflat = rlat2 - rlat1; // Radian difference (latitudes)
-  const difflon = (mk2.long - mk1.long) * (Math.PI / 180); // Radian difference (longitudes)
+  const difflon = (mk2.lng - mk1.lng) * (Math.PI / 180); // Radian difference (longitudes)
 
   const d =
     2 *

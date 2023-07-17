@@ -22,10 +22,10 @@ export async function getNearbyPlaces(params: {
   keyword?: string;
 }) {
   const { searchPoint, searchRadius, buildingType, keyword } = params;
-  const { lat, long } = searchPoint;
+  const { lat, lng } = searchPoint;
   try {
     const res = await fetch(
-      `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat}%2C${long}&radius=${searchRadius}&type=${buildingType}${
+      `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat}%2C${lng}&radius=${searchRadius}&type=${buildingType}${
         keyword ? `&keyword=${keyword}` : ""
       }&key=${process.env.GMAPS_API_KEY}`
     );

@@ -21,7 +21,7 @@ export interface IAtmObject {
   place_id: string;
   address: string;
   info?: string[];
-  distance?: number;
+  distance: number;
 }
 
 export interface rawFetchedNearbyPlacesInfo {
