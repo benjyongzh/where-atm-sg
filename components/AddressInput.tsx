@@ -1,11 +1,9 @@
 "use client";
 import { useState } from "react";
 // import { validateMaxRangeInput } from "@/lib/maxRange";
-import {
-  setSearchLocationPoint,
-  IGeoCode,
-} from "@/features/settings/settingsSlice";
+import { setSearchLocationPoint } from "@/features/settings/settingsSlice";
 import { useAppDispatch } from "@/hooks/reduxHooks";
+import { IGeoCode } from "@/features/googleAPI/geocoder";
 
 const AddressInput = (props: { updateReduxOnInput: boolean }) => {
   const [addressInput, setAddressInput] = useState("");
@@ -39,7 +37,7 @@ const AddressInput = (props: { updateReduxOnInput: boolean }) => {
     const result = await response.json();
     const searchPos: IGeoCode = {
       lat: result.geometry.location.lat,
-      long: result.geometry.location.lng,
+      lng: result.geometry.location.lng,
     };
 
     if (props.updateReduxOnInput) {
