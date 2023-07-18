@@ -14,9 +14,8 @@ import { IGeoCode } from "@/features/googleAPI/geocoder";
 import { haversine_distance } from "@/utils/distance";
 
 const AtmList = () => {
-  const [viewMode, setViewMode] = useState("List"); //"List" or "Map"
-  const storedRange = useAppSelector((state) => state.settings.maxRange);
   const [selectedAtmId, setselectedAtmId] = useState<string | null>(null);
+  const storedRange = useAppSelector((state) => state.settings.maxRange);
   const storedSearchPoint: IGeoCode = useAppSelector(
     (state) => state.settings.searchLocationPoint
   );
@@ -66,10 +65,6 @@ const AtmList = () => {
     .filter((atm) => atm.distance <= storedRange) //only use ATMs in range
     .sort((atmA, atmB) => atmA.distance! - atmB.distance!); //sort from shortest distance to longest
 
-  const toggleViewMode = () => {
-    viewMode === "List" ? setViewMode("Map") : setViewMode("List");
-  };
-
   return (
     <div className="flex flex-col items-center justify-start w-full gap-5 section">
       {/* <div
@@ -109,7 +104,7 @@ const AtmList = () => {
         />
       )}
 
-      <ul className="flex flex-col items-center justify-start w-full gap-4 overflow-y-scroll">
+      <ul className="flex flex-col items-center justify-start w-full gap-4 overflow-y-auto">
         {fullAtmList.length > 0 ? (
           filteredAtmList.map((atm: IAtmObject) => (
             <AtmListItem
