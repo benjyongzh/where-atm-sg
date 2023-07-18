@@ -16,6 +16,7 @@ import { haversine_distance } from "@/utils/distance";
 const AtmList = () => {
   const [viewMode, setViewMode] = useState("List"); //"List" or "Map"
   const storedRange = useAppSelector((state) => state.settings.maxRange);
+  const [selectedAtmId, setselectedAtmId] = useState<string | null>(null);
   const storedSearchPoint: IGeoCode = useAppSelector(
     (state) => state.settings.searchLocationPoint
   );
@@ -70,8 +71,8 @@ const AtmList = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-start w-full section">
-      <div
+    <div className="flex flex-col items-center justify-start w-full gap-5 section">
+      {/* <div
         className={`flex items-center mb-6 ${
           fullAtmList.length ? "justify-between" : "justify-center"
         } w-full`}
@@ -98,21 +99,30 @@ const AtmList = () => {
             </label>
           </div>
         ) : null}
-      </div>
+      </div> */}
       {fullAtmList.length > 0 && (
         <GoogleMaps
           center={storedSearchPoint}
           atms={filteredAtmList}
-          visible={viewMode === "Map"}
+          selectAtm={setselectedAtmId}
+          selectedAtmId={selectedAtmId}
         />
       )}
-      {fullAtmList.length > 0 && viewMode === "List" && (
-        <ul className="flex flex-col items-center justify-start w-full gap-6">
-          {filteredAtmList.map((atm: IAtmObject) => (
-            <AtmListItem key={atm.place_id} atmData={atm} />
-          ))}
-        </ul>
-      )}
+
+      <ul className="flex flex-col items-center justify-start w-full gap-4 overflow-y-scroll">
+        {fullAtmList.length > 0 ? (
+          filteredAtmList.map((atm: IAtmObject) => (
+            <AtmListItem
+              key={atm.place_id}
+              atmData={atm}
+              selectAtm={setselectedAtmId}
+              selected={selectedAtmId === atm.place_id}
+            />
+          ))
+        ) : (
+          <div className="w-full text-center">No ATMs found</div>
+        )}
+      </ul>
     </div>
   );
 };

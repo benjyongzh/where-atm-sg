@@ -24,7 +24,8 @@ const nightColours = daisyuiColors["[data-theme=night]"];
 type GoogleMapsProps = {
   center: IGeoCode;
   atms: IAtmObject[];
-  visible: boolean;
+  selectAtm: Function;
+  selectedAtmId: string | null;
 };
 
 // export default function GoogleMaps(props: GoogleMapsProps) {
@@ -133,9 +134,9 @@ function GoogleMaps(props: GoogleMapsProps) {
     id: "google-map-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_GMAPS_API_KEY!, // "AIzaSyCmclsT6YRYmtLnkWKpBml2CUEDa5-_jkk", //API key
   });
-  const { atms, center, visible } = props;
+  const { atms, center, selectAtm, selectedAtmId } = props;
   const [map, setMap] = useState(null);
-  const [selectedMarker, setSelectedMarker] = useState<string | null>(null);
+  const [mapCenterPoint, setMapCenterPoint] = useState(center);
 
   const zoomIndex = 15;
 
@@ -143,7 +144,6 @@ function GoogleMaps(props: GoogleMapsProps) {
     const bounds = new window.google.maps.LatLngBounds(center);
     // map.fitBounds(bounds);
     map.setZoom(zoomIndex);
-
     setMap(map);
   }, []);
 
@@ -175,14 +175,22 @@ function GoogleMaps(props: GoogleMapsProps) {
       }
     : undefined;
 
+  const handleSelectAtmMarker = (atm: IAtmObject | null) => {
+    if (atm === null) {
+      selectAtm(atm);
+    } else {
+      selectAtm(atm.place_id);
+      setMapCenterPoint(atm.location);
+    }
+  };
+
   return isLoaded ? (
     <GoogleMap
       mapContainerStyle={{
         width: "100%",
-        height: visible ? "600px" : "0px",
-        visibility: visible ? "visible" : "hidden",
+        height: "450px",
       }}
-      center={center}
+      center={mapCenterPoint}
       zoom={zoomIndex}
       onLoad={onLoad}
       onUnmount={onUnmount}
@@ -209,23 +217,17 @@ function GoogleMaps(props: GoogleMapsProps) {
 
       {/* ATMs found */}
       {atms.map((atm) => (
-        // <MapMarkerPin
-        //   key={atm.place_id}
-        //   atm={atm}
-        //   selectedMarker={selectedMarker}
-        //   handleClick={setSelectedMarker}
-        // />
         <MarkerF
           position={atm.location} //marker position
-          onClick={() => setSelectedMarker(atm.place_id)}
+          onClick={() => handleSelectAtmMarker(atm)}
           icon={
             atm.distance <= storedRange ? svgMarkerInRange : svgMarkerOutOfRange
           }
           key={atm.place_id}
         >
-          {selectedMarker === atm.place_id && (
+          {selectedAtmId === atm.place_id && (
             <InfoWindow
-              onCloseClick={() => setSelectedMarker(null)}
+              onCloseClick={() => handleSelectAtmMarker(null)}
               position={atm.location} //marker position
             >
               <MapInfoWindowData

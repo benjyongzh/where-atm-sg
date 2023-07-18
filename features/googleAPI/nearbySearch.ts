@@ -25,9 +25,9 @@ export async function getNearbyPlaces(params: {
   const { lat, lng } = searchPoint;
   try {
     const res = await fetch(
-      `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat}%2C${lng}&radius=${searchRadius}&type=${buildingType}${
+      `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat}%2C${lng}&type=${buildingType}${
         keyword ? `&keyword=${keyword}` : ""
-      }&key=${process.env.GMAPS_API_KEY}`
+      }&key=${process.env.GMAPS_API_KEY}&rankby=distance`
     );
     const data = await res.json();
     return data;
