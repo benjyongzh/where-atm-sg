@@ -63,8 +63,7 @@ const AtmList = () => {
       return !storedBankFilter.includes(atm.brand) && atm.brand !== "";
     })
     .filter((atm) => atm.distance <= storedRange) //only use ATMs in range
-    .sort((atmA, atmB) => atmA.distance! - atmB.distance!) //sort from shortest distance to longest
-    .map((atm: IAtmObject) => <AtmListItem key={atm.place_id} atmData={atm} />);
+    .sort((atmA, atmB) => atmA.distance! - atmB.distance!); //sort from shortest distance to longest
 
   const toggleViewMode = () => {
     viewMode === "List" ? setViewMode("Map") : setViewMode("List");
@@ -103,13 +102,15 @@ const AtmList = () => {
       {fullAtmList.length > 0 && (
         <GoogleMaps
           center={storedSearchPoint}
-          atms={convertedAtmList}
+          atms={filteredAtmList}
           visible={viewMode === "Map"}
         />
       )}
       {fullAtmList.length > 0 && viewMode === "List" && (
         <ul className="flex flex-col items-center justify-start w-full gap-6">
-          {filteredAtmList}
+          {filteredAtmList.map((atm: IAtmObject) => (
+            <AtmListItem key={atm.place_id} atmData={atm} />
+          ))}
         </ul>
       )}
     </div>

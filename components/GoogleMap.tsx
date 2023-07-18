@@ -137,9 +137,12 @@ function GoogleMaps(props: GoogleMapsProps) {
   const [map, setMap] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState<string | null>(null);
 
+  const zoomIndex = 15;
+
   const onLoad = useCallback(function callback(map: any) {
     const bounds = new window.google.maps.LatLngBounds(center);
-    map.fitBounds(bounds);
+    // map.fitBounds(bounds);
+    map.setZoom(zoomIndex);
 
     setMap(map);
   }, []);
@@ -180,7 +183,7 @@ function GoogleMaps(props: GoogleMapsProps) {
         visibility: visible ? "visible" : "hidden",
       }}
       center={center}
-      zoom={13}
+      zoom={zoomIndex}
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
