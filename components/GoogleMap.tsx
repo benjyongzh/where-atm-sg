@@ -1,6 +1,6 @@
 import { IAtmObject } from "@/lib/atmObject";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 // import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import {
   GoogleMap,
@@ -136,7 +136,7 @@ function GoogleMaps(props: GoogleMapsProps) {
   });
   const { atms, center, selectAtm, selectedAtmId } = props;
   const [map, setMap] = useState(null);
-  const [mapCenterPoint, setMapCenterPoint] = useState(center);
+  const [mapCenterPoint, setMapCenterPoint] = useState<IGeoCode>(center);
 
   const zoomIndex = 15;
 
@@ -177,12 +177,18 @@ function GoogleMaps(props: GoogleMapsProps) {
 
   const handleSelectAtmMarker = (atm: IAtmObject | null) => {
     if (atm === null) {
-      selectAtm(atm);
+      selectAtm(null);
     } else {
       selectAtm(atm.place_id);
-      setMapCenterPoint(atm.location);
     }
   };
+
+  useEffect(() => {
+    if (selectedAtmId !== null) {
+      const atmsInFocus = atms.filter((atm) => atm.place_id === selectedAtmId);
+      if (atmsInFocus.length) setMapCenterPoint(atmsInFocus[0].location);
+    }
+  }, [selectedAtmId]);
 
   return isLoaded ? (
     <GoogleMap
