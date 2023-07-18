@@ -4,7 +4,7 @@ import { BiCurrentLocation, BiSearch } from "react-icons/bi";
 
 export default async function Home() {
   return (
-    <main className="flex flex-col items-center justify-start gap-10 overflow-hidden pt-52 main-bg">
+    <main className="flex flex-col items-center justify-start gap-10 pt-52 main-bg">
       <header className="mt-0 text-4xl text-center page-header">
         Where ATM SG?
       </header>
