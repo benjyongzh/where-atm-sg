@@ -71,9 +71,9 @@ const AtmList = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-start w-full gap-6 section">
+    <div className="flex flex-col items-center justify-start w-full section">
       <div
-        className={`flex items-center ${
+        className={`flex items-center mb-6 ${
           fullAtmList.length ? "justify-between" : "justify-center"
         } w-full`}
       >
@@ -100,16 +100,18 @@ const AtmList = () => {
           </div>
         ) : null}
       </div>
-      {fullAtmList.length ? (
-        viewMode === "List" ? (
-          <ul className="flex flex-col items-center justify-start w-full gap-6">
-            {filteredAtmList}
-          </ul>
-        ) : (
-          // {/* <Map zoom={13} atms={convertedAtmList} /> */}
-          <GoogleMaps center={storedSearchPoint} atms={convertedAtmList} />
-        )
-      ) : null}
+      {fullAtmList.length > 0 && (
+        <GoogleMaps
+          center={storedSearchPoint}
+          atms={convertedAtmList}
+          visible={viewMode === "Map"}
+        />
+      )}
+      {fullAtmList.length > 0 && viewMode === "List" && (
+        <ul className="flex flex-col items-center justify-start w-full gap-6">
+          {filteredAtmList}
+        </ul>
+      )}
     </div>
   );
 };

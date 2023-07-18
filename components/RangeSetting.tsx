@@ -2,7 +2,10 @@
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
 import { setMaxRange } from "@/features/settings/settingsSlice";
 import { useState } from "react";
-import { minSearchRange, maxSearchRange } from "@/lib/maxRange";
+import {
+  minSearchRange,
+  maxSearchRange,
+} from "@/features/settings/settingsSlice";
 
 const RangeSetting = () => {
   const storedRange = useAppSelector((state) => state.settings.maxRange);

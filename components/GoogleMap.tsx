@@ -18,10 +18,13 @@ import { getGMapsAPIKey } from "@/features/googleAPI/key";
 import MapInfoWindowData from "./MapInfoWindowData";
 import daisyuiColors from "daisyui/src/theming/themes";
 const cupcakeColours = daisyuiColors["[data-theme=cupcake]"];
+const lightColours = daisyuiColors["[data-theme=light]"];
+const nightColours = daisyuiColors["[data-theme=night]"];
 
 type GoogleMapsProps = {
   center: IGeoCode;
   atms: IAtmObject[];
+  visible: boolean;
 };
 
 // export default function GoogleMaps(props: GoogleMapsProps) {
@@ -124,18 +127,13 @@ type GoogleMapsProps = {
 //   );
 // }
 
-const containerStyle = {
-  width: "100%",
-  height: "600px",
-};
-
 function GoogleMaps(props: GoogleMapsProps) {
   const storedRange = useAppSelector((state) => state.settings.maxRange);
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyCmclsT6YRYmtLnkWKpBml2CUEDa5-_jkk", //API key
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GMAPS_API_KEY!, // "AIzaSyCmclsT6YRYmtLnkWKpBml2CUEDa5-_jkk", //API key
   });
-  const { atms, center } = props;
+  const { atms, center, visible } = props;
   const [map, setMap] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState<string | null>(null);
 
@@ -150,31 +148,37 @@ function GoogleMaps(props: GoogleMapsProps) {
     setMap(null);
   }, []);
 
-  const svgMarkerInRange = {
-    path: "M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z",
-    fillColor: cupcakeColours.secondary,
-    fillOpacity: 0.9,
-    strokeWeight: 2,
-    strokeColor: cupcakeColours.secondary,
-    strokeOpacity: 1,
-    scale: 2,
-    anchor: new google.maps.Point(12, 21),
-  };
+  const svgMarkerInRange = isLoaded
+    ? {
+        path: "M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z",
+        fillColor: cupcakeColours.primary,
+        fillOpacity: 0.9,
+        strokeWeight: 2,
+        strokeColor: nightColours.info,
+        scale: 2,
+        anchor: new google.maps.Point(12, 21),
+      }
+    : undefined;
 
-  const svgMarkerOutOfRange = {
-    path: "M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z",
-    fillColor: cupcakeColours.primary,
-    fillOpacity: 0.6,
-    strokeWeight: 2,
-    strokeColor: cupcakeColours.primary,
-    strokeOpacity: 1,
-    scale: 2,
-    anchor: new google.maps.Point(12, 21),
-  };
+  const svgMarkerOutOfRange = isLoaded
+    ? {
+        path: "M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z",
+        fillColor: cupcakeColours.secondary,
+        fillOpacity: 0.9,
+        strokeWeight: 2,
+        strokeColor: nightColours.error,
+        scale: 2,
+        anchor: new google.maps.Point(12, 21),
+      }
+    : undefined;
 
   return isLoaded ? (
     <GoogleMap
-      mapContainerStyle={containerStyle}
+      mapContainerStyle={{
+        width: "100%",
+        height: visible ? "600px" : "0px",
+        visibility: visible ? "visible" : "hidden",
+      }}
       center={center}
       zoom={13}
       onLoad={onLoad}
@@ -185,10 +189,10 @@ function GoogleMaps(props: GoogleMapsProps) {
       {/* center marking */}
       <CircleF
         options={{
-          strokeColor: cupcakeColours.secondary,
-          strokeOpacity: 0.7,
+          strokeColor: cupcakeColours.primary,
+          strokeOpacity: 0.8,
           strokeWeight: 2,
-          fillColor: cupcakeColours.secondary,
+          fillColor: cupcakeColours.primary,
           fillOpacity: 0.1,
           clickable: false,
           draggable: false,
