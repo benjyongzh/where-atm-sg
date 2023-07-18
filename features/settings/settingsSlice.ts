@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IGeoCode } from "../googleAPI/geocoder";
 
+export const minSearchRange: number = 50;
+export const maxSearchRange: number = 2000;
+
 type InitialState = {
   bankFilterOut: string[];
   maxRange: number;
@@ -9,7 +12,7 @@ type InitialState = {
 
 const initialState: InitialState = {
   bankFilterOut: [],
-  maxRange: 1500,
+  maxRange: maxSearchRange / 2,
   searchLocationPoint: {
     lat: 0,
     lng: 0,

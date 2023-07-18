@@ -1,5 +1,7 @@
-export const minSearchRange: number = 50;
-export const maxSearchRange: number = 3000;
+import {
+  minSearchRange,
+  maxSearchRange,
+} from "@/features/settings/settingsSlice";
 
 export const validateMaxRangeInput = (input: number | string) => {
   let output: number = minSearchRange;

@@ -5,7 +5,7 @@ import { setSearchLocationPoint } from "@/features/settings/settingsSlice";
 import { setAtmData } from "@/features/atmData/atmDataSlice";
 import { useAppDispatch } from "@/hooks/reduxHooks";
 
-import { maxSearchRange } from "@/lib/maxRange";
+import { maxSearchRange } from "@/features/settings/settingsSlice";
 import { errorMessageObject, isErrorMessageObject } from "@/lib/errors";
 import { rawFetchedNearbyPlacesInfo } from "@/lib/atmObject";
 
