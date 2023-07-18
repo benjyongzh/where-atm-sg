@@ -24,12 +24,12 @@ const settingsSlice = createSlice({
   name: "settings",
   initialState,
   reducers: {
-    addBankFilter: (state, action: PayloadAction<string>) => {
-      state.bankFilterOut.push(action.payload);
+    addBankFilter: (state, action: PayloadAction<string[]>) => {
+      action.payload.forEach((bank) => state.bankFilterOut.push(bank));
     },
-    removeBankFilter: (state, action: PayloadAction<string>) => {
+    removeBankFilter: (state, action: PayloadAction<string[]>) => {
       state.bankFilterOut = state.bankFilterOut.filter(
-        (bankItem) => action.payload !== bankItem
+        (bankItem) => !action.payload.includes(bankItem)
       );
     },
     setMaxRange: (state, action: PayloadAction<number>) => {

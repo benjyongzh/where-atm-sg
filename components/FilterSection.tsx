@@ -1,7 +1,7 @@
 //components
 import FilterButton from "./FilterButton";
 import RangeSetting from "./RangeSetting";
-import { bankNameList } from "@/lib/atmObject";
+import { bankNameList, bankFilters } from "@/lib/atmObject";
 
 const FilterSection = () => {
   return (
@@ -9,8 +9,8 @@ const FilterSection = () => {
       <RangeSetting />
 
       <ul className="flex flex-wrap items-center justify-center max-w-3xl gap-3">
-        {bankNameList.map((name) => (
-          <FilterButton name={name} />
+        {bankFilters.map((filter) => (
+          <FilterButton banks={filter.banks} />
         ))}
       </ul>
     </div>

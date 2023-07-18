@@ -14,6 +14,37 @@ export const bankNameList: string[] = [
   "RHB",
 ];
 
+export type bankFilter = {
+  banks: string[];
+};
+
+export const bankFilters: bankFilter[] = [
+  {
+    banks: ["DBS", "POSB"],
+  },
+  {
+    banks: ["UOB"],
+  },
+  {
+    banks: ["CitiBank"],
+  },
+  {
+    banks: ["MayBank"],
+  },
+  {
+    banks: ["Standard Chartered"],
+  },
+  {
+    banks: ["OCBC"],
+  },
+  {
+    banks: ["HSBC"],
+  },
+  {
+    banks: ["ANZ", "CIMB", "RHB"],
+  },
+];
+
 export interface IAtmObject {
   brand: string;
   name: string;

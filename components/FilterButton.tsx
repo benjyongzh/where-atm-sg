@@ -10,9 +10,11 @@ import {
 import {
   rawFetchedNearbyPlacesInfo,
   getBrandFromRawPlacesInfo,
+  bankFilter,
 } from "@/lib/atmObject";
 
-const FilterButton = (props: { name: string }) => {
+const FilterButton = (props: { banks: string[] }) => {
+  const { banks } = props;
   const [activated, setActivated] = useState(true);
   const dispatch = useAppDispatch();
   const fullAtmList: rawFetchedNearbyPlacesInfo[] = useAppSelector(
@@ -21,13 +23,13 @@ const FilterButton = (props: { name: string }) => {
 
   const brandCount = fullAtmList.filter((atm) => {
     const atmBrand = getBrandFromRawPlacesInfo(atm);
-    return atmBrand === props.name;
+    return banks.includes(atmBrand);
   }).length;
 
   const handleClick = () => {
     activated
-      ? dispatch(addBankFilter(props.name))
-      : dispatch(removeBankFilter(props.name));
+      ? dispatch(addBankFilter(banks))
+      : dispatch(removeBankFilter(banks));
     setActivated((curr) => !curr);
   };
 
@@ -45,7 +47,7 @@ const FilterButton = (props: { name: string }) => {
           activated ? "bg-info" : "bg-neutral-content"
         } `}
       >
-        {props.name}
+        {banks.join("/")}
       </button>
     </div>
   );

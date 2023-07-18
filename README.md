@@ -11,14 +11,17 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 
 ## To-do list
 
+- use rankby=distance. paginate. show map and view together. map on top. scrollable list container. on listitem click, selectMarker on map and scroll to location. while scrolling, beyond 20 items, re-search API for next 20 items. Remove count of items in atmList
+- DBS/POSB shared filter buttons
+- cull similar ATM overlaps (use PlaceDetail and address?)
+- click on map to set searchlocation?
 - Place Detail required? To get proper address and directions(?)
 - Loading animations for buttons and lists
 - Display error messages. Proper error handling of form submissions for nulls etc
 - Removing API key from client side. react-dotenv?
-- should put the filter items into search instead. From user's POV, they would set all the search options first anyway
 - collapsable search section
 - sanitization and validation of addressInput for search
-- using user's location
+- using user's location, navigator.geolocation
 
 ## Problem
 
