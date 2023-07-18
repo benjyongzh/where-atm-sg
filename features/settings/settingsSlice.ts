@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IGeoCode } from "../googleAPI/geocoder";
 
 export const minSearchRange: number = 50;
-export const maxSearchRange: number = 2000;
+export const maxSearchRange: number = 1500;
 
 type InitialState = {
   bankFilterOut: string[];
