@@ -7,14 +7,18 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 - Webscraping with jsdom
 - Using RegEx to filter webscraped data
 - GMaps API (geocoding, nearby places, place detail with ID)
+- react-google-maps API and customizing its display
 
 ## To-do list
 
 - Place Detail required? To get proper address and directions(?)
 - Loading animations for buttons and lists
 - Display error messages. Proper error handling of form submissions for nulls etc
-- option and API for using current location vs static searched location
+- Removing API key from client side. react-dotenv?
+- should put the filter items into search instead. From user's POV, they would set all the search options first anyway
+- collapsable search section
 - sanitization and validation of addressInput for search
+- using user's location
 
 ## Problem
 
