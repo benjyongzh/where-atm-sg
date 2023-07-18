@@ -16,11 +16,12 @@ import { useAppSelector } from "@/hooks/reduxHooks";
 import { getGMapsAPIKey } from "@/features/googleAPI/key";
 
 import MapInfoWindowData from "./MapInfoWindowData";
+import daisyuiColors from "daisyui/src/theming/themes";
+const cupcakeColours = daisyuiColors["[data-theme=cupcake]"];
 
 type GoogleMapsProps = {
   center: IGeoCode;
   atms: IAtmObject[];
-  zoom: number;
 };
 
 // export default function GoogleMaps(props: GoogleMapsProps) {
@@ -125,18 +126,18 @@ type GoogleMapsProps = {
 
 const containerStyle = {
   width: "100%",
-  height: "400px",
+  height: "600px",
 };
 
 function GoogleMaps(props: GoogleMapsProps) {
+  const storedRange = useAppSelector((state) => state.settings.maxRange);
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "", //API key
+    googleMapsApiKey: "AIzaSyCmclsT6YRYmtLnkWKpBml2CUEDa5-_jkk", //API key
   });
-  const { atms, center, zoom } = props;
+  const { atms, center } = props;
   const [map, setMap] = useState(null);
-
-  const [selectedMarker, setSelectedMarker] = useState<IGeoCode | null>(null);
+  const [selectedMarker, setSelectedMarker] = useState<string | null>(null);
 
   const onLoad = useCallback(function callback(map: any) {
     const bounds = new window.google.maps.LatLngBounds(center);
@@ -149,34 +150,82 @@ function GoogleMaps(props: GoogleMapsProps) {
     setMap(null);
   }, []);
 
+  const svgMarkerInRange = {
+    path: "M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z",
+    fillColor: cupcakeColours.secondary,
+    fillOpacity: 0.9,
+    strokeWeight: 2,
+    strokeColor: cupcakeColours.secondary,
+    strokeOpacity: 1,
+    scale: 2,
+    anchor: new google.maps.Point(12, 21),
+  };
+
+  const svgMarkerOutOfRange = {
+    path: "M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z",
+    fillColor: cupcakeColours.primary,
+    fillOpacity: 0.6,
+    strokeWeight: 2,
+    strokeColor: cupcakeColours.primary,
+    strokeOpacity: 1,
+    scale: 2,
+    anchor: new google.maps.Point(12, 21),
+  };
+
   return isLoaded ? (
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center}
-      zoom={zoom}
+      zoom={13}
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
       {/* Child components, such as markers, info windows, etc. */}
+
+      {/* center marking */}
+      <CircleF
+        options={{
+          strokeColor: cupcakeColours.secondary,
+          strokeOpacity: 0.7,
+          strokeWeight: 2,
+          fillColor: cupcakeColours.secondary,
+          fillOpacity: 0.1,
+          clickable: false,
+          draggable: false,
+          editable: false,
+          visible: true,
+          zIndex: 1,
+        }}
+        center={center}
+        radius={storedRange}
+      ></CircleF>
+
+      {/* ATMs found */}
       {atms.map((atm) => (
+        // <MapMarkerPin
+        //   key={atm.place_id}
+        //   atm={atm}
+        //   selectedMarker={selectedMarker}
+        //   handleClick={setSelectedMarker}
+        // />
         <MarkerF
           position={atm.location} //marker position
-          onClick={() => {
-            setSelectedMarker(atm.location); //marker position
-          }}
+          onClick={() => setSelectedMarker(atm.place_id)}
+          icon={
+            atm.distance <= storedRange ? svgMarkerInRange : svgMarkerOutOfRange
+          }
           key={atm.place_id}
         >
-          {selectedMarker === atm.location && (
+          {selectedMarker === atm.place_id && (
             <InfoWindow
-              onCloseClick={() => {
-                setSelectedMarker(null);
-              }}
+              onCloseClick={() => setSelectedMarker(null)}
               position={atm.location} //marker position
             >
               <MapInfoWindowData
                 title={atm.brand}
                 address={atm.address}
-                info={`distance: ${atm.distance}m`}
+                distance={atm.distance}
+                info={atm.info}
               />
             </InfoWindow>
           )}
