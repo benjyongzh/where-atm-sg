@@ -15,9 +15,12 @@ import { IGeoCode } from "@/features/googleAPI/geocoder";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { getGMapsAPIKey } from "@/features/googleAPI/key";
 
+import MapInfoWindowData from "./MapInfoWindowData";
+
 type GoogleMapsProps = {
   center: IGeoCode;
   atms: IAtmObject[];
+  zoom: number;
 };
 
 // export default function GoogleMaps(props: GoogleMapsProps) {
@@ -130,13 +133,12 @@ function GoogleMaps(props: GoogleMapsProps) {
     id: "google-map-script",
     googleMapsApiKey: "", //API key
   });
-  const { atms, center } = props;
+  const { atms, center, zoom } = props;
   const [map, setMap] = useState(null);
 
-  const [selectedMarker, setSelectedMarker] = useState<IGeoCode | null>(center);
+  const [selectedMarker, setSelectedMarker] = useState<IGeoCode | null>(null);
 
   const onLoad = useCallback(function callback(map: any) {
-    // This is just an example of getting and using the map instance!!! don't just blindly copy!
     const bounds = new window.google.maps.LatLngBounds(center);
     map.fitBounds(bounds);
 
@@ -151,29 +153,35 @@ function GoogleMaps(props: GoogleMapsProps) {
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center}
-      zoom={15}
+      zoom={zoom}
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
       {/* Child components, such as markers, info windows, etc. */}
-      <MarkerF
-        position={center} //marker position
-        onClick={() => {
-          setSelectedMarker(center); //marker position
-        }}
-      >
-        {selectedMarker && (
-          <InfoWindow
-            onCloseClick={() => {
-              setSelectedMarker(null);
-            }}
-            position={center} //marker position
-          >
-            <p>Directions</p>
-            <p>This is your input address</p>
-          </InfoWindow>
-        )}
-      </MarkerF>
+      {atms.map((atm) => (
+        <MarkerF
+          position={atm.location} //marker position
+          onClick={() => {
+            setSelectedMarker(atm.location); //marker position
+          }}
+          key={atm.place_id}
+        >
+          {selectedMarker === atm.location && (
+            <InfoWindow
+              onCloseClick={() => {
+                setSelectedMarker(null);
+              }}
+              position={atm.location} //marker position
+            >
+              <MapInfoWindowData
+                title={atm.brand}
+                address={atm.address}
+                info={`distance: ${atm.distance}m`}
+              />
+            </InfoWindow>
+          )}
+        </MarkerF>
+      ))}
     </GoogleMap>
   ) : (
     <div>Loading map...</div>

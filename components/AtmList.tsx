@@ -107,7 +107,11 @@ const AtmList = () => {
           </ul>
         ) : (
           // {/* <Map zoom={13} atms={convertedAtmList} /> */}
-          <GoogleMaps center={storedSearchPoint} atms={convertedAtmList} />
+          <GoogleMaps
+            center={storedSearchPoint}
+            atms={convertedAtmList}
+            zoom={14}
+          />
         )
       ) : null}
     </div>
