@@ -66,7 +66,7 @@ const AtmList = () => {
     .sort((atmA, atmB) => atmA.distance! - atmB.distance!); //sort from shortest distance to longest
 
   return (
-    <div className="flex flex-col items-center justify-start w-full gap-5 section">
+    <div className="flex flex-col items-center justify-start w-full max-w-5xl gap-5 mx-auto sm:px-10">
       {/* <div
         className={`flex items-center mb-6 ${
           fullAtmList.length ? "justify-between" : "justify-center"
@@ -104,7 +104,7 @@ const AtmList = () => {
         />
       )}
 
-      <ul className="flex flex-col items-center justify-start w-full gap-4 overflow-y-auto">
+      <ul className="flex flex-col items-center justify-start w-full gap-3 px-10 overflow-y-auto sm:gap-4 h-72 sm:h-96 sm:px-0">
         {fullAtmList.length > 0 ? (
           filteredAtmList.map((atm: IAtmObject) => (
             <AtmListItem

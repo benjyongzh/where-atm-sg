@@ -20,16 +20,18 @@ const AtmListItem = (props: AtmListItemProps) => {
       type="button"
       onClick={() => selectAtm(atmData.place_id)}
     >
-      <div className="flex flex-col items-start justify-between w-full p-4 card-body">
-        <div className="flex items-start justify-between w-full mb-2">
-          <h2 className="card-title">{atm.brand}</h2>
-          <div className="flex items-center justify-center gap-3">
+      <div className="flex flex-col items-start justify-between w-full gap-0 p-3 sm:p-4 card-body">
+        <div className="flex items-center justify-between w-full">
+          <p className="text-lg sm:text-xl card-title">{atm.brand}</p>
+          <div className="flex items-center justify-start gap-3">
             <GiPathDistance />
             {atm.distance}m
           </div>
         </div>
 
-        <p className="text-sm sm:text-base">{atm.address}</p>
+        <p className="hidden text-sm text-start sm:text-base sm:flex">
+          {atm.address}
+        </p>
       </div>
     </button>
   );

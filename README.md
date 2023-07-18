@@ -11,8 +11,8 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 
 ## To-do list
 
-- scrollable list container. while scrolling, beyond 20 items, re-search API for next 20 items.
 - collapsable search section
+- scrollable list container. while scrolling, beyond 20 items, re-search API for next 20 items.
 - cull similar ATM overlaps (use PlaceDetail and address?)
 - click on map to set searchlocation?
 - Place Detail required? To get proper address and directions(?)

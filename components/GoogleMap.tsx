@@ -194,7 +194,7 @@ function GoogleMaps(props: GoogleMapsProps) {
     <GoogleMap
       mapContainerStyle={{
         width: "100%",
-        height: "450px",
+        height: "400px",
       }}
       center={mapCenterPoint}
       zoom={zoomIndex}
