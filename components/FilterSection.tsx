@@ -1,7 +1,7 @@
 //components
 import FilterButton from "./FilterButton";
 import RangeSetting from "./RangeSetting";
-import { bankNameList, bankFilters } from "@/lib/atmObject";
+import { bankFilters } from "@/lib/atmObject";
 
 const FilterSection = () => {
   return (
