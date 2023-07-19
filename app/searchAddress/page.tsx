@@ -6,7 +6,7 @@ import Navbar from "@/components/Navbar";
 
 const page = () => {
   return (
-    <main className="relative flex flex-col h-screen gap-6 sm:gap-8 main-bg">
+    <main className="fixed flex flex-col h-screen gap-6 sm:gap-8 main-bg">
       {/* overflow-hidden */}
       <Navbar />
       <AtmList />

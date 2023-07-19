@@ -66,57 +66,31 @@ const AtmList = () => {
     .sort((atmA, atmB) => atmA.distance! - atmB.distance!); //sort from shortest distance to longest
 
   return (
-    <div className="flex flex-col items-center justify-start w-full max-w-5xl gap-5 mx-auto sm:px-10">
-      {/* <div
-        className={`flex items-center mb-6 ${
-          fullAtmList.length ? "justify-between" : "justify-center"
-        } w-full`}
-      >
-        {storedSearchPoint &&
-        storedSearchPoint.lat === 0 &&
-        storedSearchPoint.lng === 0
-          ? "Search for nearby ATMs"
-          : fullAtmList.length
-          ? fullAtmList.length === 1
-            ? "1 ATM found nearby"
-            : `${fullAtmList.length} ATMs found nearby`
-          : "No ATMs found nearby"}
-        {fullAtmList.length ? (
-          <div className="form-control">
-            <label className="cursor-pointer label">
-              <span className="mr-3 label-text">{viewMode} View</span>
-              <input
-                type="checkbox"
-                className="toggle toggle-md"
-                checked={viewMode === "Map"}
-                onChange={toggleViewMode}
-              />
-            </label>
-          </div>
-        ) : null}
-      </div> */}
-      {fullAtmList.length > 0 && (
-        <GoogleMaps
-          center={storedSearchPoint}
-          atms={filteredAtmList}
-          selectAtm={setselectedAtmId}
-          selectedAtmId={selectedAtmId}
-        />
-      )}
-
-      <ul className="flex flex-col items-center justify-start w-full gap-3 px-10 overflow-y-auto sm:gap-4 h-72 sm:h-96 sm:px-0">
+    <div className="flex flex-col items-center justify-start w-full h-full max-w-5xl gap-5 mx-auto sm:px-10">
+      <div className="flex items-center justify-center w-full h-full">
         {fullAtmList.length > 0 ? (
-          filteredAtmList.map((atm: IAtmObject) => (
-            <AtmListItem
-              key={atm.place_id}
-              atmData={atm}
-              selectAtm={setselectedAtmId}
-              selected={selectedAtmId === atm.place_id}
-            />
-          ))
+          <GoogleMaps
+            center={storedSearchPoint}
+            atms={filteredAtmList}
+            selectAtm={setselectedAtmId}
+            selectedAtmId={selectedAtmId}
+          />
         ) : (
           <div className="w-full text-center">No ATMs found</div>
         )}
+      </div>
+
+      <ul className="flex flex-col items-center justify-start w-full h-full gap-3 px-10 overflow-y-auto sm:gap-4 sm:px-0">
+        {fullAtmList.length > 0
+          ? filteredAtmList.map((atm: IAtmObject) => (
+              <AtmListItem
+                key={atm.place_id}
+                atmData={atm}
+                selectAtm={setselectedAtmId}
+                selected={selectedAtmId === atm.place_id}
+              />
+            ))
+          : null}
       </ul>
     </div>
   );
