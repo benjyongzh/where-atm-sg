@@ -12,6 +12,23 @@ main {
   align-items: center;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: hsl(var(--pc));
+  transition: background-color 5000s ease-in-out 0s;
+  box-shadow: inset 0 0 20px 20px #08799b29;
+}
+
+.range::-webkit-slider-runnable-track {
+  background-color: hsl(var(--pf) / 0.55);
+}
+.range::-moz-range-track {
+  background-color: hsl(var(--pf) / 0.55);
+}
+
 @layer components {
   .main-bg {
     @apply bg-base-100;
@@ -40,6 +57,7 @@ main {
   .googlemap-container {
     @apply w-full h-96;
   }
+
   /* 
   .input {
     @apply w-full h-full p-2 m-0 rounded-full outline-none;
