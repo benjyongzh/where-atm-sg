@@ -83,7 +83,7 @@ const SearchSection = () => {
     <form
       // autoComplete="off"
       onSubmit={handleSubmit}
-      className="flex items-center justify-between w-full gap-2 px-0 rounded-full input justify-self-end input-bordered input-primary"
+      className="relative flex items-center justify-between w-full gap-2 px-0 rounded-full input justify-self-end input-bordered input-primary"
     >
       <input
         id="inputAddress"
@@ -96,7 +96,7 @@ const SearchSection = () => {
       ></input>
       <button
         disabled={isLoading}
-        className={`flex justify-center p-0 btn btn-circle item-center hover:bg-transparent group ${
+        className={`absolute my-auto right-0 flex btn btn-circle p-0 hover:bg-transparent group ${
           !isLoading ? "btn-ghost" : "btn-disabled"
         }`}
         type="submit"
