@@ -132,7 +132,7 @@ function GoogleMaps(props: GoogleMapsProps) {
   const storedRange = useAppSelector((state) => state.settings.maxRange);
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GMAPS_API_KEY!, // "AIzaSyCmclsT6YRYmtLnkWKpBml2CUEDa5-_jkk", //API key
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GMAPS_API_KEY!, //API key
   });
   const { atms, center, selectAtm, selectedAtmId } = props;
   const [map, setMap] = useState(null);
