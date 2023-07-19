@@ -8,6 +8,7 @@ type InitialState = {
   bankFilterOut: string[];
   maxRange: number;
   searchLocationPoint: IGeoCode;
+  filterIsOpen: boolean;
 };
 
 const initialState: InitialState = {
@@ -17,6 +18,7 @@ const initialState: InitialState = {
     lat: 0,
     lng: 0,
   },
+  filterIsOpen: true,
 };
 
 // create slice takes an object with name, initialState and reducers
@@ -39,6 +41,10 @@ const settingsSlice = createSlice({
     setSearchLocationPoint: (state, action: PayloadAction<IGeoCode>) => {
       state.searchLocationPoint = action.payload;
     },
+
+    setFilterIsOpen: (state, action: PayloadAction<boolean>) => {
+      state.filterIsOpen = action.payload;
+    },
   },
 });
 
@@ -48,4 +54,5 @@ export const {
   removeBankFilter,
   setMaxRange,
   setSearchLocationPoint,
+  setFilterIsOpen,
 } = settingsSlice.actions;
