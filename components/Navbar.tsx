@@ -27,7 +27,7 @@ const Navbar = () => {
   return (
     <div className="top-0 z-10 flex flex-col items-center justify-start w-full">
       <div
-        className={`relative flex flex-col justify-center w-full gap-6 px-8 py-2 item-center`}
+        className={`relative flex flex-col justify-center w-full gap-6 py-2 item-center`}
       >
         <Link
           href="/"
@@ -35,18 +35,16 @@ const Navbar = () => {
         >
           Where ATM SG?
         </Link>
-        <div className="z-20 flex items-center justify-center w-full">
-          <div className="flex items-center justify-center w-full max-w-4xl gap-3">
-            <SearchSection />
-            <button
-              className={`flex justify-center p-0 btn btn-circle ${
-                filterIsOpen ? "btn-primary" : "btn-ghost"
-              }  item-center`}
-              onClick={() => toggleFilterSection()}
-            >
-              <SettingsIcon className="w-6 h-6 " alt="Search settings" />
-            </button>
-          </div>
+        <div className="z-20 flex items-center justify-center w-full max-w-5xl gap-3 px-10 mx-auto">
+          <SearchSection />
+          <button
+            className={`flex justify-center p-0 btn btn-circle ${
+              filterIsOpen ? "btn-primary" : "bg-base-300 hover:bg-base-200"
+            }  item-center`}
+            onClick={() => toggleFilterSection()}
+          >
+            <SettingsIcon className="w-6 h-6 " alt="Search settings" />
+          </button>
         </div>
         <motion.div
           animate={{
