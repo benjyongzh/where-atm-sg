@@ -9,6 +9,9 @@ import { maxSearchRange } from "@/features/settings/settingsSlice";
 import { errorMessageObject, isErrorMessageObject } from "@/lib/errors";
 import { rawFetchedNearbyPlacesInfo } from "@/lib/atmObject";
 
+import SearchIcon from "@/public/assets/icons/search.svg";
+// import { MdSearch } from "react-icons/md";
+
 const SearchSection = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [addressInput, setAddressInput] = useState("");
@@ -75,39 +78,29 @@ const SearchSection = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col items-center justify-center w-full gap-3 sm:gap-5 sm:flex-row section"
+      className="flex items-center justify-between w-full gap-2 rounded-full pe-0 input justify-self-end input-bordered input-primary"
     >
-      {/* addressInput */}
-      <div className="w-full gap-1 sm:gap-3 form-control">
-        <label
-          className="label label-text whitespace-nowrap"
-          htmlFor="inputAddress"
-        >
-          Search Address
-        </label>
-        <input
-          id="inputAddress"
-          className="w-full input input-bordered input-primary"
-          type="text"
-          placeholder="location address"
-          name="inputAddress"
-          required
-          onChange={(e) => setAddressInput(e.target.value)}
-        ></input>
-      </div>
-
-      {/* Submit */}
+      <input
+        id="inputAddress"
+        className="w-full h-12 bg-transparent outline-none"
+        type="text"
+        placeholder="location address"
+        name="inputAddress"
+        required
+        onChange={(e) => setAddressInput(e.target.value)}
+      ></input>
       <button
         disabled={isLoading}
-        className={`w-full btn ${
-          !isLoading ? "btn-primary" : "btn-disabled"
-        } sm:w-36`}
+        className={`flex justify-center p-0 btn btn-circle item-center ${
+          !isLoading ? "btn-ghost" : "btn-disabled"
+        }`}
         type="submit"
       >
         {isLoading ? (
           <span className="loading loading-dots loading-md"></span>
         ) : (
-          "Search"
+          <SearchIcon className="w-6 h-6" alt="Search" />
+          //<MdSearch size={"2em"} />
         )}
       </button>
     </form>
