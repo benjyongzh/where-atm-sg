@@ -9,8 +9,8 @@ const FilterSection = () => {
       <RangeSetting />
 
       <ul className="flex flex-wrap items-center justify-center max-w-3xl gap-3">
-        {bankFilters.map((filter) => (
-          <FilterButton banks={filter.banks} />
+        {bankFilters.map((filter, i) => (
+          <FilterButton banks={filter.banks} key={i} />
         ))}
       </ul>
     </div>
