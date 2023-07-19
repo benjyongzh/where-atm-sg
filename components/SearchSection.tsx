@@ -91,7 +91,7 @@ const SearchSection = () => {
       ></input>
       <button
         disabled={isLoading}
-        className={`flex justify-center p-0 btn btn-circle item-center ${
+        className={`flex justify-center p-0 btn btn-circle item-center hover:bg-transparent group ${
           !isLoading ? "btn-ghost" : "btn-disabled"
         }`}
         type="submit"
@@ -99,7 +99,10 @@ const SearchSection = () => {
         {isLoading ? (
           <span className="loading loading-dots loading-md"></span>
         ) : (
-          <SearchIcon className="w-6 h-6" alt="Search" />
+          <SearchIcon
+            className="w-6 h-6 group-hover:text-primary"
+            alt="Search"
+          />
           //<MdSearch size={"2em"} />
         )}
       </button>

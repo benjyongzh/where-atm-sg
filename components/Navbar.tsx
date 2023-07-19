@@ -18,11 +18,11 @@ const Navbar = () => {
   return (
     <div className="top-0 flex flex-col items-center justify-start w-full">
       <div
-        className={`relative flex flex-col justify-center w-full gap-3 px-8 py-2 item-center`}
+        className={`relative flex flex-col justify-center w-full gap-6 px-8 py-2 item-center`}
       >
         <Link
           href="/"
-          className="z-10 flex items-center justify-center mt-2 text-2xl cursor-pointer whitespace-nowrap"
+          className="z-10 flex items-center justify-center mt-6 text-2xl cursor-pointer whitespace-nowrap"
         >
           Where ATM SG?
         </Link>
