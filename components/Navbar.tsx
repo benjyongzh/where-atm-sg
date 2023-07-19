@@ -45,7 +45,7 @@ const Navbar = () => {
             y: filterSectionIsOpen ? 0 : -80,
           }}
           transition={{ type: "tween", duration: 0.2 }}
-          className={`absolute top-full py-3 left-0 right-0 w-full bg-transparent backdrop-blur-sm`}
+          className={`absolute top-full py-3 left-0 right-0 w-full bg-transparent backdrop-blur-md`}
         >
           <FilterSection />
         </motion.div>
