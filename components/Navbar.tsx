@@ -1,18 +1,27 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
+
+//components
 import SearchSection from "@/components/SearchSection";
 import FilterSection from "@/components/FilterSection";
-import { useState } from "react";
 import SettingsIcon from "@/public/assets/icons/settings.svg";
 
+//anims
 import { motion } from "framer-motion";
 
+//redux
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
+import { setFilterIsOpen } from "@/features/settings/settingsSlice";
+
 const Navbar = () => {
-  const [filterSectionIsOpen, setFilterSectionIsOpen] = useState(true);
+  const dispatch = useAppDispatch();
+  const filterIsOpen = useAppSelector((state) => state.settings.filterIsOpen);
 
   const toggleFilterSection = () => {
-    setFilterSectionIsOpen((curr) => !curr);
+    dispatch(setFilterIsOpen(!filterIsOpen));
+    // setFilterSectionIsOpen((curr) => !curr);
   };
 
   return (
@@ -31,7 +40,7 @@ const Navbar = () => {
             <SearchSection />
             <button
               className={`flex justify-center p-0 btn btn-circle ${
-                filterSectionIsOpen ? "btn-primary" : "btn-ghost"
+                filterIsOpen ? "btn-primary" : "btn-ghost"
               }  item-center`}
               onClick={() => toggleFilterSection()}
             >
@@ -41,11 +50,13 @@ const Navbar = () => {
         </div>
         <motion.div
           animate={{
-            opacity: filterSectionIsOpen ? 1 : 0,
-            y: filterSectionIsOpen ? 0 : -80,
+            opacity: filterIsOpen ? 1 : 0,
+            y: filterIsOpen ? 0 : -80,
           }}
           transition={{ type: "tween", duration: 0.2 }}
-          className={`absolute top-full py-3 left-0 right-0 w-full bg-transparent backdrop-blur-md`}
+          className={`absolute top-full py-3 left-0 right-0 w-full bg-transparent backdrop-blur-md ${
+            filterIsOpen ? "" : "pointer-events-none"
+          }`}
         >
           <FilterSection />
         </motion.div>

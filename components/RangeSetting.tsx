@@ -9,6 +9,7 @@ import {
 
 const RangeSetting = () => {
   const storedRange = useAppSelector((state) => state.settings.maxRange);
+  const filterIsOpen = useAppSelector((state) => state.settings.filterIsOpen);
   const [rangeValue, setRangeValue] = useState(storedRange);
   const dispatch = useAppDispatch();
 
@@ -37,14 +38,18 @@ const RangeSetting = () => {
           required
           onChange={(e) => handleChange(e.target.value)}
           value={rangeValue}
+          disabled={!filterIsOpen}
         />
         <input
           id="rangeNumber"
-          className="w-24 text-center input input-bordered input-primary"
+          className={`w-24 text-center input input-bordered input-primary ${
+            filterIsOpen ? "" : "cursor-default"
+          }`}
           type="number"
           name="rangeNumber"
           value={rangeValue}
           onChange={(e) => handleChange(e.target.value)}
+          disabled={!filterIsOpen}
         ></input>
       </div>
     </div>

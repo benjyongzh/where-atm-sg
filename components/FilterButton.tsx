@@ -10,7 +10,6 @@ import {
 import {
   rawFetchedNearbyPlacesInfo,
   getBrandFromRawPlacesInfo,
-  bankFilter,
 } from "@/lib/atmObject";
 
 const FilterButton = (props: { banks: string[] }) => {
@@ -20,6 +19,7 @@ const FilterButton = (props: { banks: string[] }) => {
   const fullAtmList: rawFetchedNearbyPlacesInfo[] = useAppSelector(
     (state) => state.atmData.allAtms
   );
+  const filterIsOpen = useAppSelector((state) => state.settings.filterIsOpen);
 
   const brandCount = fullAtmList.filter((atm) => {
     const atmBrand = getBrandFromRawPlacesInfo(atm);
@@ -27,14 +27,20 @@ const FilterButton = (props: { banks: string[] }) => {
   }).length;
 
   const handleClick = () => {
-    activated
-      ? dispatch(addBankFilter(banks))
-      : dispatch(removeBankFilter(banks));
-    setActivated((curr) => !curr);
+    if (filterIsOpen) {
+      activated
+        ? dispatch(addBankFilter(banks))
+        : dispatch(removeBankFilter(banks));
+      setActivated((curr) => !curr);
+    }
   };
 
   return (
-    <div className={`indicator ${brandCount > 0 ? "mr-3" : ""}`}>
+    <div
+      className={`indicator ${brandCount > 0 ? "mr-3" : ""} ${
+        filterIsOpen ? "cursor-pointer" : "pointer-events-none cursor-default"
+      }`}
+    >
       {brandCount > 0 ? (
         <span className="p-3 rounded-full aspect-square indicator-item badge badge-secondary">
           {brandCount}
@@ -45,7 +51,8 @@ const FilterButton = (props: { banks: string[] }) => {
         onClick={handleClick}
         className={`px-3 py-1 rounded-md ${
           activated ? "bg-info" : "bg-neutral-content"
-        } `}
+        } ${filterIsOpen ? "cursor-pointer" : "cursor-default"}`}
+        disabled={!filterIsOpen}
       >
         {banks.join("/")}
       </button>

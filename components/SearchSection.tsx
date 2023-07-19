@@ -5,7 +5,10 @@ import { setSearchLocationPoint } from "@/features/settings/settingsSlice";
 import { setAtmData } from "@/features/atmData/atmDataSlice";
 import { useAppDispatch } from "@/hooks/reduxHooks";
 
-import { maxSearchRange } from "@/features/settings/settingsSlice";
+import {
+  maxSearchRange,
+  setFilterIsOpen,
+} from "@/features/settings/settingsSlice";
 import { errorMessageObject, isErrorMessageObject } from "@/lib/errors";
 import { rawFetchedNearbyPlacesInfo } from "@/lib/atmObject";
 
@@ -19,6 +22,7 @@ const SearchSection = () => {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
+    dispatch(setFilterIsOpen(false));
     setIsLoading(true);
     //should validate and sanitize addressInput string here first
     const endpoint = "/api/search";
