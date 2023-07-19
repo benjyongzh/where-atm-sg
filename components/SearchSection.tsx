@@ -77,12 +77,13 @@ const SearchSection = () => {
 
   return (
     <form
+      // autoComplete="off"
       onSubmit={handleSubmit}
-      className="flex items-center justify-between w-full gap-2 rounded-full pe-0 input justify-self-end input-bordered input-primary"
+      className="flex items-center justify-between w-full gap-2 px-0 rounded-full input justify-self-end input-bordered input-primary"
     >
       <input
         id="inputAddress"
-        className="w-full h-12 bg-transparent outline-none"
+        className="w-full h-12 px-5 bg-transparent rounded-full outline-none"
         type="text"
         placeholder="location address"
         name="inputAddress"
