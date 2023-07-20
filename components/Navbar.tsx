@@ -25,17 +25,21 @@ const Navbar = () => {
   };
 
   return (
-    <div className="top-0 z-10 flex flex-col items-center justify-start w-full">
+    <div className="relative top-0 z-10 flex flex-col items-center justify-start w-full">
       <div
-        className={`relative flex flex-col justify-center w-full gap-6 py-2 item-center`}
+        className={`relative flex flex-col justify-center w-full pt-0 pb-4 nav-bg gap-6 item-center`}
       >
-        <Link
-          href="/"
-          className="z-20 flex items-center justify-center mt-6 text-2xl cursor-pointer whitespace-nowrap"
-        >
-          Where ATM SG?
-        </Link>
-        <div className="z-20 flex items-center justify-center w-full max-w-5xl gap-3 px-10 mx-auto">
+        <div className="flex w-full">
+          <div className="w-full cursor-default pointer-events-none" />
+          <Link
+            href="/"
+            className="z-20 flex items-center justify-center mt-6 text-2xl cursor-pointer whitespace-nowrap"
+          >
+            Where ATM SG?
+          </Link>
+          <div className="w-full cursor-default pointer-events-none" />
+        </div>
+        <div className="z-20 flex items-center justify-center w-full max-w-5xl gap-3 px-6 mx-auto">
           <SearchSection />
           <button
             className={`flex justify-center p-0 btn btn-circle ${
@@ -46,19 +50,19 @@ const Navbar = () => {
             <SettingsIcon className="w-6 h-6 " alt="Search settings" />
           </button>
         </div>
-        <motion.div
-          animate={{
-            opacity: filterIsOpen ? 1 : 0,
-            y: filterIsOpen ? 0 : -80,
-          }}
-          transition={{ type: "tween", duration: 0.2 }}
-          className={`absolute top-full py-3 left-0 right-0 w-full bg-transparent backdrop-blur-md ${
-            filterIsOpen ? "" : "pointer-events-none"
-          }`}
-        >
-          <FilterSection />
-        </motion.div>
       </div>
+      <motion.div
+        animate={{
+          opacity: filterIsOpen ? 1 : 0,
+          y: filterIsOpen ? 0 : -80,
+        }}
+        transition={{ type: "tween", duration: 0.2 }}
+        className={`absolute z-10 top-full py-3 left-0 right-0 w-full nav-bg ${
+          filterIsOpen ? "" : "pointer-events-none"
+        }`}
+      >
+        <FilterSection />
+      </motion.div>
     </div>
   );
 };

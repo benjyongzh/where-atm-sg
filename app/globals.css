@@ -58,6 +58,10 @@ input:-webkit-autofill:active {
     @apply w-full h-96;
   }
 
+  .nav-bg {
+    @apply /* bg-primary bg-opacity-30  */backdrop-blur-2xl;
+  }
+
   /* 
   .input {
     @apply w-full h-full p-2 m-0 rounded-full outline-none;
