@@ -59,7 +59,7 @@ input:-webkit-autofill:active {
   }
 
   .nav-bg {
-    @apply /* bg-primary bg-opacity-30  */backdrop-blur-2xl;
+    @apply /* bg-primary bg-opacity-30  */backdrop-blur;
   }
 
   /* 
