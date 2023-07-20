@@ -39,12 +39,12 @@ const Navbar = () => {
           </Link>
           <div className="w-full cursor-default pointer-events-none" />
         </div>
-        <div className="z-20 flex items-center justify-center w-full max-w-5xl gap-3 px-6 mx-auto">
+        <div className="z-20 flex items-center justify-center w-full max-w-5xl gap-3 px-4 mx-auto">
           <SearchSection />
           <button
-            className={`flex justify-center p-0 btn btn-circle ${
-              filterIsOpen ? "btn-primary" : "bg-base-300 hover:bg-base-200"
-            }  item-center`}
+            className={`p-0 btn btn-circle ${
+              filterIsOpen ? "btn-secondary" : "btn-primary"
+            }`}
             onClick={() => toggleFilterSection()}
           >
             <SettingsIcon className="w-6 h-6 " alt="Search settings" />
