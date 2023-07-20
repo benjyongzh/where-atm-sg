@@ -57,7 +57,7 @@ const Navbar = () => {
           y: filterIsOpen ? 0 : -80,
         }}
         transition={{ type: "tween", duration: 0.2 }}
-        className={`absolute z-10 top-full py-3 left-0 right-0 w-full nav-bg ${
+        className={`absolute z-10 top-[90%] py-3 left-0 right-0 w-full nav-bg ${
           filterIsOpen ? "" : "pointer-events-none"
         }`}
       >
