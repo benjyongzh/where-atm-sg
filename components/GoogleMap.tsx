@@ -154,6 +154,9 @@ function GoogleMaps() {
   const storedSearchPoint: IGeoCode = useAppSelector(
     (state) => state.settings.searchLocationPoint
   );
+  const searchStarted: boolean = useAppSelector(
+    (state) => state.atmData.searchStarted
+  );
 
   //states
   const { isLoaded } = useJsApiLoader({
@@ -259,22 +262,24 @@ function GoogleMaps() {
       {/* Child components, such as markers, info windows, etc. */}
 
       {/* center marking */}
-      <CircleF
-        options={{
-          strokeColor: cupcakeColours.primary,
-          strokeOpacity: 0.8,
-          strokeWeight: 2,
-          fillColor: cupcakeColours.primary,
-          fillOpacity: 0.1,
-          clickable: false,
-          draggable: false,
-          editable: false,
-          visible: true,
-          zIndex: 1,
-        }}
-        center={storedSearchPoint}
-        radius={storedRange}
-      ></CircleF>
+      {searchStarted === true ? (
+        <CircleF
+          options={{
+            strokeColor: cupcakeColours.primary,
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: cupcakeColours.primary,
+            fillOpacity: 0.1,
+            clickable: false,
+            draggable: false,
+            editable: false,
+            visible: true,
+            zIndex: 1,
+          }}
+          center={storedSearchPoint}
+          radius={storedRange}
+        ></CircleF>
+      ) : null}
 
       {/* ATMs found */}
       {filteredAtmList.map((atm) => (
@@ -303,7 +308,10 @@ function GoogleMaps() {
       ))}
     </GoogleMap>
   ) : (
-    <div>Loading map...</div>
+    <div className="flex items-center justify-center w-full h-full gap-3">
+      <span>Loading map</span>
+      <span className="loading loading-dots loading-md"></span>
+    </div>
   );
 }
 

@@ -5,11 +5,13 @@ import { IAtmObject, rawFetchedNearbyPlacesInfo } from "@/lib/atmObject";
 type InitialState = {
   allAtms: Array<rawFetchedNearbyPlacesInfo>;
   selectedAtmPlaceId: string | null;
+  searchStarted: boolean;
 };
 
 const initialState: InitialState = {
   allAtms: [], //array of valid atms
   selectedAtmPlaceId: null,
+  searchStarted: false,
 };
 
 // create slice takes an object with name, initialState and reducers
@@ -28,8 +30,13 @@ const atmDataSlice = createSlice({
       // console.log("add action. payload: ", action.payload);
       state.selectedAtmPlaceId = action.payload;
     },
+    setSearchStarted: (state, action: PayloadAction<boolean>) => {
+      // console.log("add action. payload: ", action.payload);
+      state.searchStarted = action.payload;
+    },
   },
 });
 
 export default atmDataSlice.reducer;
-export const { setAtmData, setSelectedAtmPlaceId } = atmDataSlice.actions;
+export const { setAtmData, setSelectedAtmPlaceId, setSearchStarted } =
+  atmDataSlice.actions;

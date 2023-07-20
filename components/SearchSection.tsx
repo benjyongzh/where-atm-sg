@@ -2,7 +2,7 @@
 import { useState } from "react";
 //redux
 import { setSearchLocationPoint } from "@/features/settings/settingsSlice";
-import { setAtmData } from "@/features/atmData/atmDataSlice";
+import { setAtmData, setSearchStarted } from "@/features/atmData/atmDataSlice";
 import { useAppDispatch } from "@/hooks/reduxHooks";
 
 import {
@@ -23,6 +23,7 @@ const SearchSection = () => {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     dispatch(setFilterIsOpen(false));
+    dispatch(setSearchStarted(true));
     setIsLoading(true);
     //should validate and sanitize addressInput string here first
     const endpoint = "/api/search";
