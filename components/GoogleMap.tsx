@@ -12,7 +12,10 @@ import {
 //redux
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
 import { setSelectedAtmPlaceId } from "@/features/atmData/atmDataSlice";
-import { mapCenterDefault } from "@/features/settings/settingsSlice";
+import {
+  mapCenterDefault,
+  setMapCentrePoint,
+} from "@/features/settings/settingsSlice";
 import { getGMapsAPIKey } from "@/features/googleAPI/key";
 
 //daisyUI
@@ -154,6 +157,11 @@ function GoogleMaps() {
   const storedSearchPoint: IGeoCode = useAppSelector(
     (state) => state.settings.searchLocationPoint
   );
+
+  const storedMapCentrePoint: IGeoCode = useAppSelector(
+    (state) => state.settings.mapCentrePoint
+  );
+
   const searchStarted: boolean = useAppSelector(
     (state) => state.atmData.searchStarted
   );
@@ -165,10 +173,8 @@ function GoogleMaps() {
   });
   // const { atms, center, selectAtm, selectedAtmId } = props;
   const [map, setMap] = useState(null);
-  const [mapCenterPoint, setMapCenterPoint] =
-    useState<IGeoCode>(mapCenterDefault);
 
-  const zoomIndex = 15;
+  const zoomIndex = 11; //10 for mobile,
 
   const onLoad = useCallback(function callback(map: any) {
     const bounds = new window.google.maps.LatLngBounds(mapCenterDefault);
@@ -239,7 +245,8 @@ function GoogleMaps() {
       const atmsInFocus = filteredAtmList.filter(
         (atm) => atm.place_id === storedSelectedAtmId
       );
-      if (atmsInFocus.length) setMapCenterPoint(atmsInFocus[0].location);
+      if (atmsInFocus.length)
+        dispatch(setMapCentrePoint(atmsInFocus[0].location));
     }
   }, [storedSelectedAtmId]);
 
@@ -249,7 +256,7 @@ function GoogleMaps() {
         width: "100%",
         height: "100%",
       }}
-      center={mapCenterPoint}
+      center={storedMapCentrePoint}
       zoom={zoomIndex}
       onLoad={onLoad}
       onUnmount={onUnmount}
