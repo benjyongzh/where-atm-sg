@@ -80,7 +80,7 @@ const AtmList = () => {
         )}
       </div> */}
 
-      <ul className="flex flex-col items-center justify-start w-full gap-3 px-6 overflow-y-auto sm:gap-4 sm:px-0">
+      <ul className="flex flex-col items-center justify-start w-full gap-3 px-4 overflow-y-auto sm:gap-4 sm:px-0">
         {fullAtmList.length > 0
           ? filteredAtmList.map((atm: IAtmObject) => (
               <AtmListItem key={atm.place_id} atmData={atm} />
