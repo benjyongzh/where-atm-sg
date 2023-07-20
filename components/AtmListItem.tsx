@@ -1,24 +1,33 @@
 import { IAtmObject } from "@/lib/atmObject";
 import { GiPathDistance } from "react-icons/gi";
 
+import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
+import { setSelectedAtmPlaceId } from "@/features/atmData/atmDataSlice";
+
 type AtmListItemProps = {
   atmData: IAtmObject;
-  selectAtm: Function;
-  selected: boolean;
 };
 
 const AtmListItem = (props: AtmListItemProps) => {
-  const { atmData, selectAtm, selected } = props;
+  const dispatch = useAppDispatch();
+  const storedSelectedAtmId = useAppSelector(
+    (state) => state.atmData.selectedAtmPlaceId
+  );
   const { atmData: atm } = props;
+
+  const handleClick = () => {
+    dispatch(setSelectedAtmPlaceId(atm.place_id));
+  };
+
   return (
     <button
       className={`w-full card ${
-        selected
+        storedSelectedAtmId === atm.place_id
           ? "bg-primary-focus hover:bg-primary"
           : "bg-base-300 hover:bg-base-200"
       } `}
       type="button"
-      onClick={() => selectAtm(atmData.place_id)}
+      onClick={handleClick}
     >
       <div className="flex flex-col items-start justify-between w-full gap-0 p-3 sm:p-4 card-body">
         <div className="flex items-center justify-between w-full">

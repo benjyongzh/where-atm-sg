@@ -1,25 +1,35 @@
-import { IAtmObject } from "@/lib/atmObject";
+"use client";
 
 import React, { useState, useCallback, useEffect } from "react";
-// import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import {
   GoogleMap,
   useJsApiLoader,
-  useLoadScript,
   MarkerF,
   CircleF,
   InfoWindow,
 } from "@react-google-maps/api";
-import { IGeoCode } from "@/features/googleAPI/geocoder";
 
-import { useAppSelector } from "@/hooks/reduxHooks";
+//redux
+import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
+import { setSelectedAtmPlaceId } from "@/features/atmData/atmDataSlice";
+import { mapCenterDefault } from "@/features/settings/settingsSlice";
 import { getGMapsAPIKey } from "@/features/googleAPI/key";
 
+//daisyUI
 import MapInfoWindowData from "./MapInfoWindowData";
 import daisyuiColors from "daisyui/src/theming/themes";
 const cupcakeColours = daisyuiColors["[data-theme=cupcake]"];
 const lightColours = daisyuiColors["[data-theme=light]"];
 const nightColours = daisyuiColors["[data-theme=night]"];
+
+//lib/utils
+import { IGeoCode } from "@/features/googleAPI/geocoder";
+import {
+  IAtmObject,
+  rawFetchedNearbyPlacesInfo,
+  getBrandFromRawPlacesInfo,
+} from "@/lib/atmObject";
+import { haversine_distance } from "@/utils/distance";
 
 type GoogleMapsProps = {
   center: IGeoCode;
@@ -128,20 +138,37 @@ type GoogleMapsProps = {
 //   );
 // }
 
-function GoogleMaps(props: GoogleMapsProps) {
+function GoogleMaps() {
+  //redux
+  const dispatch = useAppDispatch();
   const storedRange = useAppSelector((state) => state.settings.maxRange);
+  const storedSelectedAtmId = useAppSelector(
+    (state) => state.atmData.selectedAtmPlaceId
+  );
+  const fullAtmList: rawFetchedNearbyPlacesInfo[] = useAppSelector(
+    (state) => state.atmData.allAtms
+  );
+  const storedBankFilter = useAppSelector(
+    (state) => state.settings.bankFilterOut
+  );
+  const storedSearchPoint: IGeoCode = useAppSelector(
+    (state) => state.settings.searchLocationPoint
+  );
+
+  //states
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_GMAPS_API_KEY!, //API key
   });
-  const { atms, center, selectAtm, selectedAtmId } = props;
+  // const { atms, center, selectAtm, selectedAtmId } = props;
   const [map, setMap] = useState(null);
-  const [mapCenterPoint, setMapCenterPoint] = useState<IGeoCode>(center);
+  const [mapCenterPoint, setMapCenterPoint] =
+    useState<IGeoCode>(mapCenterDefault);
 
   const zoomIndex = 15;
 
   const onLoad = useCallback(function callback(map: any) {
-    const bounds = new window.google.maps.LatLngBounds(center);
+    const bounds = new window.google.maps.LatLngBounds(mapCenterDefault);
     // map.fitBounds(bounds);
     map.setZoom(zoomIndex);
     setMap(map);
@@ -175,31 +202,59 @@ function GoogleMaps(props: GoogleMapsProps) {
       }
     : undefined;
 
+  const filteredAtmList = fullAtmList
+    .map((atm: rawFetchedNearbyPlacesInfo): IAtmObject => {
+      const atmBrand = getBrandFromRawPlacesInfo(atm);
+
+      // log distances from each ATM
+      const distance = haversine_distance(storedSearchPoint, atm.location);
+      return {
+        brand: atmBrand,
+        name: atm.name,
+        location: atm.location,
+        place_id: atm.place_id,
+        address: atm.vicinity,
+        distance,
+      };
+    })
+    .filter((atm: IAtmObject): boolean => {
+      return !storedBankFilter.includes(atm.brand) && atm.brand !== "";
+    })
+    .filter((atm) => atm.distance <= storedRange) //only use ATMs in range
+    .sort((atmA, atmB) => atmA.distance! - atmB.distance!); //sort from shortest distance to longest
+
   const handleSelectAtmMarker = (atm: IAtmObject | null) => {
     if (atm === null) {
-      selectAtm(null);
+      dispatch(setSelectedAtmPlaceId(null));
     } else {
-      selectAtm(atm.place_id);
+      dispatch(setSelectedAtmPlaceId(atm.place_id));
     }
   };
 
   useEffect(() => {
-    if (selectedAtmId !== null) {
-      const atmsInFocus = atms.filter((atm) => atm.place_id === selectedAtmId);
+    if (storedSelectedAtmId !== null) {
+      const atmsInFocus = filteredAtmList.filter(
+        (atm) => atm.place_id === storedSelectedAtmId
+      );
       if (atmsInFocus.length) setMapCenterPoint(atmsInFocus[0].location);
     }
-  }, [selectedAtmId]);
+  }, [storedSelectedAtmId]);
 
   return isLoaded ? (
     <GoogleMap
       mapContainerStyle={{
         width: "100%",
-        height: "400px",
+        height: "100%",
       }}
       center={mapCenterPoint}
       zoom={zoomIndex}
       onLoad={onLoad}
       onUnmount={onUnmount}
+      options={{
+        gestureHandling: "greedy",
+        disableDefaultUI: true,
+        streetViewControl: false,
+      }}
     >
       {/* Child components, such as markers, info windows, etc. */}
 
@@ -217,12 +272,12 @@ function GoogleMaps(props: GoogleMapsProps) {
           visible: true,
           zIndex: 1,
         }}
-        center={center}
+        center={storedSearchPoint}
         radius={storedRange}
       ></CircleF>
 
       {/* ATMs found */}
-      {atms.map((atm) => (
+      {filteredAtmList.map((atm) => (
         <MarkerF
           position={atm.location} //marker position
           onClick={() => handleSelectAtmMarker(atm)}
@@ -231,7 +286,7 @@ function GoogleMaps(props: GoogleMapsProps) {
           }
           key={atm.place_id}
         >
-          {selectedAtmId === atm.place_id && (
+          {storedSelectedAtmId === atm.place_id && (
             <InfoWindow
               onCloseClick={() => handleSelectAtmMarker(null)}
               position={atm.location} //marker position

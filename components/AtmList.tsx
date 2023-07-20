@@ -67,7 +67,7 @@ const AtmList = () => {
 
   return (
     <div className="flex flex-col items-center justify-start w-full h-full max-w-5xl gap-5 mx-auto sm:px-10">
-      <div className="flex items-center justify-center w-full h-full">
+      {/* <div className="flex items-center justify-center w-full">
         {fullAtmList.length > 0 ? (
           <GoogleMaps
             center={storedSearchPoint}
@@ -78,17 +78,12 @@ const AtmList = () => {
         ) : (
           <div className="w-full text-center">No ATMs found</div>
         )}
-      </div>
+      </div> */}
 
-      <ul className="flex flex-col items-center justify-start w-full h-full gap-3 px-10 overflow-y-auto sm:gap-4 sm:px-0">
+      <ul className="flex flex-col items-center justify-start w-full gap-3 px-6 overflow-y-auto sm:gap-4 sm:px-0">
         {fullAtmList.length > 0
           ? filteredAtmList.map((atm: IAtmObject) => (
-              <AtmListItem
-                key={atm.place_id}
-                atmData={atm}
-                selectAtm={setselectedAtmId}
-                selected={selectedAtmId === atm.place_id}
-              />
+              <AtmListItem key={atm.place_id} atmData={atm} />
             ))
           : null}
       </ul>

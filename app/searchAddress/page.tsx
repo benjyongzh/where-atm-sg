@@ -3,12 +3,16 @@ import FilterSection from "@/components/FilterSection";
 import AtmList from "@/components/AtmList";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import GoogleMap from "@/components/GoogleMap";
 
 const page = () => {
   return (
-    <main className="fixed flex flex-col h-screen gap-3 main-bg">
+    <main className="gap-3">
       <Navbar />
-      <AtmList />
+      {/* <AtmList /> */}
+      <div className="absolute w-full h-full">
+        <GoogleMap />
+      </div>
     </main>
   );
 };
