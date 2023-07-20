@@ -165,6 +165,9 @@ function GoogleMaps() {
   const searchStarted: boolean = useAppSelector(
     (state) => state.atmData.searchStarted
   );
+  const currentBreakpoint: string = useAppSelector(
+    (state) => state.display.currentBreakpoint
+  );
 
   //states
   const { isLoaded } = useJsApiLoader({
@@ -174,10 +177,10 @@ function GoogleMaps() {
   // const { atms, center, selectAtm, selectedAtmId } = props;
   const [map, setMap] = useState(null);
 
-  const zoomIndex = 11; //10 for mobile,
+  const zoomIndex = currentBreakpoint === "xs" ? 10 : 11;
 
   const onLoad = useCallback(function callback(map: any) {
-    const bounds = new window.google.maps.LatLngBounds(mapCenterDefault);
+    // const bounds = new window.google.maps.LatLngBounds(mapCenterDefault);
     // map.fitBounds(bounds);
     map.setZoom(zoomIndex);
     setMap(map);
