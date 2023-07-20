@@ -3,6 +3,7 @@ import { IGeoCode } from "../googleAPI/geocoder";
 
 export const minSearchRange: number = 50;
 export const maxSearchRange: number = 1500;
+export const mapCenterDefault: IGeoCode = { lat: 1.343916, lng: 103.741643 };
 
 type InitialState = {
   bankFilterOut: string[];
@@ -14,10 +15,7 @@ type InitialState = {
 const initialState: InitialState = {
   bankFilterOut: [],
   maxRange: maxSearchRange / 2,
-  searchLocationPoint: {
-    lat: 0,
-    lng: 0,
-  },
+  searchLocationPoint: mapCenterDefault,
   filterIsOpen: true,
 };
 
