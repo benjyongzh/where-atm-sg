@@ -11,15 +11,15 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 
 ## To-do list
 
-- ui blur backdrop
+- Maybe filters should be part of search... but given that google API only gives top 20 out of 60 results, it might be wise to do separate search for each individual bank, but that would mean multiple API calls per user search, which is inefficient as well..
 - focus on mobile ui first. atmlist only apply for desktop versions, with list on left side as a drawer
 - while scrolling atmlist, beyond 20 items, re-search API for next 20 items.
 - cull similar ATM overlaps (use PlaceDetail and address?)
+- Removing API key from client side. react-dotenv?
 - click on map to set searchlocation?
 - Place Detail required? To get proper address and directions(?)
 - Loading animations for buttons and lists
 - Display error messages. Proper error handling of form submissions for nulls etc
-- Removing API key from client side. react-dotenv?
 - sanitization and validation of addressInput for search
 - using user's location, navigator.geolocation
 
