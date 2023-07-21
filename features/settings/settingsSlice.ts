@@ -9,7 +9,7 @@ type InitialState = {
   bankFilterOut: string[];
   maxRange: number;
   searchLocationPoint: IGeoCode;
-  mapCentrePoint: IGeoCode;
+  // mapCentrePoint: IGeoCode;
   filterIsOpen: boolean;
 };
 
@@ -17,7 +17,7 @@ const initialState: InitialState = {
   bankFilterOut: [],
   maxRange: maxSearchRange / 2,
   searchLocationPoint: mapCenterDefault,
-  mapCentrePoint: mapCenterDefault,
+  // mapCentrePoint: mapCenterDefault,
   filterIsOpen: true,
 };
 
@@ -41,9 +41,9 @@ const settingsSlice = createSlice({
     setSearchLocationPoint: (state, action: PayloadAction<IGeoCode>) => {
       state.searchLocationPoint = action.payload;
     },
-    setMapCentrePoint: (state, action: PayloadAction<IGeoCode>) => {
+    /* setMapCentrePoint: (state, action: PayloadAction<IGeoCode>) => {
       state.mapCentrePoint = action.payload;
-    },
+    }, */
 
     setFilterIsOpen: (state, action: PayloadAction<boolean>) => {
       state.filterIsOpen = action.payload;
@@ -57,6 +57,6 @@ export const {
   removeBankFilter,
   setMaxRange,
   setSearchLocationPoint,
-  setMapCentrePoint,
+  // setMapCentrePoint,
   setFilterIsOpen,
 } = settingsSlice.actions;

@@ -14,7 +14,7 @@ import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
 import { setSelectedAtmPlaceId } from "@/features/atmData/atmDataSlice";
 import {
   mapCenterDefault,
-  setMapCentrePoint,
+  //setMapCentrePoint,
 } from "@/features/settings/settingsSlice";
 import { getGMapsAPIKey } from "@/features/googleAPI/key";
 
@@ -158,9 +158,9 @@ function GoogleMaps() {
     (state) => state.settings.searchLocationPoint
   );
 
-  const storedMapCentrePoint: IGeoCode = useAppSelector(
+  /* const storedMapCentrePoint: IGeoCode = useAppSelector(
     (state) => state.settings.mapCentrePoint
-  );
+  ); */
 
   const searchStarted: boolean = useAppSelector(
     (state) => state.atmData.searchStarted
@@ -175,7 +175,7 @@ function GoogleMaps() {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GMAPS_API_KEY!, //API key
   });
   // const { atms, center, selectAtm, selectedAtmId } = props;
-  const [map, setMap] = useState(null);
+  const [map, setMap] = useState<any>(null);
 
   const zoomIndex = currentBreakpoint === "xs" ? 10 : 11;
 
@@ -240,6 +240,7 @@ function GoogleMaps() {
       dispatch(setSelectedAtmPlaceId(null));
     } else {
       dispatch(setSelectedAtmPlaceId(atm.place_id));
+      mapLookAt(atm.location);
     }
   };
 
@@ -248,10 +249,21 @@ function GoogleMaps() {
       const atmsInFocus = filteredAtmList.filter(
         (atm) => atm.place_id === storedSelectedAtmId
       );
-      if (atmsInFocus.length)
-        dispatch(setMapCentrePoint(atmsInFocus[0].location));
+      if (atmsInFocus.length) mapLookAt(atmsInFocus[0].location);
+      // dispatch(setMapCentrePoint(atmsInFocus[0].location));
     }
   }, [storedSelectedAtmId]);
+
+  useEffect(() => {
+    mapLookAt(storedSearchPoint);
+  }, [storedSearchPoint]);
+
+  const mapLookAt = (point: IGeoCode) => {
+    if (map) {
+      map.panTo(point);
+      // map.setZoom(zoomIndex);
+    }
+  };
 
   return isLoaded ? (
     <GoogleMap
@@ -259,7 +271,7 @@ function GoogleMaps() {
         width: "100%",
         height: "100%",
       }}
-      center={storedMapCentrePoint}
+      center={mapCenterDefault}
       zoom={zoomIndex}
       onLoad={onLoad}
       onUnmount={onUnmount}

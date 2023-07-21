@@ -1,10 +1,7 @@
 "use client";
 import { useState } from "react";
 //redux
-import {
-  setSearchLocationPoint,
-  setMapCentrePoint,
-} from "@/features/settings/settingsSlice";
+import { setSearchLocationPoint } from "@/features/settings/settingsSlice";
 import { setAtmData, setSearchStarted } from "@/features/atmData/atmDataSlice";
 import { useAppDispatch } from "@/hooks/reduxHooks";
 
@@ -51,7 +48,6 @@ const SearchSection = () => {
     const result = await response.json();
     // console.log(result);
     dispatch(setSearchLocationPoint(result.searchPointLatLong));
-    dispatch(setMapCentrePoint(result.searchPointLatLong));
 
     if (!isErrorMessageObject(result)) {
       // overall fetching success
