@@ -3,7 +3,7 @@ import { useState } from "react";
 //redux
 import { setSearchLocationPoint } from "@/features/settings/settingsSlice";
 import { setAtmData, setSearchStarted } from "@/features/atmData/atmDataSlice";
-import { useAppDispatch } from "@/hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 
 import {
   maxSearchRange,
@@ -19,6 +19,8 @@ const SearchSection = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [addressInput, setAddressInput] = useState("");
   const dispatch = useAppDispatch();
+
+  const storedRange = useAppSelector((state) => state.settings.maxRange);
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -37,7 +39,7 @@ const SearchSection = () => {
         "Content-Type": "application/json",
       },
       // Body of the request is the JSON data we created above.
-      body: JSON.stringify({ addressInput, searchRange: maxSearchRange }),
+      body: JSON.stringify({ addressInput, searchRange: storedRange }),
     };
 
     // Send the form data to our forms API on Vercel and get a response.
