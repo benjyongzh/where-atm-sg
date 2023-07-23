@@ -48,7 +48,7 @@ const MapMarker = (props: MarkerProps) => {
 
   useEffect(() => {
     setInRange(atm.distance <= storedRange);
-    console.log(`${atm.brand} is in range? `, inRange);
+    // console.log(`${atm.brand} is in range? `, inRange);
   }, [storedRange]);
 
   return (
