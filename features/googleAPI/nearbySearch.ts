@@ -24,11 +24,30 @@ export async function getNearbyPlaces(params: {
   const { searchPoint, searchRadius, buildingType, keyword } = params;
   const { lat, lng } = searchPoint;
   try {
-    const res = await fetch(
+    //nearbySearch using rankby distance
+    /* const res = await fetch(
       `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat}%2C${lng}&type=${buildingType}${
         keyword ? `&keyword=${keyword}` : ""
       }&key=${process.env.GMAPS_API_KEY}&rankby=distance`
+    ); */
+
+    //nearbySearch using searchRadius
+    const res = await fetch(
+      `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat}%2C${lng}&radius=${searchRadius}&type=${buildingType}${
+        keyword ? `&keyword=${keyword}` : ""
+      }&key=${process.env.GMAPS_API_KEY}`
     );
+
+    //findPlace
+    /* const res = await fetch(
+      `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${
+        keyword
+          ? `${keyword.toLowerCase()}%20${buildingType}`
+          : `${buildingType}`
+      }&inputtype=textquery&fields=formatted_address%2Cname%2Cgeometry%2Cplace_id&locationbias=circle%3A${searchRadius}%40${lat}%2C${lng}&key=${
+        process.env.GMAPS_API_KEY
+      }`
+    ); */
     const data = await res.json();
     return data;
   } catch (err) {
