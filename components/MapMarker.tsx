@@ -55,7 +55,8 @@ const MapMarker = (props: MarkerProps) => {
     <MarkerF
       position={atm.location} //marker position
       onClick={() => handleSelect(atm)}
-      icon={inRange ? svgMarkerInRange : svgMarkerOutOfRange}
+      // icon={inRange ? svgMarkerInRange : svgMarkerOutOfRange}
+      icon={svgMarkerInRange}
       key={atm.place_id}
     >
       {storedSelectedAtmId === atm.place_id && (
