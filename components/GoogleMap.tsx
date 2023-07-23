@@ -173,8 +173,8 @@ function GoogleMaps() {
   // let staticCircle = null;
 
   const mapLookAt = (point: IGeoCode) => {
-    console.log(point);
-    console.log(map);
+    /* console.log(point);
+    console.log(map); */
     if (map) map.panTo(point);
   };
 
@@ -247,7 +247,11 @@ function GoogleMaps() {
       {allAtmList.map(
         (atm) =>
           isLoaded && (
-            <MapMarker atm={atm} handleSelect={handleSelectAtmMarker} />
+            <MapMarker
+              atm={atm}
+              key={atm.place_id}
+              handleSelect={handleSelectAtmMarker}
+            />
           )
         // {/* <MarkerF
         //   position={atm.location} //marker position
