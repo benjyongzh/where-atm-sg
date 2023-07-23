@@ -7,11 +7,13 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 - Webscraping with jsdom
 - Using RegEx to filter webscraped data
 - GMaps API (geocoding, nearby places, place detail with ID)
-- react-google-maps API and customizing its display
+- Making system design decisions based on user experience and API limitations
+- react-google-maps API and customizing its styling
+- Mobile-first web design
 
 ## To-do list
 
-- Maybe filters should be part of search... but given that google API only gives top 20 out of 60 results, it might be wise to do separate search for each individual bank, but that would mean multiple API calls per user search, which is inefficient as well..
+- Decided to go with single API call per selected bank, otherwise user will be getting unnecessary results
 - focus on mobile ui first. atmlist only apply for desktop versions, with list on left side as a drawer
 - while scrolling atmlist, beyond 20 items, re-search API for next 20 items.
 - cull similar ATM overlaps (use PlaceDetail and address?)
