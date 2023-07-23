@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useCallback, useEffect } from "react";
+import React, { /* useRef,  */ useState, useCallback, useEffect } from "react";
 import {
   GoogleMap,
   useJsApiLoader,
@@ -39,7 +39,7 @@ function GoogleMaps() {
   //redux
   const dispatch = useAppDispatch();
   const storedRange = useAppSelector((state) => state.settings.maxRange);
-  const latestSearchRange = useRef(storedRange);
+  // const latestSearchRange = useRef(storedRange);
   const storedSelectedAtmId = useAppSelector(
     (state) => state.atmData.selectedAtmPlaceId
   );
@@ -84,30 +84,6 @@ function GoogleMaps() {
   const onUnmount = useCallback(function callback(map: any) {
     setMap(null);
   }, []);
-
-  const svgMarkerInRange = isLoaded
-    ? {
-        path: "M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z",
-        fillColor: cupcakeColours.primary,
-        fillOpacity: 0.9,
-        strokeWeight: 2,
-        strokeColor: nightColours.info,
-        scale: 2,
-        anchor: new google.maps.Point(12, 21),
-      }
-    : undefined;
-
-  const svgMarkerOutOfRange = isLoaded
-    ? {
-        path: "M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z",
-        fillColor: cupcakeColours.secondary,
-        fillOpacity: 0.9,
-        strokeWeight: 2,
-        strokeColor: nightColours.error,
-        scale: 2,
-        anchor: new google.maps.Point(12, 21),
-      }
-    : undefined;
 
   const allAtmList = fullAtmList
     .map((atm: rawFetchedNearbyPlacesInfo): IAtmObject => {
@@ -173,28 +149,28 @@ function GoogleMaps() {
     mapLookAt(storedSearchPoint);
     mapFitFilteredAtms();
     //create new static circle
-    latestSearchRange.current = storedRange;
+    // latestSearchRange.current = storedRange;
+    // staticCircle = (
+    //   <CircleF
+    //     options={{
+    //       strokeColor: cupcakeColours.neutral,
+    //       strokeOpacity: 0.8,
+    //       strokeWeight: 2,
+    //       fillColor: cupcakeColours.neutral,
+    //       fillOpacity: 0,
+    //       clickable: false,
+    //       draggable: false,
+    //       editable: false,
+    //       visible: true,
+    //       zIndex: 1,
+    //     }}
+    //     center={storedSearchPoint}
+    //     radius={latestSearchRange.current}
+    //   ></CircleF>
+    // );
   }, [storedSearchPoint]);
 
-  const staticCircle =
-    isLoaded && searchStarted ? (
-      <CircleF
-        options={{
-          strokeColor: cupcakeColours.neutral,
-          strokeOpacity: 0.8,
-          strokeWeight: 2,
-          fillColor: cupcakeColours.neutral,
-          fillOpacity: 0,
-          clickable: false,
-          draggable: false,
-          editable: false,
-          visible: true,
-          zIndex: 1,
-        }}
-        center={storedSearchPoint}
-        radius={latestSearchRange.current}
-      ></CircleF>
-    ) : null;
+  // let staticCircle = null;
 
   const mapLookAt = (point: IGeoCode) => {
     console.log(point);
@@ -265,7 +241,7 @@ function GoogleMaps() {
       ) : null}
 
       {/* center marking static */}
-      {staticCircle}
+      {/* {staticCircle} */}
 
       {/* ATMs found */}
       {allAtmList.map(
