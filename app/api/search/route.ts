@@ -6,10 +6,12 @@ import {
 import { getNearbyAtms } from "@/features/googleAPI/nearbySearch";
 import { IGeoCode } from "@/features/googleAPI/geocoder";
 import { errorMessageObject } from "@/lib/errors";
+import { bankNameList } from "@/lib/atmObject";
+import { cullDuplicatesBasedOnId } from "@/utils/objects";
 
 export async function POST(req: NextRequest) {
   try {
-    const { addressInput, searchRange } = await req.json();
+    const { addressInput, searchRange, filteredBanks } = await req.json();
 
     let errorMessages: errorMessageObject[] = [];
 
@@ -26,8 +28,78 @@ export async function POST(req: NextRequest) {
       geocodedAddress.results[0]
     );
 
+    const atmBankCalls = bankNameList
+      .filter((bankName) => !filteredBanks.includes(bankName))
+      .map((bankName) =>
+        getNearbyAtms({
+          searchPoint: searchPointLatLong,
+          searchRadius: searchRange,
+          bank: bankName.toLowerCase(),
+        })
+      );
+
+    const desiredAtms = await Promise.all(atmBankCalls)
+      .then((response) =>
+        response.map((item) => {
+          if (item.status !== "OK") {
+            errorMessages.push({
+              errorMessage: `Nearby Places Error: ${item.status}. ${
+                item.error_message || ""
+              }`,
+            });
+          }
+          return item.results;
+        })
+      )
+      .then((results) => results.flat())
+      .then((results) => {
+        const { cleanArray, cleanIds, culledIndexes } = cullDuplicatesBasedOnId(
+          results,
+          "place_id"
+        );
+        // console.log(cleanArray);
+        // console.log(cleanIds);
+        // console.log(culledIndexes);
+        return cleanArray;
+      });
+
+    //check for errors
+    // if ((await particularBankAtmList.status) !== "OK") {
+    //   errorMessages.push({
+    //     errorMessage: `Nearby Places Error: ${
+    //       particularBankAtmList.status
+    //     }. ${particularBankAtmList.error_message || ""}`,
+    //   });
+    // }
+
+    /* let desiredAtms: Array<any> = [];
+
+    bankNameList.forEach(async (bankName) => {
+      if (filteredBanks.includes(bankName)) return;
+
+      const particularBankAtmList = await getNearbyAtms({
+        searchPoint: searchPointLatLong,
+        searchRadius: searchRange,
+        bank: bankName.toLowerCase(),
+      }).then((list) => {
+        // console.log(`${bankName} search results: `, list);
+
+        //check for errors
+        if (list.status !== "OK") {
+          errorMessages.push({
+            errorMessage: `Nearby Places Error: ${list.status}. ${
+              list.error_message || ""
+            }`,
+          });
+        } else {
+          list.results.forEach((atmItem: any) => desiredAtms.push(atmItem));
+        }
+      });
+    }); */
+    // console.log(`desiredAtms search results: `, desiredAtms);
+
     //find all nearby ATMs
-    const nearbyAtms = await getNearbyAtms({
+    /* const nearbyAtms = await getNearbyAtms({
       searchPoint: searchPointLatLong,
       searchRadius: searchRange,
       // bank: "dbs", //need an input for this
@@ -39,12 +111,12 @@ export async function POST(req: NextRequest) {
           nearbyAtms.error_message || ""
         }`,
       });
-    }
+    } */
 
     const searchData = {
       searchPointLatLong,
       searchRange,
-      nearbyAtms,
+      desiredAtms,
       errorMessages,
     };
 
