@@ -180,6 +180,10 @@ function GoogleMaps() {
 
   const mapFitFilteredAtms = () => {
     if (!isLoaded) return;
+    if (filteredAtmList.length < 1) {
+      map.setZoom(initialZoom + 4);
+      return;
+    }
     const bounds = new google.maps.LatLngBounds();
     filteredAtmList.forEach((atm) => bounds.extend(atm.location));
     map.fitBounds(bounds);
