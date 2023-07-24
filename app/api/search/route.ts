@@ -63,41 +63,6 @@ export async function POST(req: NextRequest) {
         return cleanArray;
       });
 
-    //check for errors
-    // if ((await particularBankAtmList.status) !== "OK") {
-    //   errorMessages.push({
-    //     errorMessage: `Nearby Places Error: ${
-    //       particularBankAtmList.status
-    //     }. ${particularBankAtmList.error_message || ""}`,
-    //   });
-    // }
-
-    /* let desiredAtms: Array<any> = [];
-
-    bankNameList.forEach(async (bankName) => {
-      if (filteredBanks.includes(bankName)) return;
-
-      const particularBankAtmList = await getNearbyAtms({
-        searchPoint: searchPointLatLong,
-        searchRadius: searchRange,
-        bank: bankName.toLowerCase(),
-      }).then((list) => {
-        // console.log(`${bankName} search results: `, list);
-
-        //check for errors
-        if (list.status !== "OK") {
-          errorMessages.push({
-            errorMessage: `Nearby Places Error: ${list.status}. ${
-              list.error_message || ""
-            }`,
-          });
-        } else {
-          list.results.forEach((atmItem: any) => desiredAtms.push(atmItem));
-        }
-      });
-    }); */
-    // console.log(`desiredAtms search results: `, desiredAtms);
-
     //find all nearby ATMs
     /* const nearbyAtms = await getNearbyAtms({
       searchPoint: searchPointLatLong,
