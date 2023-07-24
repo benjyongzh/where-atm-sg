@@ -62,8 +62,8 @@ const AtmList = () => {
     .filter((atm: IAtmObject): boolean => {
       return !storedBankFilter.includes(atm.brand) && atm.brand !== "";
     })
-    .filter((atm) => atm.distance <= storedRange) //only use ATMs in range
-    .sort((atmA, atmB) => atmA.distance! - atmB.distance!); //sort from shortest distance to longest
+    .sort((atmA, atmB) => atmA.distance! - atmB.distance!) //sort from shortest distance to longest
+    .filter((atm) => atm.distance <= storedRange); //only use ATMs in range
 
   return (
     <div className="flex flex-col items-center justify-start w-full h-full max-w-5xl gap-5 mx-auto sm:px-10">
