@@ -8,16 +8,19 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 - Using RegEx to filter webscraped data
 - GMaps API (geocoding, nearby places, place detail with ID)
 - Making system design decisions based on user experience and API limitations
+- Using multiple API calls per bank for better UX
 - react-google-maps API and customizing its styling
 - Mobile-first web design
 
 ## To-do list
 
-- Decided to go with single API call per selected bank, otherwise user will be getting unnecessary results
+- what happens when empty atmList? Make sure map is not involved
+- Why are there results outside search radius?
+- Why is UOB still being searched despite being correctly filtered out?
 - focus on mobile ui first. atmlist only apply for desktop versions, with list on left side as a drawer
-- while scrolling atmlist, beyond 20 items, re-search API for next 20 items.
 - cull similar ATM overlaps (use PlaceDetail and address?)
 - Removing API key from client side. react-dotenv?
+- while scrolling atmlist, beyond 20 items, re-search API for next 20 items.
 - click on map to set searchlocation?
 - Place Detail required? To get proper address and directions(?)
 - Loading animations for buttons and lists
