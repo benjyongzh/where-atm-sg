@@ -14,11 +14,9 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 
 ## To-do list
 
-- what happens when empty atmList? Make sure map is not involved
-- Why are there results outside search radius?
+- Why are there results outside search radius? Perhaps because what is recorded into redux isn't the same as what is used for display
 - sometimes there are more desiredAtms results than what is being displayed, even if distance is in range. (bedok mrt citibank search)
 - Why is UOB still being searched despite being correctly filtered out? Only happens when ocbc in being searched
-- contactless ATM not being filtered out
 - focus on mobile ui first. atmlist only apply for desktop versions, with list on left side as a drawer
 - cull similar ATM overlaps (use PlaceDetail and address?)
 - Removing API key from client side. react-dotenv?
