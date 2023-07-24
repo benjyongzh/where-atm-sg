@@ -21,6 +21,9 @@ const SearchSection = () => {
   const dispatch = useAppDispatch();
 
   const storedRange = useAppSelector((state) => state.settings.maxRange);
+  const storedBankFilterList = useAppSelector(
+    (state) => state.settings.bankFilterOut
+  );
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -39,7 +42,11 @@ const SearchSection = () => {
         "Content-Type": "application/json",
       },
       // Body of the request is the JSON data we created above.
-      body: JSON.stringify({ addressInput, searchRange: storedRange }),
+      body: JSON.stringify({
+        addressInput,
+        searchRange: storedRange,
+        filteredBanks: storedBankFilterList,
+      }),
     };
 
     // Send the form data to our forms API on Vercel and get a response.
@@ -48,7 +55,7 @@ const SearchSection = () => {
     // Get the response data from server as JSON.
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
-    // console.log(result);
+    console.log("search result: ", result);
     dispatch(setSearchLocationPoint(result.searchPointLatLong));
 
     if (!isErrorMessageObject(result)) {
@@ -57,7 +64,7 @@ const SearchSection = () => {
       result.errorMessages.forEach((error: errorMessageObject) => {
         console.log(error);
       });
-      storeSearchedAtms(result.nearbyAtms.results);
+      storeSearchedAtms(result.desiredAtms);
     } else {
       //fetching failed
       console.log("Fetching error: ", result.errorMessage);
