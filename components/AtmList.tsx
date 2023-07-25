@@ -20,14 +20,14 @@ const AtmList = () => {
     (state) => state.settings.searchLocationPoint
   );
 
-  const fullAtmList: rawFetchedNearbyPlacesInfo[] = useAppSelector(
+  const fullAtmList: IAtmObject[] = useAppSelector(
     (state) => state.atmData.allAtms
   );
   const storedBankFilter = useAppSelector(
     (state) => state.settings.bankFilterOut
   );
 
-  const convertedAtmList = fullAtmList.map(
+  /* const convertedAtmList = fullAtmList.map(
     (atm: rawFetchedNearbyPlacesInfo): IAtmObject => {
       const atmBrand = getBrandFromRawPlacesInfo(atm);
 
@@ -63,7 +63,7 @@ const AtmList = () => {
       return !storedBankFilter.includes(atm.brand) && atm.brand !== "";
     })
     .sort((atmA, atmB) => atmA.distance! - atmB.distance!) //sort from shortest distance to longest
-    .filter((atm) => atm.distance <= storedRange); //only use ATMs in range
+    .filter((atm) => atm.distance <= storedRange); //only use ATMs in range */
 
   return (
     <div className="flex flex-col items-center justify-start w-full h-full max-w-5xl gap-5 mx-auto sm:px-10">
@@ -82,7 +82,7 @@ const AtmList = () => {
 
       <ul className="flex flex-col items-center justify-start w-full gap-3 px-4 overflow-y-auto sm:gap-4 sm:px-0">
         {fullAtmList.length > 0
-          ? filteredAtmList.map((atm: IAtmObject) => (
+          ? fullAtmList.map((atm: IAtmObject) => (
               <AtmListItem key={atm.place_id} atmData={atm} />
             ))
           : null}

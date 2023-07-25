@@ -43,7 +43,7 @@ function GoogleMaps() {
   const storedSelectedAtmId = useAppSelector(
     (state) => state.atmData.selectedAtmPlaceId
   );
-  const fullAtmList: rawFetchedNearbyPlacesInfo[] = useAppSelector(
+  const fullAtmList: IAtmObject[] = useAppSelector(
     (state) => state.atmData.allAtms
   );
   const storedBankFilter = useAppSelector(
@@ -85,7 +85,7 @@ function GoogleMaps() {
     setMap(null);
   }, []);
 
-  const allAtmList = fullAtmList
+  /* const allAtmList = fullAtmList
     .map((atm: rawFetchedNearbyPlacesInfo): IAtmObject => {
       const atmBrand = getBrandFromRawPlacesInfo(atm);
 
@@ -103,9 +103,9 @@ function GoogleMaps() {
     .filter((atm: IAtmObject): boolean => {
       return !storedBankFilter.includes(atm.brand) && atm.brand !== "";
     })
-    .sort((atmA, atmB) => atmA.distance! - atmB.distance!); //sort from shortest distance to longest
+    .sort((atmA, atmB) => atmA.distance! - atmB.distance!); //sort from shortest distance to longest */
 
-  const filteredAtmList = fullAtmList
+  /* const filteredAtmList = fullAtmList
     .map((atm: rawFetchedNearbyPlacesInfo): IAtmObject => {
       const atmBrand = getBrandFromRawPlacesInfo(atm);
 
@@ -124,7 +124,7 @@ function GoogleMaps() {
       return !storedBankFilter.includes(atm.brand) && atm.brand !== "";
     })
     .sort((atmA, atmB) => atmA.distance! - atmB.distance!) //sort from shortest distance to longest
-    .filter((atm) => atm.distance <= storedRange); //only use ATMs in range
+    .filter((atm) => atm.distance <= storedRange); //only use ATMs in range */
 
   const handleSelectAtmMarker = (atm: IAtmObject | null) => {
     if (atm === null) {
@@ -137,7 +137,7 @@ function GoogleMaps() {
 
   useEffect(() => {
     if (storedSelectedAtmId !== null) {
-      const atmsInFocus = filteredAtmList.filter(
+      const atmsInFocus = fullAtmList.filter(
         (atm) => atm.place_id === storedSelectedAtmId
       );
       if (atmsInFocus.length) mapLookAt(atmsInFocus[0].location);
@@ -180,12 +180,12 @@ function GoogleMaps() {
 
   const mapFitFilteredAtms = () => {
     if (!isLoaded) return;
-    if (filteredAtmList.length < 1) {
+    if (fullAtmList.length < 1) {
       map.setZoom(initialZoom + 4);
       return;
     }
     const bounds = new google.maps.LatLngBounds();
-    filteredAtmList.forEach((atm) => bounds.extend(atm.location));
+    fullAtmList.forEach((atm) => bounds.extend(atm.location));
     map.fitBounds(bounds);
     // map.fitBounds(searchCircle.getBounds());
   };
@@ -248,7 +248,7 @@ function GoogleMaps() {
       {/* {staticCircle} */}
 
       {/* ATMs found */}
-      {allAtmList.map(
+      {fullAtmList.map(
         (atm) =>
           isLoaded && (
             <MapMarker

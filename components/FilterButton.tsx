@@ -10,19 +10,20 @@ import {
 import {
   rawFetchedNearbyPlacesInfo,
   getBrandFromRawPlacesInfo,
+  IAtmObject,
 } from "@/lib/atmObject";
 
 const FilterButton = (props: { banks: string[] }) => {
   const { banks } = props;
   const [activated, setActivated] = useState(true);
   const dispatch = useAppDispatch();
-  const fullAtmList: rawFetchedNearbyPlacesInfo[] = useAppSelector(
+  const fullAtmList: IAtmObject[] = useAppSelector(
     (state) => state.atmData.allAtms
   );
   const filterIsOpen = useAppSelector((state) => state.settings.filterIsOpen);
 
   const brandCount = fullAtmList.filter((atm) => {
-    const atmBrand = getBrandFromRawPlacesInfo(atm);
+    const atmBrand = atm.brand;
     return banks.includes(atmBrand);
   }).length;
 

@@ -3,7 +3,7 @@ import { IGeoCode } from "../googleAPI/geocoder";
 import { IAtmObject, rawFetchedNearbyPlacesInfo } from "@/lib/atmObject";
 
 type InitialState = {
-  allAtms: Array<rawFetchedNearbyPlacesInfo>;
+  allAtms: Array<IAtmObject>;
   selectedAtmPlaceId: string | null;
   searchStarted: boolean;
 };
@@ -19,10 +19,7 @@ const atmDataSlice = createSlice({
   name: "atmData",
   initialState,
   reducers: {
-    setAtmData: (
-      state,
-      action: PayloadAction<Array<rawFetchedNearbyPlacesInfo>>
-    ) => {
+    setAtmData: (state, action: PayloadAction<Array<IAtmObject>>) => {
       // console.log("add action. payload: ", action.payload);
       state.allAtms = action.payload;
     },

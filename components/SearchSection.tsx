@@ -10,7 +10,14 @@ import {
   setFilterIsOpen,
 } from "@/features/settings/settingsSlice";
 import { errorMessageObject, isErrorMessageObject } from "@/lib/errors";
-import { rawFetchedNearbyPlacesInfo } from "@/lib/atmObject";
+import {
+  IAtmObject,
+  convertRawAtmsToAtmObjects,
+  filterAtmBrands,
+  filterDistance,
+} from "@/lib/atmObject";
+
+import { IGeoCode } from "@/features/googleAPI/geocoder";
 
 import SearchIcon from "@/public/assets/icons/search.svg";
 // import { MdSearch } from "react-icons/md";
@@ -64,7 +71,12 @@ const SearchSection = () => {
       result.errorMessages.forEach((error: errorMessageObject) => {
         console.log(error);
       });
-      storeSearchedAtms(result.desiredAtms);
+      storeSearchedAtms({
+        fullAtmList: result.desiredAtms,
+        searchPoint: result.searchPointLatLong,
+        searchRange: storedRange,
+        bankFilterList: storedBankFilterList,
+      });
     } else {
       //fetching failed
       console.log("Fetching error: ", result.errorMessage);
@@ -72,8 +84,13 @@ const SearchSection = () => {
     setIsLoading(false);
   };
 
-  const storeSearchedAtms = (allAtms: Array<any>) => {
-    const processedAtmData: rawFetchedNearbyPlacesInfo[] = allAtms.map(
+  const storeSearchedAtms = (params: {
+    fullAtmList: Array<any>;
+    searchPoint: IGeoCode;
+    searchRange: number;
+    bankFilterList: string[];
+  }) => {
+    /* const processedAtmData: rawFetchedNearbyPlacesInfo[] = allAtms.map(
       (atmInfo: any) => {
         return {
           location: {
@@ -85,9 +102,24 @@ const SearchSection = () => {
           vicinity: atmInfo.vicinity,
         };
       }
+    ); */
+    const { fullAtmList, searchPoint, searchRange, bankFilterList } = params;
+    const convertedAtmData: IAtmObject[] = convertRawAtmsToAtmObjects(
+      fullAtmList,
+      searchPoint
     );
+
+    const filteredBanksAtmData = filterAtmBrands(
+      convertedAtmData,
+      bankFilterList
+    );
+    const filteredDistanceAtmData = filterDistance(
+      filteredBanksAtmData,
+      searchRange
+    );
+
     // console.log("processedAtmData: ", processedAtmData);
-    dispatch(setAtmData(processedAtmData));
+    dispatch(setAtmData(filteredDistanceAtmData));
   };
 
   return (
