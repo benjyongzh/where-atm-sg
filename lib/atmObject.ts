@@ -73,7 +73,9 @@ export const getBrandFromRawPlacesInfo = (arg: rawFetchedNearbyPlacesInfo) => {
   return "";
 };
 
-const getRelevantRawAtmData = (allAtms: Array<any>) => {
+const getRelevantRawAtmData = (
+  allAtms: Array<any>
+): rawFetchedNearbyPlacesInfo[] => {
   const processedAtmData: rawFetchedNearbyPlacesInfo[] = allAtms.map(
     (atmInfo: any) => {
       return {
@@ -95,7 +97,7 @@ const getRelevantRawAtmData = (allAtms: Array<any>) => {
 const convertRawAtmsToAtmObjects = (
   rawList: rawFetchedNearbyPlacesInfo[],
   searchPoint: IGeoCode
-) => {
+): IAtmObject[] => {
   return rawList.map((atm: rawFetchedNearbyPlacesInfo): IAtmObject => {
     const atmBrand = getBrandFromRawPlacesInfo(atm);
 
@@ -112,13 +114,19 @@ const convertRawAtmsToAtmObjects = (
   });
 };
 
-const filterAtmBrands = (atmList: IAtmObject[], brandList: string[]) => {
+const filterAtmBrands = (
+  atmList: IAtmObject[],
+  brandList: string[]
+): IAtmObject[] => {
   return atmList.filter((atm: IAtmObject): boolean => {
     return !brandList.includes(atm.brand) && atm.brand !== "";
   });
 };
 
-export const filterDistance = (atmList: IAtmObject[], searchRange: number) => {
+export const filterDistance = (
+  atmList: IAtmObject[],
+  searchRange: number
+): IAtmObject[] => {
   return atmList
     .sort((atmA, atmB) => atmA.distance! - atmB.distance!) //sort from shortest distance to longest
     .filter((atm) => atm.distance <= searchRange); //only use ATMs in range
@@ -129,7 +137,7 @@ export const processAtmDataForRedux = (params: {
   searchPoint: IGeoCode;
   searchRange: number;
   bankFilterList: string[];
-}) => {
+}): IAtmObject[] => {
   /* const processedAtmData: rawFetchedNearbyPlacesInfo[] = allAtms.map(
     (atmInfo: any) => {
       return {
