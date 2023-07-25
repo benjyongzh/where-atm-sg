@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
+  IGeoCode,
   getAddressGeocoded,
   getLatLongFromGeoCodeResult,
 } from "@/features/googleAPI/geocoder";
 import { getNearbyAtms } from "@/features/googleAPI/nearbySearch";
-import { IGeoCode } from "@/features/googleAPI/geocoder";
 import { errorMessageObject } from "@/lib/errors";
-import { bankNameList } from "@/lib/atmObject";
+import {
+  IAtmObject,
+  bankNameList,
+  processAtmDataForRedux,
+} from "@/lib/atmObject";
 import { cullDuplicatesBasedOnId } from "@/utils/objects";
 
 export async function POST(req: NextRequest) {
@@ -61,22 +65,17 @@ export async function POST(req: NextRequest) {
         // console.log(cleanIds);
         // console.log(culledIndexes);
         return cleanArray;
-      });
+      })
+      .then((results) =>
+        processAtmDataForRedux({
+          fullAtmList: results,
+          searchPoint: searchPointLatLong,
+          searchRange: searchRange,
+          bankFilterList: filteredBanks,
+        })
+      );
 
-    //find all nearby ATMs
-    /* const nearbyAtms = await getNearbyAtms({
-      searchPoint: searchPointLatLong,
-      searchRadius: searchRange,
-      // bank: "dbs", //need an input for this
-    });
-
-    if (nearbyAtms.status !== "OK") {
-      errorMessages.push({
-        errorMessage: `Nearby Places Error: ${nearbyAtms.status}. ${
-          nearbyAtms.error_message || ""
-        }`,
-      });
-    } */
+    console.log(`desiredAtms: `, desiredAtms);
 
     const searchData = {
       searchPointLatLong,

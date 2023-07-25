@@ -10,7 +10,7 @@ import {
   setFilterIsOpen,
 } from "@/features/settings/settingsSlice";
 import { errorMessageObject, isErrorMessageObject } from "@/lib/errors";
-import { IAtmObject, processAtmDataForRedux } from "@/lib/atmObject";
+import { IAtmObject } from "@/lib/atmObject";
 
 import { IGeoCode } from "@/features/googleAPI/geocoder";
 
@@ -58,25 +58,18 @@ const SearchSection = () => {
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
     console.log("search result: ", result);
-    dispatch(setSearchLocationPoint(result.searchPointLatLong));
 
     if (!isErrorMessageObject(result)) {
       // overall fetching success
       // check for handled error messages
       result.errorMessages.forEach((error: errorMessageObject) => {
-        console.log(error);
+        console.log(`Client error message: `, error); //error message gotta show
       });
-      const processedAtmData: IAtmObject[] = processAtmDataForRedux({
-        fullAtmList: result.desiredAtms,
-        searchPoint: result.searchPointLatLong,
-        searchRange: result.searchRange,
-        bankFilterList: storedBankFilterList,
-      });
-
-      dispatch(setAtmData(processedAtmData));
+      dispatch(setSearchLocationPoint(result.searchPointLatLong));
+      dispatch(setAtmData(result.desiredAtms));
     } else {
       //fetching failed
-      console.log("Fetching error: ", result.errorMessage);
+      console.log("Client fetching error: ", result.errorMessage); //error message gotta show
     }
     setIsLoading(false);
   };
