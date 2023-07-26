@@ -54,7 +54,7 @@ export async function getNearbyPlaces(params: {
     return {
       results: [],
       status: "FETCH_FAILED",
-      error_message: "Could not reach API",
+      error_message: "Could not reach nearby search API",
     };
   }
 }
