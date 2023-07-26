@@ -154,6 +154,7 @@ function GoogleMaps() {
               atm={atm}
               key={atm.place_id}
               handleSelect={handleSelectAtmMarker}
+              disabled={storedBankFilter.includes(atm.brand)}
             />
           )
         // {/* <MarkerF

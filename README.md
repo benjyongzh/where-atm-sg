@@ -15,7 +15,6 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 ## To-do list
 
 - why are some real results not being discovered in this app? API prominence?
-- filter button to affect display of mapmarkers
 - focus on mobile ui first. atmlist only apply for desktop versions, with list on left side as a drawer
 - cull similar ATM overlaps (use PlaceDetail and address?)
 - Removing API key from client side. react-dotenv?

@@ -16,17 +16,12 @@ const nightColours = daisyuiColors["[data-theme=night]"];
 type MarkerProps = {
   atm: IAtmObject;
   handleSelect: Function;
+  disabled: boolean;
 };
 
 const MapMarker = (props: MarkerProps) => {
-  const { atm, handleSelect } = props;
-  const [inRange, setInRange] = useState(false);
-  const storedRange = useAppSelector((state) => state.settings.maxRange);
-  const storedSelectedAtmId = useAppSelector(
-    (state) => state.atmData.selectedAtmPlaceId
-  );
-
-  const svgMarkerInRange = {
+  const { atm, handleSelect, disabled } = props;
+  const [icon, setIcon] = useState({
     path: "M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z",
     fillColor: cupcakeColours.primary,
     fillOpacity: 0.9,
@@ -34,30 +29,38 @@ const MapMarker = (props: MarkerProps) => {
     strokeColor: nightColours.info,
     scale: 2,
     anchor: new google.maps.Point(12, 21),
-  };
+  });
+  const storedSelectedAtmId = useAppSelector(
+    (state) => state.atmData.selectedAtmPlaceId
+  );
+  /* const storedBankFilters = useAppSelector(
+    (state) => state.settings.bankFilterOut
+  ); */
 
-  const svgMarkerOutOfRange = {
-    path: "M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z",
-    fillColor: cupcakeColours.secondary,
-    fillOpacity: 0.9,
-    strokeWeight: 2,
-    strokeColor: nightColours.error,
-    scale: 2,
-    anchor: new google.maps.Point(12, 21),
-  };
-
-  useEffect(() => {
-    setInRange(atm.distance <= storedRange);
-    // console.log(`${atm.brand} is in range? `, inRange);
-  }, [storedRange]);
+  /* useEffect(() => {
+    console.log("bank filters changed");
+    setIcon({
+      path: "M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z",
+      fillColor: storedBankFilters.includes(atm.brand)
+        ? cupcakeColours.secondary
+        : cupcakeColours.primary,
+      fillOpacity: 0.9,
+      strokeWeight: 2,
+      strokeColor: storedBankFilters.includes(atm.brand)
+        ? nightColours.error
+        : nightColours.info,
+      scale: 2,
+      anchor: new google.maps.Point(12, 21),
+    });
+  }, [storedBankFilters]); */
 
   return (
     <MarkerF
       position={atm.location} //marker position
       onClick={() => handleSelect(atm)}
-      // icon={inRange ? svgMarkerInRange : svgMarkerOutOfRange}
-      icon={svgMarkerInRange}
+      icon={icon}
       key={atm.place_id}
+      visible={!disabled}
     >
       {storedSelectedAtmId === atm.place_id && (
         <InfoWindow
