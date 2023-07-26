@@ -103,6 +103,8 @@ const convertRawAtmsToAtmObjects = (
 
     // log distances from each ATM
     const distance = haversine_distance(searchPoint, atm.location);
+    // console.log(atmBrand);
+    // console.log(distance);
     return {
       brand: atmBrand,
       name: atm.name,
