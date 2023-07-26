@@ -54,13 +54,15 @@ export interface IAtmObject {
   address: string;
   info?: string[];
   distance: number;
+  // url: string;
 }
 
 export interface rawFetchedNearbyPlacesInfo {
   location: IGeoCode;
   name: string;
   place_id: string;
-  vicinity: string;
+  address: string;
+  // url: string;
 }
 
 export const getBrandFromRawPlacesInfo = (arg: rawFetchedNearbyPlacesInfo) => {
@@ -85,7 +87,9 @@ const getRelevantRawAtmData = (
         },
         name: atmInfo.name,
         place_id: atmInfo.place_id,
-        vicinity: atmInfo.vicinity,
+        address: atmInfo.vicinity,
+        // address: atmInfo.formatted_address,
+        // url: atmInfo.url,
       };
     }
   );
@@ -103,14 +107,13 @@ const convertRawAtmsToAtmObjects = (
 
     // log distances from each ATM
     const distance = haversine_distance(searchPoint, atm.location);
-    // console.log(atmBrand);
-    // console.log(distance);
     return {
       brand: atmBrand,
       name: atm.name,
       location: atm.location,
       place_id: atm.place_id,
-      address: atm.vicinity,
+      address: atm.address,
+      // url: atm.url,
       distance,
     };
   });
