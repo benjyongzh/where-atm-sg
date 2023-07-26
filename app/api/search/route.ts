@@ -5,6 +5,7 @@ import {
   getLatLongFromGeoCodeResult,
 } from "@/features/googleAPI/geocoder";
 import { getNearbyAtms } from "@/features/googleAPI/nearbySearch";
+import { getPlaceDetails } from "@/features/googleAPI/placeDetails";
 import { errorMessageObject } from "@/lib/errors";
 import {
   IAtmObject,
@@ -32,7 +33,7 @@ export async function POST(req: NextRequest) {
       geocodedAddress.results[0]
     );
 
-    const atmBankCalls = bankNameList
+    const fetchNearbyAtms = bankNameList
       .filter((bankName) => !filteredBanks.includes(bankName))
       .map((bankName) =>
         getNearbyAtms({
@@ -42,7 +43,7 @@ export async function POST(req: NextRequest) {
         })
       );
 
-    const desiredAtms = await Promise.all(atmBankCalls)
+    const desiredAtms = await Promise.all(fetchNearbyAtms)
       .then((response) =>
         response.map((item) => {
           if (item.status !== "OK") {
@@ -61,9 +62,6 @@ export async function POST(req: NextRequest) {
           results,
           "place_id"
         );
-        // console.log(cleanArray);
-        // console.log(cleanIds);
-        // console.log(culledIndexes);
         return cleanArray;
       })
       .then((results) =>
@@ -76,6 +74,22 @@ export async function POST(req: NextRequest) {
       );
 
     console.log(`desiredAtms: `, desiredAtms);
+
+    /* const fetchDetails = desiredAtms.map((result) =>
+      getPlaceDetails(result.place_id)
+    );
+
+    const atmDetails = await Promise.all(fetchDetails)
+      .then((responses) => responses.map((atmItem) => atmItem.result))
+      .then((results) =>
+        processAtmDataForRedux({
+          fullAtmList: results,
+          searchPoint: searchPointLatLong,
+          searchRange: searchRange,
+          bankFilterList: filteredBanks,
+        })
+      );
+    console.log(`atmDetails: `, atmDetails); */
 
     const searchData = {
       searchPointLatLong,
