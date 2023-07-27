@@ -37,6 +37,16 @@ const MapMarker = (props: MarkerProps) => {
     (state) => state.settings.bankFilterOut
   ); */
 
+  const svgMarker = {
+    path: "M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z",
+    fillColor: disabled ? cupcakeColours.secondary : cupcakeColours.primary,
+    fillOpacity: 0.9,
+    strokeWeight: 2,
+    strokeColor: disabled ? nightColours.error : nightColours.info,
+    scale: 2,
+    anchor: new google.maps.Point(12, 21),
+  };
+
   /* useEffect(() => {
     console.log("bank filters changed");
     setIcon({
@@ -58,9 +68,9 @@ const MapMarker = (props: MarkerProps) => {
     <MarkerF
       position={atm.location} //marker position
       onClick={() => handleSelect(atm)}
-      icon={icon}
+      icon={svgMarker}
       key={atm.place_id}
-      visible={!disabled}
+      // visible={!disabled}
     >
       {storedSelectedAtmId === atm.place_id && (
         <InfoWindow

@@ -146,40 +146,57 @@ function GoogleMaps() {
         ></CircleF>
       ) : null}
 
-      {/* ATMs found */}
-      {fullAtmList.map(
-        (atm) =>
-          isLoaded && (
-            <MapMarker
-              atm={atm}
-              key={atm.place_id}
-              handleSelect={handleSelectAtmMarker}
-              disabled={storedBankFilter.includes(atm.brand)}
-            />
-          )
-        // {/* <MarkerF
-        //   position={atm.location} //marker position
-        //   onClick={() => handleSelectAtmMarker(atm)}
-        //   icon={
-        //     atm.distance <= storedRange ? svgMarkerInRange : svgMarkerOutOfRange
-        //   }
-        //   key={atm.place_id}
-        // >
-        //   {storedSelectedAtmId === atm.place_id && (
-        //     <InfoWindow
-        //       onCloseClick={() => handleSelectAtmMarker(null)}
-        //       position={atm.location} //marker position
-        //     >
-        //       <MapInfoWindowData
-        //         title={atm.brand}
-        //         address={atm.address}
-        //         distance={atm.distance}
-        //         info={atm.info}
-        //       />
-        //     </InfoWindow>
-        //   )}
-        // </MarkerF> */}
-      )}
+      {/* ATMs being looked at */}
+      {fullAtmList
+        .filter((atm) => !storedBankFilter.includes(atm.brand))
+        .map(
+          (atm) =>
+            isLoaded && (
+              <MapMarker
+                atm={atm}
+                key={atm.place_id}
+                handleSelect={handleSelectAtmMarker}
+                disabled={false}
+              />
+            )
+          // {/* <MarkerF
+          //   position={atm.location} //marker position
+          //   onClick={() => handleSelectAtmMarker(atm)}
+          //   icon={
+          //     atm.distance <= storedRange ? svgMarkerInRange : svgMarkerOutOfRange
+          //   }
+          //   key={atm.place_id}
+          // >
+          //   {storedSelectedAtmId === atm.place_id && (
+          //     <InfoWindow
+          //       onCloseClick={() => handleSelectAtmMarker(null)}
+          //       position={atm.location} //marker position
+          //     >
+          //       <MapInfoWindowData
+          //         title={atm.brand}
+          //         address={atm.address}
+          //         distance={atm.distance}
+          //         info={atm.info}
+          //       />
+          //     </InfoWindow>
+          //   )}
+          // </MarkerF> */}
+        )}
+
+      {/* ATMs filtered out */}
+      {fullAtmList
+        .filter((atm) => storedBankFilter.includes(atm.brand))
+        .map(
+          (atm) =>
+            isLoaded && (
+              <MapMarker
+                atm={atm}
+                key={atm.place_id}
+                handleSelect={handleSelectAtmMarker}
+                disabled={true}
+              />
+            )
+        )}
     </GoogleMap>
   ) : (
     <div className="flex items-center justify-center w-full h-full gap-3">
