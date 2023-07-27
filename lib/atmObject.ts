@@ -54,7 +54,6 @@ export interface IAtmObject {
   address: string;
   info?: string[];
   distance: number;
-  // url: string;
 }
 
 export interface rawFetchedNearbyPlacesInfo {
@@ -62,7 +61,6 @@ export interface rawFetchedNearbyPlacesInfo {
   name: string;
   place_id: string;
   address: string;
-  // url: string;
 }
 
 export const getBrandFromRawPlacesInfo = (arg: rawFetchedNearbyPlacesInfo) => {
@@ -88,8 +86,6 @@ const getRelevantRawAtmData = (
         name: atmInfo.name,
         place_id: atmInfo.place_id,
         address: atmInfo.vicinity,
-        // address: atmInfo.formatted_address,
-        // url: atmInfo.url,
       };
     }
   );
@@ -113,7 +109,6 @@ const convertRawAtmsToAtmObjects = (
       location: atm.location,
       place_id: atm.place_id,
       address: atm.address,
-      // url: atm.url,
       distance,
     };
   });
@@ -143,19 +138,6 @@ export const processAtmDataForRedux = (params: {
   searchRange: number;
   bankFilterList: string[];
 }): IAtmObject[] => {
-  /* const processedAtmData: rawFetchedNearbyPlacesInfo[] = allAtms.map(
-    (atmInfo: any) => {
-      return {
-        location: {
-          lat: atmInfo.geometry.location.lat,
-          lng: atmInfo.geometry.location.lng,
-        },
-        name: atmInfo.name,
-        place_id: atmInfo.place_id,
-        vicinity: atmInfo.vicinity,
-      };
-    }
-  ); */
   const { fullAtmList, searchPoint, searchRange, bankFilterList } = params;
 
   const rawAtmData = getRelevantRawAtmData(fullAtmList);
