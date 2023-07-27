@@ -7,16 +7,16 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 - Webscraping with jsdom
 - Using RegEx to filter webscraped data
 - GMaps API (geocoding, nearby places, place detail with ID)
-- Making system design decisions based on user experience and API limitations
+- Making system design decisions based on user experience and API limitations and optimizations
 - Using multiple API calls per bank for better UX
 - react-google-maps API and customizing its styling
 - Mobile-first web design
+- Google Maps API prominence algorithm
 
 ## To-do list
 
-- why are some real results not being discovered in this app? API prominence?
 - focus on mobile ui first. atmlist only apply for desktop versions, with list on left side as a drawer
-- cull similar ATM overlaps (use PlaceDetail and address?)
+- cull similar ATM overlaps (find atms with same brand group and similar address (same block etc) or close to each other filter out all except closest one. Or maybe use API's prominence indexing)
 - Removing API key from client side. react-dotenv?
 - while scrolling atmlist, beyond 20 items, re-search API for next 20 items.
 - click on map to set searchlocation?
