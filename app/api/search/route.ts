@@ -11,6 +11,7 @@ import {
   IAtmObject,
   bankNameList,
   processAtmDataForRedux,
+  groupAccordingToKey,
 } from "@/lib/atmObject";
 import { cullDuplicatesBasedOnId } from "@/utils/objects";
 
@@ -74,6 +75,7 @@ export async function POST(req: NextRequest) {
       );
 
     console.log(`desiredAtms: `, desiredAtms);
+    console.log(`grouped Array: `, groupAccordingToKey(desiredAtms, "brand"));
 
     /* const fetchDetails = desiredAtms.map((result) =>
       getPlaceDetails(result.place_id)

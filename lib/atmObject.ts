@@ -159,3 +159,32 @@ export const processAtmDataForRedux = (params: {
   // console.log("processedAtmData: ", processedAtmData);
   return filteredDistanceAtmData;
 };
+
+export const groupAccordingToKey = <T>(
+  arr: Array<T>,
+  key: keyof T
+): Array<Array<T>> => {
+  let groupingObj: { [key: string]: Array<T> } = {};
+
+  for (let i = 0; i < arr.length; i++) {
+    const groupingVal = arr[i][key]; //bank brand
+    const existingKeys: Array<any> = Object.keys(groupingObj);
+    if (existingKeys.includes(groupingVal)) {
+      //this group already exists
+      groupingObj[groupingVal as keyof typeof groupingObj].push(arr[i]);
+    } else {
+      //this is a new group. create one
+      groupingObj[groupingVal as keyof typeof groupingObj] = [arr[i]];
+    }
+  }
+  // console.log(groupingObj);
+
+  let finalArr: Array<Array<T>> = [];
+  for (let keys in groupingObj) {
+    // console.log(keys);
+    // console.log(groupingObj[keys]);
+    finalArr = finalArr.concat(groupingObj[keys]);
+  }
+
+  return finalArr;
+};
