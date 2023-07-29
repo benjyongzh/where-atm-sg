@@ -12,19 +12,20 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 - react-google-maps API and customizing its styling
 - Mobile-first web design
 - Google Maps API prominence algorithm
+- Identifying similar addresses can only be done via GMaps' PlaceDetail API or via a 3rd-party API like Placekey, unless I reinvent the wheel for this
 
 ## To-do list
 
 - focus on mobile ui first. atmlist only apply for desktop versions, with list on left side as a drawer
-- cull similar ATM overlaps (find atms with same brand group and similar address (same block etc) or close to each other filter out all except closest one. Or maybe use API's prominence indexing)
 - Removing API key from client side. react-dotenv?
 - while scrolling atmlist, beyond 20 items, re-search API for next 20 items.
+- map styling
 - click on map to set searchlocation?
-- Place Detail required? To get proper address and directions(?)
+- Use placeDetail for directions(?)
 - Loading animations for buttons and lists
 - Display error messages. Proper error handling of form submissions for nulls etc
 - sanitization and validation of addressInput for search
-- using user's location, navigator.geolocation
+- using user's location, navigator.geolocation(?)
 
 ## Problem
 
