@@ -162,19 +162,54 @@ export const processAtmDataForRedux = (params: {
 
 export const groupAccordingToKey = <T>(
   arr: Array<T>,
-  key: keyof T
+  key: keyof T,
+  filters?: { [key: string]: string[] }[]
 ): Array<Array<T>> => {
-  let groupingObj: { [key: string]: Array<T> } = {};
+  let filterGroups: Array<Array<string>> = [];
+  if (filters) {
+    filterGroups = filters.map((filter): Array<string> => {
+      return Object.values(filter)[0];
+    });
+    console.log(filterGroups);
+    /* [[ 'DBS', 'POSB' ],
+    [ 'UOB' ],
+    [ 'CitiBank' ],
+    [ 'MayBank' ],
+    [ 'Standard Chartered' ],
+    [ 'OCBC' ],
+    [ 'HSBC' ],
+    [ 'ANZ', 'CIMB', 'RHB' ]] */
 
+    // filterGroupName = filterGroups.map((group) => group.join("/"));
+  }
+
+  let groupingObj: { [key: string]: Array<T> } = {};
+  if (filters) {
+    const filterGroupNames: Array<string> = filterGroups.map((group) =>
+      group.join("/")
+    );
+    for (let groupName in filterGroupNames) {
+      groupingObj[groupName] = [];
+    }
+  }
   for (let i = 0; i < arr.length; i++) {
-    const groupingVal = arr[i][key]; //bank brand
-    const existingKeys: Array<any> = Object.keys(groupingObj);
-    if (existingKeys.includes(groupingVal)) {
-      //this group already exists
-      groupingObj[groupingVal as keyof typeof groupingObj].push(arr[i]);
+    const groupingVal: any = arr[i][key]; // actual bank brand
+
+    if (filters) {
+      const itemGroup: Array<string> = filterGroups.filter((group) =>
+        group.includes(groupingVal)
+      )[0];
+      const itemGroupName = itemGroup.join("/");
+      groupingObj[itemGroupName].push(arr[i]);
     } else {
-      //this is a new group. create one
-      groupingObj[groupingVal as keyof typeof groupingObj] = [arr[i]];
+      const existingKeys: Array<any> = Object.keys(groupingObj);
+      if (existingKeys.includes(groupingVal)) {
+        //this group already exists
+        groupingObj[groupingVal as keyof typeof groupingObj].push(arr[i]);
+      } else {
+        //this is a new group. create one
+        groupingObj[groupingVal as keyof typeof groupingObj] = [arr[i]];
+      }
     }
   }
   // console.log(groupingObj);
