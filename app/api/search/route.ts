@@ -10,6 +10,7 @@ import { errorMessageObject } from "@/lib/errors";
 import {
   IAtmObject,
   bankNameList,
+  bankFilters,
   processAtmDataForRedux,
   groupAccordingToKey,
 } from "@/lib/atmObject";
@@ -75,7 +76,10 @@ export async function POST(req: NextRequest) {
       );
 
     console.log(`desiredAtms: `, desiredAtms);
-    console.log(`grouped Array: `, groupAccordingToKey(desiredAtms, "brand"));
+    console.log(
+      `grouped Array: `,
+      groupAccordingToKey(desiredAtms, "brand", bankFilters)
+    );
 
     /* const fetchDetails = desiredAtms.map((result) =>
       getPlaceDetails(result.place_id)
