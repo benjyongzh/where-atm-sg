@@ -166,11 +166,14 @@ export const groupAccordingToKey = <T>(
   filters?: { [key: string]: string[] }[]
 ): Array<Array<T>> => {
   let filterGroups: Array<Array<string>> = [];
+
+  let groupingObj: { [key: string]: Array<T> } = {};
+
   if (filters) {
     filterGroups = filters.map((filter): Array<string> => {
       return Object.values(filter)[0];
     });
-    console.log(filterGroups);
+    // console.log(filterGroups);
     /* [[ 'DBS', 'POSB' ],
     [ 'UOB' ],
     [ 'CitiBank' ],
@@ -180,18 +183,19 @@ export const groupAccordingToKey = <T>(
     [ 'HSBC' ],
     [ 'ANZ', 'CIMB', 'RHB' ]] */
 
-    // filterGroupName = filterGroups.map((group) => group.join("/"));
-  }
-
-  let groupingObj: { [key: string]: Array<T> } = {};
-  if (filters) {
     const filterGroupNames: Array<string> = filterGroups.map((group) =>
       group.join("/")
     );
-    for (let groupName in filterGroupNames) {
-      groupingObj[groupName] = [];
+    // console.log("filterGroupNames", filterGroupNames);
+
+    for (let i = 0; i < filterGroupNames.length; i++) {
+      // console.log(filterGroupNames[i]);
+      groupingObj[filterGroupNames[i]] = [];
     }
+
+    // console.log(groupingObj);
   }
+
   for (let i = 0; i < arr.length; i++) {
     const groupingVal: any = arr[i][key]; // actual bank brand
 
@@ -199,8 +203,14 @@ export const groupAccordingToKey = <T>(
       const itemGroup: Array<string> = filterGroups.filter((group) =>
         group.includes(groupingVal)
       )[0];
-      const itemGroupName = itemGroup.join("/");
-      groupingObj[itemGroupName].push(arr[i]);
+
+      if (itemGroup) {
+        //item is available in at least 1 filter group
+        const itemGroupName = itemGroup.join("/");
+        groupingObj[itemGroupName].push(arr[i]);
+      } else {
+        //item does not exist in any filter group
+      }
     } else {
       const existingKeys: Array<any> = Object.keys(groupingObj);
       if (existingKeys.includes(groupingVal)) {
@@ -212,7 +222,7 @@ export const groupAccordingToKey = <T>(
       }
     }
   }
-  // console.log(groupingObj);
+  console.log(groupingObj);
 
   let finalArr: Array<Array<T>> = [];
   for (let keys in groupingObj) {
