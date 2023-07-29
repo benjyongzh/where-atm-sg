@@ -75,11 +75,9 @@ export async function POST(req: NextRequest) {
         })
       );
 
-    console.log(`desiredAtms: `, desiredAtms);
-    console.log(
-      `grouped Array: `,
-      groupAccordingToKey(desiredAtms, "brand", bankFilters)
-    );
+    // console.log(`desiredAtms: `, desiredAtms);
+    const groupedArray = groupAccordingToKey(desiredAtms, "brand", bankFilters);
+    console.log(`grouped Array: `, groupedArray);
 
     /* const fetchDetails = desiredAtms.map((result) =>
       getPlaceDetails(result.place_id)
