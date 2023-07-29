@@ -16,8 +16,6 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 
 ## To-do list
 
-- focus on mobile ui first. atmlist only apply for desktop versions, with list on left side as a drawer
-- Removing API key from client side. react-dotenv?
 - while scrolling atmlist, beyond 20 items, re-search API for next 20 items.
 - map styling
 - click on map to set searchlocation?
@@ -26,6 +24,7 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 - Display error messages. Proper error handling of form submissions for nulls etc
 - sanitization and validation of addressInput for search
 - using user's location, navigator.geolocation(?)
+- set website restriction for GMaps API
 
 ## Problem
 
