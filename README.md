@@ -16,10 +16,14 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 
 ## To-do list
 
-- while scrolling atmlist, beyond 20 items, re-search API for next 20 items.
+- atmlist: onhover of list item, scale up map marker
+- onhover of map marker, highlight list item
+- find better way to arrange ui for non-mobile. Mobile ui is okay for now, without atm list
+- non-mobile ui: filters should always be open. filter button disappear
+- atmlistitem, change to accordion to show details
+- infoWindow to be replaced with: mobile: pop-up at bottom of screen, non-mobile: details in accordion in atmlist
 - map styling
-- click on map to set searchlocation?
-- Use placeDetail for directions(?)
+- Use placeDetail for detailed address for map itemWindow and directions(?)
 - Loading animations for buttons and lists
 - Display error messages. Proper error handling of form submissions for nulls etc
 - sanitization and validation of addressInput for search
