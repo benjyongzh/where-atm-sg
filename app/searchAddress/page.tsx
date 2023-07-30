@@ -5,7 +5,7 @@ import GoogleMap from "@/components/GoogleMap";
 
 const page = () => {
   return (
-    <main className="gap-3">
+    <main className="defaultPageLayout">
       <Navbar />
       <AtmList />
       <div className="absolute w-full h-full">
