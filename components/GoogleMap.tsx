@@ -130,10 +130,10 @@ function GoogleMaps() {
       {searchStarted === true ? (
         <CircleF
           options={{
-            strokeColor: cupcakeColours.primary,
+            strokeColor: cupcakeColours["base-100"],
             strokeOpacity: 0.8,
             strokeWeight: 2,
-            fillColor: cupcakeColours.primary,
+            fillColor: cupcakeColours["base-content"],
             fillOpacity: 0.1,
             clickable: false,
             draggable: false,
