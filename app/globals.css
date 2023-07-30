@@ -4,12 +4,8 @@
 
 main {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
 }
 
 input:-webkit-autofill,
@@ -30,6 +26,10 @@ input:-webkit-autofill:active {
 }
 
 @layer components {
+  .defaultPageLayout {
+    @apply flex flex-col items-center justify-between lg:items-start lg:justify-start;
+  }
+
   .main-bg {
     @apply bg-base-100;
   }
@@ -59,7 +59,7 @@ input:-webkit-autofill:active {
   }
 
   .nav-bg {
-    @apply /* bg-primary bg-opacity-30  */backdrop-blur;
+    @apply sm:bg-base-100 sm:bg-opacity-50 backdrop-blur;
   }
 
   /* 
