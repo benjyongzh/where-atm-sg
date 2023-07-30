@@ -6,6 +6,8 @@
 import { Provider as StoreProvider } from "react-redux";
 import { store /* storeWrapper */ } from "@/context/store";
 
+import ScreenSizeProvider from "./ScreenSizeProvider";
+
 export default function ProviderGroup({
   children,
 }: {
@@ -13,7 +15,9 @@ export default function ProviderGroup({
 }) {
   return (
     // <ThemeProvider>
-    <StoreProvider store={store}>{children}</StoreProvider>
+    <StoreProvider store={store}>
+      <ScreenSizeProvider>{children}</ScreenSizeProvider>
+    </StoreProvider>
     // </ThemeProvider>
   );
 }
