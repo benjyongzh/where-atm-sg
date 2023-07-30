@@ -20,7 +20,7 @@ const AtmList = () => {
   );
 
   return mediaBreakpoint === "xs" ? null : (
-    <ul className="z-20 absolute sm:bottom-0 lg:left-0 flex flex-col sm:items-center lg:items-start justify-start gap-3 sm:w-full sm:h-[35%] lg:w-[25%] lg:h-full max-w-5xl nav-bg p-5 overflow-y-auto">
+    <ul className="z-20 flex flex-col sm:items-center lg:items-start justify-start gap-3 sm:w-full sm:h-[35%] lg:w-[25%] lg:h-full max-w-5xl nav-bg p-5 overflow-y-auto">
       {fullAtmList.length > 0
         ? fullAtmList.map((atm: IAtmObject) => (
             <AtmListItem key={atm.place_id} atmData={atm} />
