@@ -132,7 +132,7 @@ function GoogleMaps() {
           options={{
             strokeColor: cupcakeColours["base-100"],
             strokeOpacity: 0.8,
-            strokeWeight: 2,
+            strokeWeight: 3,
             fillColor: cupcakeColours["base-content"],
             fillOpacity: 0.1,
             clickable: false,
