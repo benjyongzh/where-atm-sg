@@ -21,7 +21,7 @@ const AtmListItem = (props: AtmListItemProps) => {
 
   return (
     <button
-      className={`w-full card ${
+      className={`w-full card flex-none ${
         storedSelectedAtmId === atm.place_id
           ? "bg-primary-focus hover:bg-primary"
           : "bg-base-300 hover:bg-base-200"
