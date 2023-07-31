@@ -50,7 +50,7 @@ const FilterButton = (props: { banks: string[] }) => {
       <button
         type="button"
         onClick={handleClick}
-        className={`px-3 py-1 rounded-md ${
+        className={`px-3 py-1 text-xs rounded-lg ${
           activated ? "bg-info" : "bg-neutral-content"
         } ${filterIsOpen ? "cursor-pointer" : "cursor-default"}`}
         disabled={!filterIsOpen}
