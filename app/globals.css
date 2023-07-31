@@ -28,7 +28,7 @@ input:-webkit-autofill:active {
 
 @layer components {
   .defaultPageLayout {
-    @apply flex flex-col items-stretch justify-between lg:items-start lg:justify-stretch;
+    @apply flex flex-col items-stretch justify-between lg:justify-stretch lg:items-start;
   }
 
   .main-bg {
@@ -60,7 +60,7 @@ input:-webkit-autofill:active {
   }
 
   .nav-bg {
-    @apply p-3 mx-4 my-2 bg-opacity-50 bg-base-100 backdrop-blur rounded-3xl;
+    @apply p-3 mx-4 my-2 shadow-xl bg-opacity-60 bg-base-100 backdrop-blur rounded-3xl;
   }
 
   /* 
