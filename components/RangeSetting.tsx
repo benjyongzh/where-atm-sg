@@ -20,9 +20,9 @@ const RangeSetting = () => {
   };
 
   return (
-    <div className="flex flex-col w-full gap-1 sm:flex-row sm:gap-3 form-control">
+    <div className="flex flex-col w-full sm:flex-row sm:gap-3 lg:gap-0 lg:flex-col form-control">
       <label
-        className="label label-text whitespace-nowrap"
+        className="text-sm lg:self-start label label-text whitespace-nowrap"
         htmlFor="rangeSetting"
       >
         Search Radius

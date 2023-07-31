@@ -5,6 +5,7 @@
 main {
   width: 100%;
   height: 100vh;
+  max-height: 100vh;
   position: relative;
 }
 
@@ -27,7 +28,7 @@ input:-webkit-autofill:active {
 
 @layer components {
   .defaultPageLayout {
-    @apply flex flex-col items-center justify-between lg:items-start lg:justify-start;
+    @apply flex flex-col items-stretch justify-between lg:items-start lg:justify-stretch;
   }
 
   .main-bg {
@@ -59,7 +60,7 @@ input:-webkit-autofill:active {
   }
 
   .nav-bg {
-    @apply sm:bg-base-100 sm:bg-opacity-50 backdrop-blur;
+    @apply p-3 mx-4 my-2 bg-opacity-50 bg-base-100 backdrop-blur rounded-3xl;
   }
 
   /* 
