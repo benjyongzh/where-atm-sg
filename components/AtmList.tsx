@@ -23,7 +23,7 @@ const AtmList = () => {
     // <div className="relative z-10 flex flex-col items-stretch h-min max-h-[30%] lg:max-h-auto lg:h-fit justify-end lg:w-[30%] max-w-5xl">
     <div className="relative z-10 flex flex-col items-stretch max-h-[30%] lg:max-h-none overflow-y-auto mt-auto lg:mt-0 lg:w-[30%] max-w-5xl">
       <div
-        className={`flex flex-col items-center gap-2 h-full min-h-0 nav-bg ${
+        className={`flex flex-col items-center gap-2 h-full min-h-0 mb-10 nav-bg ${
           fullAtmList.length > 0 ? "justify-start" : "justify-center"
         }`}
       >
