@@ -28,7 +28,8 @@ input:-webkit-autofill:active {
 
 @layer components {
   .defaultPageLayout {
-    @apply flex flex-col items-stretch justify-between lg:justify-stretch lg:items-start;
+    /* @apply flex flex-col items-stretch justify-between lg:justify-stretch lg:items-start; */
+    @apply flex flex-col items-stretch justify-start;
   }
 
   .main-bg {

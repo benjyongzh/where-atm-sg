@@ -20,18 +20,23 @@ const AtmList = () => {
   );
 
   return mediaBreakpoint === "xs" ? null : (
-    <div className="relative z-20 flex items-start justify-stretch sm:max-h-[30%] lg:w-[30%] lg:max-h-screen max-w-5xl">
-      <div className="flex flex-col items-center justify-start w-full gap-2 nav-bg">
-        <div>
+    // <div className="relative z-10 flex flex-col items-stretch h-min max-h-[30%] lg:max-h-auto lg:h-fit justify-end lg:w-[30%] max-w-5xl">
+    <div className="relative z-10 flex flex-col items-stretch max-h-[30%] lg:max-h-none overflow-y-auto mt-auto lg:mt-0 lg:w-[30%] max-w-5xl">
+      <div
+        className={`flex flex-col items-center gap-2 h-full min-h-0 nav-bg ${
+          fullAtmList.length > 0 ? "justify-start" : "justify-center"
+        }`}
+      >
+        <div className="self-start px-2">
           {fullAtmList.length > 0 ? "Search results" : "No results found"}
         </div>
-        {fullAtmList.length > 0 && (
+        {fullAtmList.length > 0 ? (
           <ul className="flex flex-col items-center justify-start w-full gap-3 overflow-y-auto">
             {fullAtmList.map((atm: IAtmObject) => (
               <AtmListItem key={atm.place_id} atmData={atm} />
             ))}
           </ul>
-        )}
+        ) : null}
       </div>
     </div>
   );
