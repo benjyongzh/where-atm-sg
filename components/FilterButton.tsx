@@ -21,6 +21,9 @@ const FilterButton = (props: { banks: string[] }) => {
     (state) => state.atmData.allAtms
   );
   const filterIsOpen = useAppSelector((state) => state.settings.filterIsOpen);
+  const mediaBreakpoint: string = useAppSelector(
+    (state) => state.display.currentBreakpoint
+  );
 
   const brandCount = fullAtmList.filter((atm) => {
     const atmBrand = atm.brand;
@@ -28,7 +31,7 @@ const FilterButton = (props: { banks: string[] }) => {
   }).length;
 
   const handleClick = () => {
-    if (filterIsOpen) {
+    if (filterIsOpen || mediaBreakpoint!=="xs") {
       activated
         ? dispatch(addBankFilter(banks))
         : dispatch(removeBankFilter(banks));
@@ -39,7 +42,7 @@ const FilterButton = (props: { banks: string[] }) => {
   return (
     <div
       className={`indicator ${brandCount > 0 ? "mr-3" : ""} ${
-        filterIsOpen ? "cursor-pointer" : "pointer-events-none cursor-default"
+        filterIsOpen || mediaBreakpoint!=="xs" ? "cursor-pointer" : "pointer-events-none cursor-default"
       }`}
     >
       {brandCount > 0 ? (
@@ -52,8 +55,8 @@ const FilterButton = (props: { banks: string[] }) => {
         onClick={handleClick}
         className={`px-3 py-1 text-xs rounded-lg ${
           activated ? "bg-info" : "bg-neutral-content"
-        } ${filterIsOpen ? "cursor-pointer" : "cursor-default"}`}
-        disabled={!filterIsOpen}
+        } ${filterIsOpen || mediaBreakpoint!=="xs" ? "cursor-pointer" : "cursor-default"}`}
+        disabled={!filterIsOpen && mediaBreakpoint==="xs"}
       >
         {banks.join("/")}
       </button>

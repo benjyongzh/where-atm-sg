@@ -10,6 +10,9 @@ import {
 const RangeSetting = () => {
   const storedRange = useAppSelector((state) => state.settings.maxRange);
   const filterIsOpen = useAppSelector((state) => state.settings.filterIsOpen);
+  const mediaBreakpoint: string = useAppSelector(
+    (state) => state.display.currentBreakpoint
+  );
   const [rangeValue, setRangeValue] = useState(storedRange);
   const dispatch = useAppDispatch();
 
@@ -18,6 +21,7 @@ const RangeSetting = () => {
     setRangeValue(int);
     dispatch(setMaxRange(int));
   };
+  
 
   return (
     <div className="flex flex-col w-full sm:flex-row sm:gap-3 lg:gap-0 lg:flex-col form-control">
@@ -38,18 +42,18 @@ const RangeSetting = () => {
           required
           onChange={(e) => handleChange(e.target.value)}
           value={rangeValue}
-          disabled={!filterIsOpen}
+          disabled={!filterIsOpen && mediaBreakpoint==="xs"}
         />
         <input
           id="rangeNumber"
           className={`w-24 text-center input input-bordered input-primary ${
-            filterIsOpen ? "" : "cursor-default"
+            filterIsOpen || mediaBreakpoint!=="xs" ? "" : "cursor-default"
           }`}
           type="number"
           name="rangeNumber"
           value={rangeValue}
           onChange={(e) => handleChange(e.target.value)}
-          disabled={!filterIsOpen}
+          disabled={!filterIsOpen && mediaBreakpoint==="xs"}
         ></input>
       </div>
     </div>
