@@ -13,7 +13,6 @@ import {
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
 import { setSelectedAtmPlaceId } from "@/features/atmData/atmDataSlice";
 import { mapCenterDefault } from "@/features/settings/settingsSlice";
-import { getGMapsAPIKey } from "@/features/googleAPI/key";
 
 //daisyUI
 import daisyuiColors from "daisyui/src/theming/themes";
@@ -41,6 +40,9 @@ function GoogleMaps() {
   );
   const storedSearchPoint: IGeoCode = useAppSelector(
     (state) => state.settings.searchLocationPoint
+  );
+  const storedHoveredAtmId = useAppSelector(
+    (state) => state.atmData.onHoverAtmPlaceId
   );
 
   const searchStarted: boolean = useAppSelector(
