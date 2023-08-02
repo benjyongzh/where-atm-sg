@@ -5,12 +5,14 @@ import { IAtmObject, rawFetchedNearbyPlacesInfo } from "@/lib/atmObject";
 type InitialState = {
   allAtms: Array<IAtmObject>;
   selectedAtmPlaceId: string | null;
+  onHoverAtmPlaceId: string | null;
   searchStarted: boolean;
 };
 
 const initialState: InitialState = {
   allAtms: [], //array of valid atms
   selectedAtmPlaceId: null,
+  onHoverAtmPlaceId: null,
   searchStarted: false,
 };
 
@@ -27,6 +29,10 @@ const atmDataSlice = createSlice({
       // console.log("add action. payload: ", action.payload);
       state.selectedAtmPlaceId = action.payload;
     },
+    setOnHoverAtmPlaceId: (state, action: PayloadAction<string | null>) => {
+      // console.log("add action. payload: ", action.payload);
+      state.onHoverAtmPlaceId = action.payload;
+    },
     setSearchStarted: (state, action: PayloadAction<boolean>) => {
       // console.log("add action. payload: ", action.payload);
       state.searchStarted = action.payload;
@@ -35,5 +41,9 @@ const atmDataSlice = createSlice({
 });
 
 export default atmDataSlice.reducer;
-export const { setAtmData, setSelectedAtmPlaceId, setSearchStarted } =
-  atmDataSlice.actions;
+export const {
+  setAtmData,
+  setSelectedAtmPlaceId,
+  setOnHoverAtmPlaceId,
+  setSearchStarted,
+} = atmDataSlice.actions;

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 
 //redux
 import { useAppSelector } from "@/hooks/reduxHooks";
+import { setOnHoverAtmPlaceId } from "@/features/atmData/atmDataSlice";
 
 import { MarkerF, InfoWindow } from "@react-google-maps/api";
 import { IAtmObject } from "@/lib/atmObject";
@@ -33,6 +34,10 @@ const MapMarker = (props: MarkerProps) => {
   const storedSelectedAtmId = useAppSelector(
     (state) => state.atmData.selectedAtmPlaceId
   );
+
+  const storedHoveredAtmId = useAppSelector(
+    (state) => state.atmData.onHoverAtmPlaceId
+  );
   /* const storedBankFilters = useAppSelector(
     (state) => state.settings.bankFilterOut
   ); */
@@ -43,8 +48,16 @@ const MapMarker = (props: MarkerProps) => {
     fillOpacity: 0.9,
     strokeWeight: 2,
     strokeColor: disabled ? nightColours.error : nightColours.info,
-    scale: 2,
+    scale: storedHoveredAtmId === atm.place_id ? 4 : 2,
     anchor: new google.maps.Point(12, 21),
+  };
+
+  const handleMouseOver = (over: boolean) => {
+    if (over) {
+      setOnHoverAtmPlaceId(atm.place_id);
+    } else {
+      setOnHoverAtmPlaceId(null);
+    }
   };
 
   /* useEffect(() => {
@@ -71,6 +84,8 @@ const MapMarker = (props: MarkerProps) => {
       icon={svgMarker}
       key={atm.place_id}
       // visible={!disabled}
+      onMouseOver={() => handleMouseOver(true)}
+      onMouseOut={() => handleMouseOver(false)}
     >
       {storedSelectedAtmId === atm.place_id && (
         <InfoWindow
