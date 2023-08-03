@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 //redux
-import { useAppSelector } from "@/hooks/reduxHooks";
+import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
 import { setOnHoverAtmPlaceId } from "@/features/atmData/atmDataSlice";
 
 import { MarkerF, InfoWindow } from "@react-google-maps/api";
@@ -31,6 +31,7 @@ const MapMarker = (props: MarkerProps) => {
     scale: 2,
     anchor: new google.maps.Point(12, 21),
   });
+  const dispatch = useAppDispatch();
   const storedSelectedAtmId = useAppSelector(
     (state) => state.atmData.selectedAtmPlaceId
   );
@@ -54,9 +55,9 @@ const MapMarker = (props: MarkerProps) => {
 
   const handleMouseOver = (over: boolean) => {
     if (over) {
-      setOnHoverAtmPlaceId(atm.place_id);
+      dispatch(setOnHoverAtmPlaceId(atm.place_id));
     } else {
-      setOnHoverAtmPlaceId(null);
+      dispatch(setOnHoverAtmPlaceId(null));
     }
   };
 

@@ -27,9 +27,9 @@ const AtmListItem = (props: AtmListItemProps) => {
 
   const handleMouseOver = (over: boolean) => {
     if (over) {
-      setOnHoverAtmPlaceId(atm.place_id);
+      dispatch(setOnHoverAtmPlaceId(atm.place_id));
     } else {
-      setOnHoverAtmPlaceId(null);
+      dispatch(setOnHoverAtmPlaceId(null));
     }
   };
 
