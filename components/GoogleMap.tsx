@@ -1,17 +1,10 @@
 "use client";
 
 import React, { useState, useCallback, useEffect } from "react";
-import {
-  GoogleMap,
-  useJsApiLoader,
-  MarkerF,
-  CircleF,
-  InfoWindow,
-} from "@react-google-maps/api";
+import { GoogleMap, useJsApiLoader, CircleF } from "@react-google-maps/api";
 
 //redux
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
-import { setSelectedAtmPlaceId } from "@/features/atmData/atmDataSlice";
 import { mapCenterDefault } from "@/features/settings/settingsSlice";
 
 //daisyUI
@@ -71,15 +64,6 @@ function GoogleMaps() {
   const onUnmount = useCallback(function callback(map: any) {
     setMap(null);
   }, []);
-
-  const handleSelectAtmMarker = (atm: IAtmObject | null) => {
-    if (atm === null) {
-      dispatch(setSelectedAtmPlaceId(null));
-    } else {
-      dispatch(setSelectedAtmPlaceId(atm.place_id));
-      mapLookAt(atm.location);
-    }
-  };
 
   useEffect(() => {
     if (storedSelectedAtmId !== null) {
@@ -150,17 +134,9 @@ function GoogleMaps() {
 
       {/* ATMs being looked at */}
       {fullAtmList
-        .filter((atm) => !storedBankFilter.includes(atm.brand))
+        // .filter((atm) => !storedBankFilter.includes(atm.brand))
         .map(
-          (atm) =>
-            isLoaded && (
-              <MapMarker
-                atm={atm}
-                key={atm.place_id}
-                handleSelect={handleSelectAtmMarker}
-                disabled={false}
-              />
-            )
+          (atm) => isLoaded && <MapMarker atm={atm} key={atm.place_id} />
           // {/* <MarkerF
           //   position={atm.location} //marker position
           //   onClick={() => handleSelectAtmMarker(atm)}
@@ -183,21 +159,6 @@ function GoogleMaps() {
           //     </InfoWindow>
           //   )}
           // </MarkerF> */}
-        )}
-
-      {/* ATMs filtered out */}
-      {fullAtmList
-        .filter((atm) => storedBankFilter.includes(atm.brand))
-        .map(
-          (atm) =>
-            isLoaded && (
-              <MapMarker
-                atm={atm}
-                key={atm.place_id}
-                handleSelect={handleSelectAtmMarker}
-                disabled={true}
-              />
-            )
         )}
     </GoogleMap>
   ) : (
