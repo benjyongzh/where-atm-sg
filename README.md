@@ -16,9 +16,8 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 
 ## To-do list
 
-- atmlist: onhover of list item, scale up and colour map marker
-- map marker use circle
-- onhover of map marker, highlight list item
+- atmlist: onhover of list item, scale up and colour map marker. do not show filtered out atms
+- map marker no hover or clicking events when filtered out
 - atmlistitem, change to accordion to show details
 - infoWindow to be replaced with: mobile: pop-up at bottom of screen, non-mobile: details in accordion in atmlist
 - map colour styling
