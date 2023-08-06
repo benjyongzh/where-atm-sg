@@ -24,7 +24,7 @@ const AtmList = () => {
   );
 
   const displayedAtms = fullAtmList
-    .filter((atm: IAtmObject) => !storedBankFilters.includes(atm.place_id))
+    .filter((atm: IAtmObject) => !storedBankFilters.includes(atm.brand))
     .map((atm: IAtmObject) => <AtmListItem key={atm.place_id} atmData={atm} />);
 
   return mediaBreakpoint === "xs" ? null : (
