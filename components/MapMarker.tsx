@@ -67,9 +67,7 @@ const MapMarker = (props: MarkerProps) => {
   };
 
   const getStrokeColor = () => {
-    return storedSelectedAtmId === atm.place_id
-      ? lightColours["primary-content"]
-      : "white";
+    return storedSelectedAtmId === atm.place_id ? "hsl(var(--pc))" : "white";
   };
 
   const getMarkerColour = () => {
