@@ -45,19 +45,13 @@ const MapMarker = (props: MarkerProps) => {
   };
 
   const handleMouseOver = (over: boolean) => {
-    if (over) {
-      dispatch(setOnHoverAtmPlaceId(atm.place_id));
-    } else {
-      dispatch(setOnHoverAtmPlaceId(null));
-    }
+    if (storedBankFilters.includes(atm.brand)) return;
+    dispatch(setOnHoverAtmPlaceId(over ? atm.place_id : null));
   };
 
   const handleClick = (id: string | null) => {
-    if (id === null) {
-      dispatch(setSelectedAtmPlaceId(null));
-    } else {
-      dispatch(setSelectedAtmPlaceId(id));
-    }
+    if (storedBankFilters.includes(atm.brand)) return;
+    dispatch(setSelectedAtmPlaceId(id));
   };
 
   const getCircleMarker = (): google.maps.Symbol => {
