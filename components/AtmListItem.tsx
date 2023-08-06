@@ -22,15 +22,12 @@ const AtmListItem = (props: AtmListItemProps) => {
   const { atmData: atm } = props;
 
   const handleClick = () => {
+    dispatch(setOnHoverAtmPlaceId(atm.place_id));
     dispatch(setSelectedAtmPlaceId(atm.place_id));
   };
 
   const handleMouseOver = (over: boolean) => {
-    if (over) {
-      dispatch(setOnHoverAtmPlaceId(atm.place_id));
-    } else {
-      dispatch(setOnHoverAtmPlaceId(null));
-    }
+    dispatch(setOnHoverAtmPlaceId(over ? atm.place_id : null));
   };
 
   return (
@@ -49,7 +46,7 @@ const AtmListItem = (props: AtmListItemProps) => {
     >
       <div className="flex flex-col items-start justify-between w-full gap-0 px-4 py-2 card-body">
         <div className="flex items-center justify-between w-full">
-          <p className="text-lg card-title">{atm.brand}</p>
+          <p className="card-title">{atm.brand}</p>
           <div className="flex items-center justify-start gap-3 text-sm">
             <GiPathDistance />
             {atm.distance}m
