@@ -19,6 +19,14 @@ const AtmList = () => {
     (state) => state.atmData.allAtms
   );
 
+  const storedBankFilters = useAppSelector(
+    (state) => state.settings.bankFilterOut
+  );
+
+  const displayedAtms = fullAtmList
+    .filter((atm: IAtmObject) => !storedBankFilters.includes(atm.place_id))
+    .map((atm: IAtmObject) => <AtmListItem key={atm.place_id} atmData={atm} />);
+
   return mediaBreakpoint === "xs" ? null : (
     // <div className="relative z-10 flex flex-col items-stretch h-min max-h-[30%] lg:max-h-auto lg:h-fit justify-end lg:w-[30%] max-w-5xl">
     <div className="relative z-10 flex flex-col items-stretch max-h-[30%] lg:max-h-none overflow-y-auto mt-auto lg:mt-0 lg:w-[30%] max-w-5xl">
@@ -32,9 +40,7 @@ const AtmList = () => {
         </div>
         {fullAtmList.length > 0 ? (
           <ul className="flex flex-col items-center justify-start w-full gap-3 overflow-y-auto">
-            {fullAtmList.map((atm: IAtmObject) => (
-              <AtmListItem key={atm.place_id} atmData={atm} />
-            ))}
+            {displayedAtms}
           </ul>
         ) : null}
       </div>
