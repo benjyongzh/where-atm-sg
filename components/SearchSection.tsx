@@ -30,7 +30,6 @@ const SearchSection = () => {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     dispatch(setFilterIsOpen(false));
-    dispatch(setSearchStarted(true));
     setIsLoading(true);
     //should validate and sanitize addressInput string here first
     const endpoint = "/api/search";
@@ -72,6 +71,7 @@ const SearchSection = () => {
       console.log("Client fetching error: ", result.errorMessage); //error message gotta show
     }
     setIsLoading(false);
+    dispatch(setSearchStarted(true));
   };
 
   return (
