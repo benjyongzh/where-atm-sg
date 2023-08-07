@@ -35,31 +35,32 @@ const AtmListItem = (props: AtmListItemProps) => {
   };
 
   return (
-    <button
-      className={`w-full card flex-none ${
-        storedSelectedAtmId === atm.place_id
-          ? "bg-primary"
-          : storedHoveredAtmId === atm.place_id
-          ? "bg-secondary"
-          : "bg-neutral-content"
-      } `}
-      type="button"
-      onClick={handleClick}
-      onMouseOver={() => handleMouseOver(true)}
-      onMouseLeave={() => handleMouseOver(false)}
-    >
-      <div className="flex flex-col items-start justify-between w-full gap-0 px-4 py-2 card-body">
-        <div className="flex items-center justify-between w-full">
-          <p className="card-title">{atm.brand}</p>
+    <li className="w-full">
+      <div
+        className={`collapse ${
+          storedSelectedAtmId === atm.place_id
+            ? "bg-primary"
+            : storedHoveredAtmId === atm.place_id
+            ? "bg-secondary"
+            : "bg-neutral-content"
+        }`}
+        onClick={handleClick}
+        onMouseOver={() => handleMouseOver(true)}
+        onMouseLeave={() => handleMouseOver(false)}
+      >
+        <input type="checkbox" checked={storedSelectedAtmId === atm.place_id} />
+        <div className="flex items-center justify-between w-full px-4 py-0 collapse-title">
+          <p>{atm.brand}</p>
           <div className="flex items-center justify-start gap-3 text-sm">
             <GiPathDistance />
             {atm.distance}m
           </div>
         </div>
-
-        {/* <p className="flex text-sm text-start">{atm.address}</p> */}
+        <div className="flex flex-col items-start justify-start w-full collapse-content">
+          <p className="flex text-sm text-start">{atm.address}</p>
+        </div>
       </div>
-    </button>
+    </li>
   );
 };
 
