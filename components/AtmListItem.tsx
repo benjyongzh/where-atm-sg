@@ -23,7 +23,11 @@ const AtmListItem = (props: AtmListItemProps) => {
 
   const handleClick = () => {
     dispatch(setOnHoverAtmPlaceId(atm.place_id));
-    dispatch(setSelectedAtmPlaceId(atm.place_id));
+    if (storedSelectedAtmId !== atm.place_id) {
+      dispatch(setSelectedAtmPlaceId(atm.place_id));
+    } else {
+      dispatch(setSelectedAtmPlaceId(null));
+    }
   };
 
   const handleMouseOver = (over: boolean) => {
