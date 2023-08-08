@@ -116,7 +116,7 @@ function GoogleMaps() {
       {searchStarted === true ? (
         <CircleF
           options={{
-            strokeColor: cupcakeColours["base-100"],
+            strokeColor: "white",
             strokeOpacity: 0.8,
             strokeWeight: 3,
             fillColor: cupcakeColours["base-content"],
