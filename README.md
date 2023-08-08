@@ -16,7 +16,6 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 
 ## To-do list
 
-- atmlistitem, change to accordion to show details
 - infoWindow to be replaced with: mobile: pop-up at bottom of screen, non-mobile: details in accordion in atmlist
 - map colour styling
 - Use placeDetail for detailed address for map itemWindow and directions(?)
