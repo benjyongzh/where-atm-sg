@@ -1,7 +1,7 @@
 import AtmList from "@/components/AtmList";
-import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import GoogleMap from "@/components/GoogleMap";
+import AtmDetailsModal from "@/components/AtmDetailsModal";
 
 const page = () => {
   return (
@@ -11,6 +11,7 @@ const page = () => {
       <div className="absolute w-full h-full">
         <GoogleMap />
       </div>
+      <AtmDetailsModal />
     </main>
   );
 };
