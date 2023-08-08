@@ -39,7 +39,7 @@ const AtmList = () => {
           {fullAtmList.length > 0 ? "Search results" : "No results found"}
         </div>
         {fullAtmList.length > 0 ? (
-          <ul className="flex flex-col items-center justify-start w-full gap-3 overflow-y-auto">
+          <ul className="flex flex-col items-center justify-start w-full gap-3 overflow-y-auto rounded-xl">
             {displayedAtms}
           </ul>
         ) : null}
