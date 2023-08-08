@@ -49,7 +49,7 @@ const AtmListItem = (props: AtmListItemProps) => {
         onMouseLeave={() => handleMouseOver(false)}
       >
         <input type="checkbox" checked={storedSelectedAtmId === atm.place_id} />
-        <div className="flex items-center justify-between w-full px-4 py-0 collapse-title">
+        <div className="flex items-center justify-between w-full px-4 collapse-title">
           <p>{atm.brand}</p>
           <div className="flex items-center justify-start gap-3 text-sm">
             <GiPathDistance />
