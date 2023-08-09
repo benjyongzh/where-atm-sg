@@ -8,7 +8,7 @@ import { IAtmObject } from "@/lib/atmObject";
 
 import { useAppSelector } from "@/hooks/reduxHooks";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { atmDetailModalVariant } from "@/lib/framerVariants";
 
 const AtmDetailsModal = () => {
@@ -33,23 +33,27 @@ const AtmDetailsModal = () => {
     }
   }, [storedSelectedAtmId]);
 
-  return mediaBreakpoint !== "xs" || !atmData ? null : (
-    <motion.div
-      variants={atmDetailModalVariant}
-      initial="hidden"
-      animate="visible"
-      exit="hidden"
-      className="relative z-10 flex flex-col items-stretch max-w-5xl mt-auto"
-    >
-      <div className="card nav-bg">
-        <div className="card-body">
-          <MapInfoWindowData atmData={atmData} />
-          <div className="justify-end card-actions">
-            <button className="btn btn-primary">Buy Now</button>
+  return (
+    <AnimatePresence>
+      {mediaBreakpoint !== "xs" || !atmData ? null : (
+        <motion.div
+          variants={atmDetailModalVariant}
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+          className="relative z-10 flex flex-col items-stretch max-w-5xl mt-auto"
+        >
+          <div className="card nav-bg">
+            <div className="card-body">
+              <MapInfoWindowData atmData={atmData} />
+              <div className="justify-end card-actions">
+                <button className="btn btn-primary">Buy Now</button>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
