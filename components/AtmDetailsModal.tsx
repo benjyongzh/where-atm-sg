@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 
+import MapInfoWindowData from "./MapInfoWindowData";
+
 import { IAtmObject } from "@/lib/atmObject";
 
 import { useAppSelector } from "@/hooks/reduxHooks";
@@ -32,10 +34,7 @@ const AtmDetailsModal = () => {
     <div className="relative z-10 flex flex-col items-stretch max-w-5xl mt-auto">
       <div className="card nav-bg">
         <div className="card-body">
-          <h2 className="card-title">{atmData!.brand}</h2>
-          <p>{atmData!.name}</p>
-          <p>{atmData!.distance}m</p>
-          <p>{atmData!.address}</p>
+          <MapInfoWindowData atmData={atmData} />
           <div className="justify-end card-actions">
             <button className="btn btn-primary">Buy Now</button>
           </div>

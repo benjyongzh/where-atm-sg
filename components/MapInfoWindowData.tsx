@@ -1,18 +1,17 @@
+import { IAtmObject } from "@/lib/atmObject";
 import { GiPathDistance } from "react-icons/gi";
 
 type InfoWindowProps = {
-  title: string;
-  address: string;
-  distance: number;
-  info?: string[];
+  atmData: IAtmObject;
 };
 
 const MapInfoWindowData = (props: InfoWindowProps) => {
-  const { title, address, distance, info } = props;
+  const { brand, name, address, distance, info } = props.atmData;
   return (
     <div className="flex flex-col gap-2">
-      <p className="text-lg font-bold">{title}</p>
+      <p className="text-lg font-bold">{brand}</p>
       <p>{address}</p>
+      <p>{name}</p>
       <div className="flex items-center justify-start gap-3">
         <GiPathDistance />
         {distance}m

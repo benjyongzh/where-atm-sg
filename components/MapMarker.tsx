@@ -126,21 +126,7 @@ const MapMarker = (props: MarkerProps) => {
       onMouseOver={() => handleMouseOver(true)}
       onMouseOut={() => handleMouseOver(false)}
       zIndex={getZIndex()}
-    >
-      {storedSelectedAtmId === atm.place_id && (
-        <InfoWindow
-          onCloseClick={() => handleClick(null)}
-          position={atm.location} //marker position
-        >
-          <MapInfoWindowData
-            title={atm.brand}
-            address={atm.address}
-            distance={atm.distance}
-            info={atm.info}
-          />
-        </InfoWindow>
-      )}
-    </MarkerF>
+    ></MarkerF>
   );
 };
 
