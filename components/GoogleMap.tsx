@@ -98,17 +98,14 @@ function GoogleMaps() {
   };
 
   const handleMapClick = (event: google.maps.IconMouseEvent) => {
-    // event.stop();
-    console.log("map clicked");
+    event.stop();
     if (!event.placeId) {
-      console.log("no place id detected");
       dispatch(setSelectedAtmPlaceId(null));
     } else {
       const selectedPlaceId = fullAtmList.find(
         (atm) => atm.place_id === event.placeId
       );
       if (!selectedPlaceId) {
-        console.log("no place id detected");
         dispatch(setSelectedAtmPlaceId(null));
       }
     }
