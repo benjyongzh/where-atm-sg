@@ -8,6 +8,9 @@ import { IAtmObject } from "@/lib/atmObject";
 
 import { useAppSelector } from "@/hooks/reduxHooks";
 
+import { motion } from "framer-motion";
+import { atmDetailModalVariant } from "@/lib/framerVariants";
+
 const AtmDetailsModal = () => {
   const [atmData, setAtmData] = useState<IAtmObject | null>(null);
   const mediaBreakpoint: string = useAppSelector(
@@ -31,7 +34,13 @@ const AtmDetailsModal = () => {
   }, [storedSelectedAtmId]);
 
   return mediaBreakpoint !== "xs" || !atmData ? null : (
-    <div className="relative z-10 flex flex-col items-stretch max-w-5xl mt-auto">
+    <motion.div
+      variants={atmDetailModalVariant}
+      initial="hidden"
+      animate="visible"
+      exit="hidden"
+      className="relative z-10 flex flex-col items-stretch max-w-5xl mt-auto"
+    >
       <div className="card nav-bg">
         <div className="card-body">
           <MapInfoWindowData atmData={atmData} />
@@ -40,7 +49,7 @@ const AtmDetailsModal = () => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
