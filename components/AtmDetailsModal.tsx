@@ -41,13 +41,13 @@ const AtmDetailsModal = () => {
           initial="hidden"
           animate="visible"
           exit="hidden"
-          className="relative z-10 flex flex-col items-stretch max-w-5xl mt-auto"
+          className="relative z-10 flex flex-col items-stretch max-w-5xl mt-auto mb-2"
         >
           <div className="card nav-bg">
-            <div className="card-body">
+            <div className="p-2 card-body">
               <MapInfoWindowData atmData={atmData} />
               <div className="justify-end card-actions">
-                <button className="btn btn-primary">Buy Now</button>
+                <button className="btn btn-primary">Directions</button>
               </div>
             </div>
           </div>
