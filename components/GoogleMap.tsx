@@ -6,6 +6,7 @@ import { GoogleMap, useJsApiLoader, CircleF } from "@react-google-maps/api";
 //redux
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
 import { mapCenterDefault } from "@/features/settings/settingsSlice";
+import { setSelectedAtmPlaceId } from "@/features/atmData/atmDataSlice";
 
 //daisyUI
 import daisyuiColors from "daisyui/src/theming/themes";
@@ -96,6 +97,23 @@ function GoogleMaps() {
     map.fitBounds(bounds);
   };
 
+  const handleMapClick = (event: google.maps.IconMouseEvent) => {
+    // event.stop();
+    console.log("map clicked");
+    if (!event.placeId) {
+      console.log("no place id detected");
+      dispatch(setSelectedAtmPlaceId(null));
+    } else {
+      const selectedPlaceId = fullAtmList.find(
+        (atm) => atm.place_id === event.placeId
+      );
+      if (!selectedPlaceId) {
+        console.log("no place id detected");
+        dispatch(setSelectedAtmPlaceId(null));
+      }
+    }
+  };
+
   return isLoaded ? (
     <GoogleMap
       mapContainerStyle={{
@@ -111,6 +129,7 @@ function GoogleMaps() {
         disableDefaultUI: true,
         streetViewControl: false,
       }}
+      onClick={handleMapClick}
     >
       {/* center marking */}
       {searchStarted === true ? (
