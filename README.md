@@ -16,7 +16,7 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 
 ## To-do list
 
-- map click = deactivate selectedAtm
+- clicking atmmarker to scroll atmlist
 - map colour styling
 - Use placeDetail for detailed address for map itemWindow and directions(?)
 - Loading animations for buttons and lists
