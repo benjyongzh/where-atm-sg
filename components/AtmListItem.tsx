@@ -1,6 +1,8 @@
 import { IAtmObject } from "@/lib/atmObject";
 import { GiPathDistance } from "react-icons/gi";
 
+import { useRef, useEffect } from "react";
+
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
 import {
   setSelectedAtmPlaceId,
@@ -13,6 +15,7 @@ type AtmListItemProps = {
 
 const AtmListItem = (props: AtmListItemProps) => {
   const dispatch = useAppDispatch();
+  const listItemRef = useRef<HTMLLIElement>(null);
   const storedSelectedAtmId = useAppSelector(
     (state) => state.atmData.selectedAtmPlaceId
   );
@@ -34,8 +37,14 @@ const AtmListItem = (props: AtmListItemProps) => {
     dispatch(setOnHoverAtmPlaceId(over ? atm.place_id : null));
   };
 
+  useEffect(() => {
+    if (listItemRef.current && storedSelectedAtmId === atm.place_id) {
+      listItemRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [storedSelectedAtmId]);
+
   return (
-    <li className="w-full">
+    <li className="w-full" ref={listItemRef}>
       <div
         className={`collapse ${
           storedSelectedAtmId === atm.place_id
