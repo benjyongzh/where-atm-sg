@@ -29,15 +29,15 @@ function GoogleMaps() {
   const fullAtmList: IAtmObject[] = useAppSelector(
     (state) => state.atmData.allAtms
   );
-  const storedBankFilter = useAppSelector(
-    (state) => state.settings.bankFilterOut
-  );
+  // const storedBankFilter = useAppSelector(
+  //   (state) => state.settings.bankFilterOut
+  // );
   const storedSearchPoint: IGeoCode = useAppSelector(
     (state) => state.settings.searchLocationPoint
   );
-  const storedHoveredAtmId = useAppSelector(
-    (state) => state.atmData.onHoverAtmPlaceId
-  );
+  // const storedHoveredAtmId = useAppSelector(
+  //   (state) => state.atmData.onHoverAtmPlaceId
+  // );
 
   const searchStarted: boolean = useAppSelector(
     (state) => state.atmData.searchStarted
@@ -97,7 +97,9 @@ function GoogleMaps() {
     map.fitBounds(bounds);
   };
 
-  const handleMapClick = (event: google.maps.IconMouseEvent) => {
+  const handleMapClick = (
+    event: google.maps.IconMouseEvent | google.maps.MapMouseEvent
+  ) => {
     event.stop();
     if (!event.placeId) {
       dispatch(setSelectedAtmPlaceId(null));
@@ -111,7 +113,21 @@ function GoogleMaps() {
     }
   };
 
-  return isLoaded ? (
+  const marker = new google.maps.marker.AdvancedMarkerElement({
+    map,
+    position: storedSearchPoint,
+  });
+
+  if (!isLoaded) {
+    return (
+      <div className="flex items-center justify-center w-full h-full gap-3">
+        <span>Loading map</span>
+        <span className="loading loading-dots loading-md"></span>
+      </div>
+    );
+  }
+
+  return (
     <GoogleMap
       mapContainerStyle={{
         width: "100%",
@@ -149,39 +165,10 @@ function GoogleMaps() {
       ) : null}
 
       {/* ATMs being looked at */}
-      {fullAtmList
-        // .filter((atm) => !storedBankFilter.includes(atm.brand))
-        .map(
-          (atm) => isLoaded && <MapMarker atm={atm} key={atm.place_id} />
-          // {/* <MarkerF
-          //   position={atm.location} //marker position
-          //   onClick={() => handleSelectAtmMarker(atm)}
-          //   icon={
-          //     atm.distance <= storedRange ? svgMarkerInRange : svgMarkerOutOfRange
-          //   }
-          //   key={atm.place_id}
-          // >
-          //   {storedSelectedAtmId === atm.place_id && (
-          //     <InfoWindow
-          //       onCloseClick={() => handleSelectAtmMarker(null)}
-          //       position={atm.location} //marker position
-          //     >
-          //       <MapInfoWindowData
-          //         title={atm.brand}
-          //         address={atm.address}
-          //         distance={atm.distance}
-          //         info={atm.info}
-          //       />
-          //     </InfoWindow>
-          //   )}
-          // </MarkerF> */}
-        )}
+      {fullAtmList.map(
+        (atm) => isLoaded && <MapMarker atm={atm} key={atm.place_id} />
+      )}
     </GoogleMap>
-  ) : (
-    <div className="flex items-center justify-center w-full h-full gap-3">
-      <span>Loading map</span>
-      <span className="loading loading-dots loading-md"></span>
-    </div>
   );
 }
 
