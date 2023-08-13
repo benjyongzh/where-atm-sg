@@ -13,11 +13,13 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 - Mobile-first web design
 - Google Maps API prominence algorithm
 - Identifying similar addresses can only be done via GMaps' PlaceDetail API or via a 3rd-party API like Placekey, unless I reinvent the wheel for this
+- Different open-source libraries for using google maps in react
+- Google Advanced Markers for maps
 
 ## To-do list
 
 - clicking atmmarker to scroll atmlist
-- shadow of search radius
+- shadow of search radius: try react-wrapper
 - map colour styling
 - Use placeDetail for detailed address for map itemWindow and directions(?)
 - Loading animations for buttons and lists
