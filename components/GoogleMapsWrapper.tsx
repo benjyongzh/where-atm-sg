@@ -1,4 +1,5 @@
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import { ReactElement } from "react";
 
 export const GoogleMapsWrapper = ({
   children,
@@ -16,7 +17,7 @@ export const GoogleMapsWrapper = ({
     );
   }
 
-  const render = (status: Status) => {
+  const render = (status: Status): ReactElement => {
     if (status === Status.LOADING)
       return (
         <div className="flex items-center justify-center w-full h-full gap-3">
@@ -30,8 +31,17 @@ export const GoogleMapsWrapper = ({
           <span>Loading Failed</span>
         </div>
       );
-    return <>{children}</>;
+    return <></>;
   };
 
-  return <Wrapper apiKey={apiKey} render={render} />;
+  return (
+    <Wrapper
+      apiKey={apiKey}
+      render={render}
+      version="beta"
+      libraries={["marker"]}
+    >
+      {children}
+    </Wrapper>
+  );
 };
