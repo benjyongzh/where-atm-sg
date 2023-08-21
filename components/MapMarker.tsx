@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { createRoot } from "react-dom/client";
 
 //redux
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
@@ -40,6 +41,7 @@ const MapMarker = (props: MarkerProps) => {
   );
 
   const markerRef = useRef<google.maps.Marker | null>(null);
+  const rootRef = useRef(null);
   const handleOnLoad = (markerInstance: google.maps.Marker) => {
     markerRef.current = markerInstance;
   };
@@ -103,18 +105,21 @@ const MapMarker = (props: MarkerProps) => {
     }
   }, [storedHoveredAtmId, storedBankFilters]);
 
-  /* {
-    path: "M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z",
-    fillColor: !storedBankFilters.includes(atm.brand)
-      ? cupcakeColours.secondary
-      : cupcakeColours.primary,
-    fillOpacity: 0.9,
-    strokeWeight: 2,
-    strokeColor: !storedBankFilters.includes(atm.brand)
-      ? nightColours.error
-      : nightColours.info,
-    scale: storedHoveredAtmId === atm.place_id ? 4 : 2,
-    anchor: new google.maps.Point(12, 21),} */
+  useEffect(() => {
+    if (!rootRef.current) {
+      const container = document.createElement("div");
+      rootRef.current = createRoot(container);
+
+      markerRef.current = new google.maps.marker.AdvancedMarkerView({
+        position: atm.location,
+        content: container,
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    rootRef.current.render(children);
+  }, [atm]);
 
   return (
     <MarkerF
