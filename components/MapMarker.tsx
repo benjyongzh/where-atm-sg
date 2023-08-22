@@ -51,7 +51,9 @@ const MapMarker = (props: MarkerProps) => {
     (state) => state.settings.bankFilterOut
   ); */
 
-  const markerRef = useRef<google.maps.Marker | null>(null);
+  const markerRef = useRef<google.maps.marker.AdvancedMarkerElement | null>(
+    null
+  );
   const rootRef = useRef<any>(null);
   // const handleOnLoad = (markerInstance: google.maps.Marker) => {
   //   markerRef.current = markerInstance;
@@ -122,21 +124,34 @@ const MapMarker = (props: MarkerProps) => {
       const container = document.createElement("div");
       rootRef.current = createRoot(container);
 
-      markerRef.current = new google.maps.marker.AdvancedMarkerView({
-        position,
+      markerRef.current = new google.maps.marker.AdvancedMarkerElement({
+        // map,
         content: container,
+        position,
       });
+
+      // AdvancedMarkerElement.addListener("click", () => {
+      //   toggleHighlight(AdvancedMarkerElement, property);
+      // });
+
+      // markerRef.current = new google.maps.marker.AdvancedMarkerView({
+      //   position,
+      //   content: container,
+      // });
     }
     return () => {
-      markerRef.current.map = null;
+      if (markerRef.current) markerRef.current.map = null;
     };
   }, []);
 
   useEffect(() => {
     rootRef.current.render(children);
-    markerRef.current.position = position;
-    markerRef.current.map = map;
-    const listener = markerRef.current.addListener("click", onClick);
+    if (markerRef.current) {
+      markerRef.current.position = position;
+      markerRef.current.map = map;
+    }
+
+    const listener = markerRef.current!.addListener("click", onClick);
     return () => listener.remove();
   }, [atm, map, children, onClick]);
 

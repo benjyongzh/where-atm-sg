@@ -103,6 +103,7 @@ export default function Map() {
       disableDefaultUI: true,
       gestureHandling: "greedy",
       streetViewControl: false,
+      mapId: "DEMO_MAP_ID",
     });
     newMap.addListener("click", handleMapClick);
     setMap(newMap);
@@ -138,8 +139,9 @@ export default function Map() {
             key={atm.place_id}
             map={map}
             position={atm.location}
+            onClick={() => {}}
           >
-            <div></div>
+            <div>hello</div>
           </MapMarker>
         ))}
       </div>
