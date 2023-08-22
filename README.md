@@ -18,6 +18,7 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 
 ## To-do list
 
+- mapID
 - clicking atmmarker to scroll atmlist
 - shadow of search radius: try react-wrapper
 - map colour styling
