@@ -133,7 +133,14 @@ export default function Map() {
 
         {/* ATMs being looked at */}
         {fullAtmList.map((atm) => (
-          <MapMarker atm={atm} key={atm.place_id} />
+          <MapMarker
+            atm={atm}
+            key={atm.place_id}
+            map={map}
+            position={atm.location}
+          >
+            <div></div>
+          </MapMarker>
         ))}
       </div>
     </>

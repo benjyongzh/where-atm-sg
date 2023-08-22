@@ -1,6 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+  ReactPortal,
+  ReactHTMLElement,
+} from "react";
 import { createRoot } from "react-dom/client";
 
 //redux
@@ -17,17 +23,22 @@ import MapInfoWindowData from "./MapInfoWindowData";
 
 //graphics
 import daisyuiColors from "daisyui/src/theming/themes";
+import { createPortal } from "react-dom";
 const cupcakeColours = daisyuiColors["[data-theme=cupcake]"];
 const lightColours = daisyuiColors["[data-theme=light]"];
 const nightColours = daisyuiColors["[data-theme=night]"];
 
 type MarkerProps = {
   atm: IAtmObject;
+  map: google.maps.Map | null;
+  position: { lat: number; lng: number };
+  children: React.ReactNode;
+  onClick: Function;
 };
 
 const MapMarker = (props: MarkerProps) => {
-  const { atm } = props;
-  const dispatch = useAppDispatch();
+  const { atm, map, position, children, onClick } = props;
+  /* const dispatch = useAppDispatch();
   const storedSelectedAtmId = useAppSelector(
     (state) => state.atmData.selectedAtmPlaceId
   );
@@ -38,15 +49,15 @@ const MapMarker = (props: MarkerProps) => {
 
   const storedBankFilters = useAppSelector(
     (state) => state.settings.bankFilterOut
-  );
+  ); */
 
   const markerRef = useRef<google.maps.Marker | null>(null);
-  const rootRef = useRef(null);
-  const handleOnLoad = (markerInstance: google.maps.Marker) => {
-    markerRef.current = markerInstance;
-  };
+  const rootRef = useRef<any>(null);
+  // const handleOnLoad = (markerInstance: google.maps.Marker) => {
+  //   markerRef.current = markerInstance;
+  // };
 
-  const handleMouseOver = (over: boolean) => {
+  /* const handleMouseOver = (over: boolean) => {
     if (storedBankFilters.includes(atm.brand)) return;
     dispatch(setOnHoverAtmPlaceId(over ? atm.place_id : null));
   };
@@ -54,9 +65,9 @@ const MapMarker = (props: MarkerProps) => {
   const handleClick = (id: string | null) => {
     if (storedBankFilters.includes(atm.brand)) return;
     dispatch(setSelectedAtmPlaceId(id));
-  };
+  }; */
 
-  const getCircleMarker = (): google.maps.Symbol => {
+  /* const getCircleMarker = (): google.maps.Symbol => {
     return {
       path: "M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z",
       fillColor: getMarkerColour(),
@@ -96,43 +107,50 @@ const MapMarker = (props: MarkerProps) => {
 
   const getZIndex = () => {
     return storedHoveredAtmId === atm.place_id ? 99 : 11;
-  };
+  }; */
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (markerRef.current) {
       markerRef.current.setIcon(getCircleMarker());
       markerRef.current.setZIndex(getZIndex());
     }
-  }, [storedHoveredAtmId, storedBankFilters]);
+  }, [storedHoveredAtmId, storedBankFilters]); */
 
   useEffect(() => {
     if (!rootRef.current) {
+      // rootRef.current = createPortal(<div></div>, document.body);
       const container = document.createElement("div");
       rootRef.current = createRoot(container);
 
       markerRef.current = new google.maps.marker.AdvancedMarkerView({
-        position: atm.location,
+        position,
         content: container,
       });
     }
+    return () => {
+      markerRef.current.map = null;
+    };
   }, []);
 
   useEffect(() => {
     rootRef.current.render(children);
-  }, [atm]);
+    markerRef.current.position = position;
+    markerRef.current.map = map;
+    const listener = markerRef.current.addListener("click", onClick);
+    return () => listener.remove();
+  }, [atm, map, children, onClick]);
 
-  return (
-    <MarkerF
-      position={atm.location} //marker position
-      onClick={() => handleClick(atm.place_id)}
-      onLoad={handleOnLoad}
-      icon={getCircleMarker()}
-      key={atm.place_id}
-      onMouseOver={() => handleMouseOver(true)}
-      onMouseOut={() => handleMouseOver(false)}
-      zIndex={getZIndex()}
-    ></MarkerF>
-  );
+  // return (
+  // <MarkerF
+  //   position={atm.location} //marker position
+  //   onClick={() => handleClick(atm.place_id)}
+  // onLoad={handleOnLoad}
+  // icon={getCircleMarker()}
+  // onMouseOver={() => handleMouseOver(true)}
+  // onMouseOut={() => handleMouseOver(false)}
+  // zIndex={getZIndex()}
+  // ></MarkerF>
+  // );
 };
 
 export default MapMarker;
