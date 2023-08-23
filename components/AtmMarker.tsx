@@ -48,48 +48,6 @@ const AtmMarker = (props: AtmMarkerProps) => {
     dispatch(setSelectedAtmPlaceId(id));
   };
 
-  /* const getCircleMarker = (): google.maps.Symbol => {
-    return {
-      path: "M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z",
-      fillColor: getMarkerColour(),
-      fillOpacity: 0.9,
-      strokeWeight: 5,
-      strokeColor: getStrokeColor(),
-      scale: getMarkerScale(),
-      anchor: getMarkerAnchor(),
-    };
-  };
-
-  const getStrokeColor = () => {
-    return storedSelectedAtmId === atm.place_id ? "hsl(var(--pc))" : "white";
-  };
-
-  const getMarkerColour = () => {
-    if (storedHoveredAtmId === atm.place_id) {
-      return cupcakeColours.secondary;
-    } else if (storedBankFilters.includes(atm.brand)) {
-      return lightColours["neutral-content"];
-    } else return cupcakeColours.primary;
-  };
-
-  const getMarkerScale = () => {
-    return storedHoveredAtmId === atm.place_id ||
-      storedSelectedAtmId === atm.place_id
-      ? 2
-      : 1.5;
-  };
-
-  const getMarkerAnchor = () => {
-    return storedHoveredAtmId === atm.place_id ||
-      storedSelectedAtmId === atm.place_id
-      ? new google.maps.Point(12, 19.5)
-      : new google.maps.Point(12, 21);
-  };
-
-  const getZIndex = () => {
-    return storedHoveredAtmId === atm.place_id ? 99 : 11;
-  }; */
-
   useEffect(() => {
     // if (markerRef.current) {
     //   markerRef.current.setIcon(getCircleMarker());
@@ -99,7 +57,23 @@ const AtmMarker = (props: AtmMarkerProps) => {
 
   return (
     <div
-      className="border-2 rounded-full"
+      className={`aspect-square w-6 object-center rounded-full border-4 bg-opacity-80
+      ${
+        storedHoveredAtmId === atm.place_id
+          ? "bg-secondary"
+          : storedBankFilters.includes(atm.brand)
+          ? "bg-neutral-content"
+          : "bg-primary"
+      } ${
+        storedHoveredAtmId === atm.place_id ||
+        storedSelectedAtmId === atm.place_id
+          ? "scale-150"
+          : "scale-100"
+      } ${
+        storedSelectedAtmId === atm.place_id
+          ? "border-primary-content"
+          : "border-white"
+      } ${storedHoveredAtmId === atm.place_id ? "z-50" : ""}`}
       onMouseOver={() => handleMouseOver(true)}
       onMouseOut={() => handleMouseOver(false)}
       onClick={() => handleClick(atm.place_id)}
