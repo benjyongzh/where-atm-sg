@@ -91,11 +91,6 @@ export default function Map() {
     }
   };
 
-  // const marker = new google.maps.marker.AdvancedMarkerElement({
-  //   map,
-  //   position: storedSearchPoint,
-  // });
-
   useEffect(() => {
     if (!mapRef.current) return;
     const newMap: google.maps.Map = new window.google.maps.Map(mapRef.current, {
@@ -136,11 +131,10 @@ export default function Map() {
         {/* ATMs being looked at */}
         {fullAtmList.map((atm) => (
           <MapMarker
-            atm={atm}
+            data={atm}
             key={atm.place_id}
             map={map}
             position={atm.location}
-            onClick={() => {}}
           >
             <AtmMarker atm={atm} />
           </MapMarker>
@@ -148,35 +142,4 @@ export default function Map() {
       </div>
     </>
   );
-
-  // return (
-  //   <GoogleMap
-  //     onClick={handleMapClick}
-  //   >
-  //     {/* center marking */}
-  //     {searchStarted === true ? (
-  //       <CircleF
-  //         options={{
-  //           strokeColor: "white",
-  //           strokeOpacity: 0.8,
-  //           strokeWeight: 3,
-  //           fillColor: cupcakeColours["base-content"],
-  //           fillOpacity: 0.1,
-  //           clickable: false,
-  //           draggable: false,
-  //           editable: false,
-  //           visible: true,
-  //           zIndex: 1,
-  //         }}
-  //         center={storedSearchPoint}
-  //         radius={storedRange}
-  //       ></CircleF>
-  //     ) : null}
-
-  //     {/* ATMs being looked at */}
-  //     {fullAtmList.map(
-  //       (atm) => isLoaded && <MapMarker atm={atm} key={atm.place_id} />
-  //     )}
-  //   </GoogleMap>
-  // );
 }
