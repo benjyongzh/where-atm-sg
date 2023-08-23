@@ -5,7 +5,7 @@ import AtmDetailsModal from "@/components/AtmDetailsModal";
 
 const page = () => {
   return (
-    <main className="defaultPageLayout">
+    <main id="mainContainer" className="defaultPageLayout">
       <Navbar />
       <AtmList />
       <div className="absolute w-full h-full">
