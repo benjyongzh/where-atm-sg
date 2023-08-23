@@ -18,6 +18,7 @@ import { IGeoCode } from "@/features/googleAPI/geocoder";
 import { IAtmObject } from "@/lib/atmObject";
 import MapMarker from "./MapMarker";
 import { Marker } from "@react-google-maps/api";
+import AtmMarker from "./AtmMarker";
 
 export default function Map() {
   //redux
@@ -141,7 +142,7 @@ export default function Map() {
             position={atm.location}
             onClick={() => {}}
           >
-            <div>hello</div>
+            <AtmMarker atm={atm} />
           </MapMarker>
         ))}
       </div>
