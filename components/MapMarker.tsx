@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  useState,
-  useEffect,
-  useRef,
-  ReactPortal,
-  ReactHTMLElement,
-} from "react";
+import { useState, useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
 
 //redux
@@ -17,27 +11,29 @@ import {
 } from "@/features/atmData/atmDataSlice";
 
 //components
-import { MarkerF, InfoWindow } from "@react-google-maps/api";
 import { IAtmObject } from "@/lib/atmObject";
-import MapInfoWindowData from "./MapInfoWindowData";
 
 //graphics
 import daisyuiColors from "daisyui/src/theming/themes";
-import { createPortal } from "react-dom";
 const cupcakeColours = daisyuiColors["[data-theme=cupcake]"];
 const lightColours = daisyuiColors["[data-theme=light]"];
 const nightColours = daisyuiColors["[data-theme=night]"];
 
 type MarkerProps = {
-  atm: IAtmObject;
+  data: Object;
   map: google.maps.Map | null;
   position: { lat: number; lng: number };
   children: React.ReactNode;
-  onClick: Function;
 };
 
 const MapMarker = (props: MarkerProps) => {
-  const { atm, map, position, children, onClick } = props;
+  const { data, map, position, children } = props;
+
+  const markerRef = useRef<google.maps.marker.AdvancedMarkerElement | null>(
+    null
+  );
+  const rootRef = useRef<any>(null);
+
   /* const dispatch = useAppDispatch();
   const storedSelectedAtmId = useAppSelector(
     (state) => state.atmData.selectedAtmPlaceId
@@ -51,10 +47,6 @@ const MapMarker = (props: MarkerProps) => {
     (state) => state.settings.bankFilterOut
   ); */
 
-  const markerRef = useRef<google.maps.marker.AdvancedMarkerElement | null>(
-    null
-  );
-  const rootRef = useRef<any>(null);
   // const handleOnLoad = (markerInstance: google.maps.Marker) => {
   //   markerRef.current = markerInstance;
   // };
@@ -151,21 +143,9 @@ const MapMarker = (props: MarkerProps) => {
       markerRef.current.map = map;
     }
 
-    const listener = markerRef.current!.addListener("click", onClick);
-    return () => listener.remove();
-  }, [atm, map, children, onClick]);
-
-  // return (
-  // <MarkerF
-  //   position={atm.location} //marker position
-  //   onClick={() => handleClick(atm.place_id)}
-  // onLoad={handleOnLoad}
-  // icon={getCircleMarker()}
-  // onMouseOver={() => handleMouseOver(true)}
-  // onMouseOut={() => handleMouseOver(false)}
-  // zIndex={getZIndex()}
-  // ></MarkerF>
-  // );
+    // const listener = markerRef.current!.addListener("click", onClick);
+    // return () => listener.remove();
+  }, [data, map, children]);
 };
 
 export default MapMarker;
