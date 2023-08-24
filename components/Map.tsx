@@ -5,7 +5,10 @@ import React, { useState, useCallback, useEffect, useRef } from "react";
 //redux
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
 import { mapCenterDefault } from "@/features/settings/settingsSlice";
-import { setSelectedAtmPlaceId } from "@/features/atmData/atmDataSlice";
+import {
+  setOnHoverAtmPlaceId,
+  setSelectedAtmPlaceId,
+} from "@/features/atmData/atmDataSlice";
 
 //daisyUI
 import daisyuiColors from "daisyui/src/theming/themes";
@@ -27,6 +30,14 @@ export default function Map() {
   const storedSelectedAtmId = useAppSelector(
     (state) => state.atmData.selectedAtmPlaceId
   );
+  const storedHoveredAtmId = useAppSelector(
+    (state) => state.atmData.onHoverAtmPlaceId
+  );
+
+  const storedBankFilters = useAppSelector(
+    (state) => state.settings.bankFilterOut
+  );
+
   const fullAtmList: IAtmObject[] = useAppSelector(
     (state) => state.atmData.allAtms
   );
@@ -44,52 +55,68 @@ export default function Map() {
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const initialZoom = currentBreakpoint === "xs" ? 10 : 11;
 
-  useEffect(() => {
-    if (storedSelectedAtmId !== null) {
-      const atmsInFocus = fullAtmList.filter(
-        (atm) => atm.place_id === storedSelectedAtmId
-      );
-      if (atmsInFocus.length) mapLookAt(atmsInFocus[0].location);
-    }
-  }, [storedSelectedAtmId]);
-
-  useEffect(() => {
-    mapLookAt(storedSearchPoint);
-    mapFitFilteredAtms();
-  }, [storedSearchPoint]);
-
-  const mapLookAt = (point: IGeoCode) => {
-    /* console.log(point);
-    console.log(map); */
-    if (map) map.panTo(point);
-  };
-
-  const mapFitFilteredAtms = () => {
-    if (!map) return;
-    if (fullAtmList.length < 1) {
-      map.setZoom(initialZoom + 4);
-      return;
-    }
-    const bounds = new google.maps.LatLngBounds();
-    fullAtmList.forEach((atm) => bounds.extend(atm.location));
-    map.fitBounds(bounds);
-  };
-
-  const handleMapClick = (
-    event: google.maps.IconMouseEvent | google.maps.MapMouseEvent
+  const handleAtmMarkerMouseOver = (
+    over: boolean,
+    brand: string,
+    id: string
   ) => {
-    event.stop();
-    if (!event.placeId) {
-      dispatch(setSelectedAtmPlaceId(null));
-    } else {
-      const selectedPlaceId = fullAtmList.find(
-        (atm) => atm.place_id === event.placeId
-      );
-      if (!selectedPlaceId) {
-        dispatch(setSelectedAtmPlaceId(null));
-      }
-    }
+    console.log("something is moused over");
+    if (storedBankFilters.includes(brand)) return;
+    dispatch(setOnHoverAtmPlaceId(over ? id : null));
   };
+
+  const handleAtmMarkerClick = (id: string | null, brand: string) => {
+    console.log("something is  clicked");
+    if (storedBankFilters.includes(brand)) return;
+    dispatch(setSelectedAtmPlaceId(id));
+  };
+
+  // useEffect(() => {
+  //   if (storedSelectedAtmId !== null) {
+  //     const atmsInFocus = fullAtmList.filter(
+  //       (atm) => atm.place_id === storedSelectedAtmId
+  //     );
+  //     if (atmsInFocus.length) mapLookAt(atmsInFocus[0].location);
+  //   }
+  // }, [storedSelectedAtmId]);
+
+  // useEffect(() => {
+  //   mapLookAt(storedSearchPoint);
+  //   mapFitFilteredAtms();
+  // }, [storedSearchPoint]);
+
+  // const mapLookAt = (point: IGeoCode) => {
+  //   /* console.log(point);
+  //   console.log(map); */
+  //   if (map) map.panTo(point);
+  // };
+
+  // const mapFitFilteredAtms = () => {
+  //   if (!map) return;
+  //   if (fullAtmList.length < 1) {
+  //     map.setZoom(initialZoom + 4);
+  //     return;
+  //   }
+  //   const bounds = new google.maps.LatLngBounds();
+  //   fullAtmList.forEach((atm) => bounds.extend(atm.location));
+  //   map.fitBounds(bounds);
+  // };
+
+  // const handleMapClick = (
+  //   event: google.maps.IconMouseEvent | google.maps.MapMouseEvent
+  // ) => {
+  //   event.stop();
+  //   if (!event.placeId) {
+  //     dispatch(setSelectedAtmPlaceId(null));
+  //   } else {
+  //     const selectedPlaceId = fullAtmList.find(
+  //       (atm) => atm.place_id === event.placeId
+  //     );
+  //     if (!selectedPlaceId) {
+  //       dispatch(setSelectedAtmPlaceId(null));
+  //     }
+  //   }
+  // };
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -101,13 +128,13 @@ export default function Map() {
       streetViewControl: false,
       mapId: "DEMO_MAP_ID",
     });
-    newMap.addListener("click", handleMapClick);
+    // newMap.addListener("click", handleMapClick);
     setMap(newMap);
   }, [mapRef]);
 
   return (
     <>
-      <div ref={mapRef} style={{ width: "100%", height: "100%" }}>
+      <div id="mainMap" ref={mapRef} style={{ width: "100%", height: "100%" }}>
         {/* center marking */}
         {/* {searchStarted === true ? (
           <CircleF
@@ -136,7 +163,14 @@ export default function Map() {
             map={map}
             position={atm.location}
           >
-            <AtmMarker atm={atm} />
+            <AtmMarker
+              atm={atm}
+              onClick={handleAtmMarkerClick}
+              onHover={handleAtmMarkerMouseOver}
+              storedHoveredAtmId={storedHoveredAtmId}
+              storedSelectedAtmId={storedSelectedAtmId}
+              storedBankFilters={storedBankFilters}
+            />
           </MapMarker>
         ))}
       </div>
