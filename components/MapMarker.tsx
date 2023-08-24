@@ -8,10 +8,14 @@ type MarkerProps = {
   map: google.maps.Map | null;
   position: { lat: number; lng: number };
   children: React.ReactNode;
+  onMouseOver: Function;
+  onMouseOut: Function;
+  onClick: Function;
 };
 
 const MapMarker = (props: MarkerProps) => {
-  const { data, map, position, children } = props;
+  const { data, map, position, children, onMouseOver, onMouseOut, onClick } =
+    props;
 
   const markerRef = useRef<google.maps.marker.AdvancedMarkerElement | null>(
     null
@@ -43,9 +47,22 @@ const MapMarker = (props: MarkerProps) => {
       markerRef.current.map = map;
     }
 
-    // const listener = markerRef.current!.addListener("click", onClick);
-    // return () => listener.remove();
-  }, [data, map, children]);
+    const mouseOverListener = markerRef.current!.addListener(
+      "mouseover",
+      onMouseOver
+    );
+    const mouseOutListener = markerRef.current!.addListener(
+      "mouseout",
+      onMouseOut
+    );
+    const clickListener = markerRef.current!.addListener("click", onClick);
+
+    return () => {
+      mouseOverListener.remove();
+      mouseOutListener.remove();
+      clickListener.remove();
+    };
+  }, [data, map, children, onClick, onMouseOut, onMouseOver]);
 };
 
 export default MapMarker;

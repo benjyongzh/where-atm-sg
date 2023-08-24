@@ -162,11 +162,18 @@ export default function Map() {
             key={atm.place_id}
             map={map}
             position={atm.location}
+            onMouseOver={() =>
+              handleAtmMarkerMouseOver(true, atm.brand, atm.place_id)
+            }
+            onMouseOut={() =>
+              handleAtmMarkerMouseOver(false, atm.brand, atm.place_id)
+            }
+            onClick={() => handleAtmMarkerClick(atm.place_id, atm.brand)}
           >
             <AtmMarker
               atm={atm}
-              onClick={handleAtmMarkerClick}
-              onHover={handleAtmMarkerMouseOver}
+              // onClick={handleAtmMarkerClick}
+              // onHover={handleAtmMarkerMouseOver}
               storedHoveredAtmId={storedHoveredAtmId}
               storedSelectedAtmId={storedSelectedAtmId}
               storedBankFilters={storedBankFilters}

@@ -5,8 +5,8 @@ import { IAtmObject } from "@/lib/atmObject";
 
 type AtmMarkerProps = {
   atm: IAtmObject;
-  onClick: Function;
-  onHover: Function;
+  // onClick: Function;
+  // onHover: Function;
   storedSelectedAtmId: string | null;
   storedHoveredAtmId: string | null;
   storedBankFilters: string[];
@@ -15,8 +15,8 @@ type AtmMarkerProps = {
 const AtmMarker = (props: AtmMarkerProps) => {
   const {
     atm,
-    onClick,
-    onHover,
+    // onClick,
+    // onHover,
     storedSelectedAtmId,
     storedHoveredAtmId,
     storedBankFilters,
@@ -41,9 +41,9 @@ const AtmMarker = (props: AtmMarkerProps) => {
           ? "border-primary-content"
           : "border-white"
       } ${storedHoveredAtmId === atm.place_id ? "z-50" : ""}`}
-      onMouseOver={() => onHover(true, atm.brand, atm.place_id)}
-      onMouseOut={() => onHover(false, atm.brand, atm.place_id)}
-      onClick={() => onClick(atm.place_id, atm.brand)}
+      // onMouseOver={() => onHover(true, atm.brand, atm.place_id)}
+      // onMouseOut={() => onHover(false, atm.brand, atm.place_id)}
+      // onClick={() => onClick(atm.place_id, atm.brand)}
     ></div>
   );
 };
