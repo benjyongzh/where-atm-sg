@@ -60,13 +60,13 @@ export default function Map() {
     brand: string,
     id: string
   ) => {
-    console.log("something is moused over");
+    // console.log("something is moused over");
     if (storedBankFilters.includes(brand)) return;
     dispatch(setOnHoverAtmPlaceId(over ? id : null));
   };
 
   const handleAtmMarkerClick = (id: string | null, brand: string) => {
-    console.log("something is  clicked");
+    // console.log("something is  clicked");
     if (storedBankFilters.includes(brand)) return;
     dispatch(setSelectedAtmPlaceId(id));
   };
@@ -162,18 +162,12 @@ export default function Map() {
             key={atm.place_id}
             map={map}
             position={atm.location}
-            onMouseOver={() =>
-              handleAtmMarkerMouseOver(true, atm.brand, atm.place_id)
-            }
-            onMouseOut={() =>
-              handleAtmMarkerMouseOver(false, atm.brand, atm.place_id)
-            }
             onClick={() => handleAtmMarkerClick(atm.place_id, atm.brand)}
           >
             <AtmMarker
               atm={atm}
-              // onClick={handleAtmMarkerClick}
-              // onHover={handleAtmMarkerMouseOver}
+              onMouseOver={handleAtmMarkerMouseOver}
+              onMouseOut={handleAtmMarkerMouseOver}
               storedHoveredAtmId={storedHoveredAtmId}
               storedSelectedAtmId={storedSelectedAtmId}
               storedBankFilters={storedBankFilters}
