@@ -22,6 +22,7 @@ import { IAtmObject } from "@/lib/atmObject";
 import MapMarker from "./MapMarker";
 import { Marker } from "@react-google-maps/api";
 import AtmMarker from "./AtmMarker";
+import RadiusMarker from "./RadiusMarker";
 
 export default function Map() {
   //redux
@@ -154,6 +155,14 @@ export default function Map() {
             radius={storedRange}
           ></CircleF>
         ) : null} */}
+        <MapMarker
+          data={{ storedSearchPoint, storedRange }}
+          map={map}
+          position={storedSearchPoint}
+          onClick={() => {}}
+        >
+          <RadiusMarker radius={storedRange} />
+        </MapMarker>
 
         {/* ATMs being looked at */}
         {fullAtmList.map((atm) => (
