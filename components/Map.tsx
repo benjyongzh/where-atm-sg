@@ -71,52 +71,52 @@ export default function Map() {
     dispatch(setSelectedAtmPlaceId(id));
   };
 
-  // useEffect(() => {
-  //   if (storedSelectedAtmId !== null) {
-  //     const atmsInFocus = fullAtmList.filter(
-  //       (atm) => atm.place_id === storedSelectedAtmId
-  //     );
-  //     if (atmsInFocus.length) mapLookAt(atmsInFocus[0].location);
-  //   }
-  // }, [storedSelectedAtmId]);
+  useEffect(() => {
+    if (storedSelectedAtmId !== null) {
+      const atmsInFocus = fullAtmList.filter(
+        (atm) => atm.place_id === storedSelectedAtmId
+      );
+      if (atmsInFocus.length) mapLookAt(atmsInFocus[0].location);
+    }
+  }, [storedSelectedAtmId]);
 
-  // useEffect(() => {
-  //   mapLookAt(storedSearchPoint);
-  //   mapFitFilteredAtms();
-  // }, [storedSearchPoint]);
+  useEffect(() => {
+    mapLookAt(storedSearchPoint);
+    mapFitFilteredAtms();
+  }, [storedSearchPoint]);
 
-  // const mapLookAt = (point: IGeoCode) => {
-  //   /* console.log(point);
-  //   console.log(map); */
-  //   if (map) map.panTo(point);
-  // };
+  const mapLookAt = (point: IGeoCode) => {
+    /* console.log(point);
+    console.log(map); */
+    if (map) map.panTo(point);
+  };
 
-  // const mapFitFilteredAtms = () => {
-  //   if (!map) return;
-  //   if (fullAtmList.length < 1) {
-  //     map.setZoom(initialZoom + 4);
-  //     return;
-  //   }
-  //   const bounds = new google.maps.LatLngBounds();
-  //   fullAtmList.forEach((atm) => bounds.extend(atm.location));
-  //   map.fitBounds(bounds);
-  // };
+  const mapFitFilteredAtms = () => {
+    if (!map) return;
+    if (fullAtmList.length < 1) {
+      map.setZoom(initialZoom + 4);
+      return;
+    }
+    const bounds = new google.maps.LatLngBounds();
+    fullAtmList.forEach((atm) => bounds.extend(atm.location));
+    map.fitBounds(bounds);
+  };
 
-  // const handleMapClick = (
-  //   event: google.maps.IconMouseEvent | google.maps.MapMouseEvent
-  // ) => {
-  //   event.stop();
-  //   if (!event.placeId) {
-  //     dispatch(setSelectedAtmPlaceId(null));
-  //   } else {
-  //     const selectedPlaceId = fullAtmList.find(
-  //       (atm) => atm.place_id === event.placeId
-  //     );
-  //     if (!selectedPlaceId) {
-  //       dispatch(setSelectedAtmPlaceId(null));
-  //     }
-  //   }
-  // };
+  const handleMapClick = (
+    event: google.maps.IconMouseEvent | google.maps.MapMouseEvent
+  ) => {
+    event.stop();
+    if (!event.placeId) {
+      dispatch(setSelectedAtmPlaceId(null));
+    } else {
+      const selectedPlaceId = fullAtmList.find(
+        (atm) => atm.place_id === event.placeId
+      );
+      if (!selectedPlaceId) {
+        dispatch(setSelectedAtmPlaceId(null));
+      }
+    }
+  };
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -128,7 +128,7 @@ export default function Map() {
       streetViewControl: false,
       mapId: "DEMO_MAP_ID",
     });
-    // newMap.addListener("click", handleMapClick);
+    newMap.addListener("click", handleMapClick);
     setMap(newMap);
   }, [mapRef]);
 
