@@ -161,7 +161,11 @@ export default function Map() {
           position={storedSearchPoint}
           onClick={() => {}}
         >
-          <RadiusMarker radius={storedRange} />
+          <RadiusMarker
+            center={storedSearchPoint}
+            radius={storedRange}
+            map={map}
+          />
         </MapMarker>
 
         {/* ATMs being looked at */}
