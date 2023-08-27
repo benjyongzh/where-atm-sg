@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useEffect, useRef } from "react";
 
-import { CircleF } from "@react-google-maps/api";
+import { Circle, CircleF } from "@react-google-maps/api";
 
 //redux
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
@@ -140,7 +140,26 @@ export default function Map() {
       <div id="mainMap" ref={mapRef} style={{ width: "100%", height: "100%" }}>
         {/* center marking */}
         {searchStarted === true ? (
-          <CircleF
+          // {/* <CircleF
+          //   options={{
+          //     strokeColor: "white",
+          //     strokeOpacity: 0.8,
+          //     strokeWeight: 3,
+          //     fillColor: cupcakeColours["base-content"],
+          //     fillOpacity: 0.1,
+          //     clickable: false,
+          //     draggable: false,
+          //     editable: false,
+          //     visible: true,
+          //     zIndex: 1,
+          //   }}
+          //   center={storedSearchPoint}
+          //   radius={storedRange}
+          // ></CircleF> */}
+          <Circle
+            // required
+            center={storedSearchPoint}
+            // required
             options={{
               strokeColor: "white",
               strokeOpacity: 0.8,
@@ -153,9 +172,7 @@ export default function Map() {
               visible: true,
               zIndex: 1,
             }}
-            center={storedSearchPoint}
-            radius={storedRange}
-          ></CircleF>
+          />
         ) : null}
         {/* <MapMarker
           data={{ storedSearchPoint, storedRange }}
