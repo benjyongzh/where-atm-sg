@@ -2,6 +2,8 @@
 
 import React, { useState, useCallback, useEffect, useRef } from "react";
 
+import { CircleF } from "@react-google-maps/api";
+
 //redux
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
 import { mapCenterDefault } from "@/features/settings/settingsSlice";
@@ -137,7 +139,7 @@ export default function Map() {
     <>
       <div id="mainMap" ref={mapRef} style={{ width: "100%", height: "100%" }}>
         {/* center marking */}
-        {/* {searchStarted === true ? (
+        {searchStarted === true ? (
           <CircleF
             options={{
               strokeColor: "white",
@@ -154,8 +156,8 @@ export default function Map() {
             center={storedSearchPoint}
             radius={storedRange}
           ></CircleF>
-        ) : null} */}
-        <MapMarker
+        ) : null}
+        {/* <MapMarker
           data={{ storedSearchPoint, storedRange }}
           map={map}
           position={storedSearchPoint}
@@ -166,7 +168,7 @@ export default function Map() {
             radius={storedRange}
             map={map}
           />
-        </MapMarker>
+        </MapMarker> */}
 
         {/* ATMs being looked at */}
         {fullAtmList.map((atm) => (
