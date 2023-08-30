@@ -25,6 +25,7 @@ import MapMarker from "./MapMarker";
 import { Marker } from "@react-google-maps/api";
 import AtmMarker from "./AtmMarker";
 import RadiusMarker from "./RadiusMarker";
+import MapCircleDrawing from "./MapCircleDrawing";
 
 export default function Map() {
   //redux
@@ -140,52 +141,45 @@ export default function Map() {
       <div id="mainMap" ref={mapRef} style={{ width: "100%", height: "100%" }}>
         {/* center marking */}
         {searchStarted === true ? (
-          // {/* <CircleF
-          //   options={{
-          //     strokeColor: "white",
-          //     strokeOpacity: 0.8,
-          //     strokeWeight: 3,
-          //     fillColor: cupcakeColours["base-content"],
-          //     fillOpacity: 0.1,
-          //     clickable: false,
-          //     draggable: false,
-          //     editable: false,
-          //     visible: true,
-          //     zIndex: 1,
-          //   }}
-          //   center={storedSearchPoint}
-          //   radius={storedRange}
-          // ></CircleF> */}
-          <Circle
-            // required
-            center={storedSearchPoint}
-            // required
-            options={{
-              strokeColor: "white",
-              strokeOpacity: 0.8,
-              strokeWeight: 3,
-              fillColor: cupcakeColours["base-content"],
-              fillOpacity: 0.1,
-              clickable: false,
-              draggable: false,
-              editable: false,
-              visible: true,
-              zIndex: 1,
-            }}
+          <MapCircleDrawing
+            map={map}
+            position={storedSearchPoint}
+            radius={storedRange}
+            onClick={() => {}}
           />
         ) : null}
-        {/* <MapMarker
-          data={{ storedSearchPoint, storedRange }}
-          map={map}
-          position={storedSearchPoint}
-          onClick={() => {}}
-        >
-          <RadiusMarker
+        {/* {searchStarted === true ? (
+          <MapMarker
+            data={{ storedSearchPoint, storedRange }}
+            map={map}
+            position={storedSearchPoint}
+            onClick={() => {}}
+          >
+            <Circle
+              // required
+              center={storedSearchPoint}
+              // required
+              options={{
+                radius: storedRange,
+                strokeColor: "white",
+                strokeOpacity: 0.8,
+                strokeWeight: 3,
+                fillColor: cupcakeColours["base-content"],
+                fillOpacity: 0.1,
+                clickable: false,
+                draggable: false,
+                editable: false,
+                visible: true,
+                zIndex: 1,
+              }}
+            />
+            <RadiusMarker
             center={storedSearchPoint}
             radius={storedRange}
             map={map}
           />
-        </MapMarker> */}
+          </MapMarker>
+        ) : null} */}
 
         {/* ATMs being looked at */}
         {fullAtmList.map((atm) => (

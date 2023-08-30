@@ -37,7 +37,7 @@ export default function GoogleMaps() {
       apiKey={apiKey}
       version="beta"
       render={render}
-      libraries={["marker"]}
+      libraries={["marker", "drawing"]}
     >
       <Map />
     </Wrapper>
