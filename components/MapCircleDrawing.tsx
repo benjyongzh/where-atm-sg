@@ -2,7 +2,6 @@
 
 import { IGeoCode } from "@/features/googleAPI/geocoder";
 import { useEffect, useRef } from "react";
-import { createRoot } from "react-dom/client";
 
 type CircleDrawingProps = {
   map: google.maps.Map | null;
@@ -15,28 +14,22 @@ const MapCircleDrawing = (props: CircleDrawingProps) => {
   const { map, position, radius, onClick } = props;
 
   const drawingRef = useRef<google.maps.Circle | null>(null);
-  const rootRef = useRef<any>(null);
 
   useEffect(() => {
-    if (!rootRef.current) {
-      const markerContainer = document.createElement("div");
-      rootRef.current = createRoot(markerContainer);
-
-      drawingRef.current = new google.maps.Circle({
-        center: position,
-        radius,
-        strokeColor: "white",
-        strokeOpacity: 0.8,
-        strokeWeight: 3,
-        // fillColor: cupcakeColours["base-content"],
-        fillColor: "white",
-        fillOpacity: 0.1,
-        clickable: false,
-        draggable: false,
-        editable: false,
-        visible: true,
-      });
-    }
+    drawingRef.current = new google.maps.Circle({
+      center: position,
+      radius,
+      strokeColor: "white",
+      strokeOpacity: 0.8,
+      strokeWeight: 3,
+      // fillColor: cupcakeColours["base-content"],
+      fillColor: "white",
+      fillOpacity: 0.1,
+      clickable: false,
+      draggable: false,
+      editable: false,
+      visible: true,
+    });
     return () => {
       if (drawingRef.current) drawingRef.current.setMap(null);
     };
