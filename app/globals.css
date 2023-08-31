@@ -64,6 +64,10 @@ input:-webkit-autofill:active {
     @apply p-3 mx-4 my-2 shadow-xl bg-opacity-60 bg-base-100 backdrop-blur rounded-3xl;
   }
 
+  .radiusMarker {
+    @apply object-center border-4 rounded-full aspect-square bg-base-content bg-opacity-10 border-opacity-80;
+  }
+
   /* 
   .input {
     @apply w-full h-full p-2 m-0 rounded-full outline-none;
