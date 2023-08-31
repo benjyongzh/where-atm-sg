@@ -1,10 +1,11 @@
 "use client";
 
 import { IGeoCode } from "@/features/googleAPI/geocoder";
+import CustomCircle from "@/lib/customCircle";
 import { useEffect, useRef } from "react";
 
 type CircleDrawingProps = {
-  map: google.maps.Map | null;
+  map: google.maps.Map;
   position: IGeoCode;
   radius: number;
   onClick: Function;
@@ -16,20 +17,21 @@ const MapCircleDrawing = (props: CircleDrawingProps) => {
   const drawingRef = useRef<google.maps.Circle | null>(null);
 
   useEffect(() => {
-    drawingRef.current = new google.maps.Circle({
-      center: position,
-      radius,
-      strokeColor: "white",
-      strokeOpacity: 0.8,
-      strokeWeight: 3,
-      // fillColor: cupcakeColours["base-content"],
-      fillColor: "white",
-      fillOpacity: 0.1,
-      clickable: false,
-      draggable: false,
-      editable: false,
-      visible: true,
-    });
+    // drawingRef.current = new google.maps.Circle({
+    //   center: position,
+    //   radius,
+    //   strokeColor: "white",
+    //   strokeOpacity: 0.8,
+    //   strokeWeight: 3,
+    //   // fillColor: cupcakeColours["base-content"],
+    //   fillColor: "white",
+    //   fillOpacity: 0.1,
+    //   clickable: false,
+    //   draggable: false,
+    //   editable: false,
+    //   visible: true,
+    // });
+    drawingRef.current = new CustomCircle(position, radius, map);
     return () => {
       if (drawingRef.current) drawingRef.current.setMap(null);
     };
