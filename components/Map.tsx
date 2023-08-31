@@ -140,7 +140,7 @@ export default function Map() {
     <>
       <div id="mainMap" ref={mapRef} style={{ width: "100%", height: "100%" }}>
         {/* center marking */}
-        {searchStarted === true ? (
+        {searchStarted === true && map !== null ? (
           <MapCircleDrawing
             map={map}
             position={storedSearchPoint}
