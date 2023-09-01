@@ -1,8 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useEffect, useRef } from "react";
-
-import { Circle, CircleF } from "@react-google-maps/api";
+import React, { useState, useEffect, useRef } from "react";
 
 //redux
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
@@ -12,19 +10,11 @@ import {
   setSelectedAtmPlaceId,
 } from "@/features/atmData/atmDataSlice";
 
-//daisyUI
-import daisyuiColors from "daisyui/src/theming/themes";
-const cupcakeColours = daisyuiColors["[data-theme=cupcake]"];
-const lightColours = daisyuiColors["[data-theme=light]"];
-const nightColours = daisyuiColors["[data-theme=night]"];
-
 //lib/utils
 import { IGeoCode } from "@/features/googleAPI/geocoder";
 import { IAtmObject } from "@/lib/atmObject";
 import MapMarker from "./MapMarker";
-import { Marker } from "@react-google-maps/api";
 import AtmMarker from "./AtmMarker";
-import RadiusMarker from "./RadiusMarker";
 import MapCircleDrawing from "./MapCircleDrawing";
 
 export default function Map() {
@@ -148,38 +138,6 @@ export default function Map() {
             onClick={() => {}}
           />
         ) : null}
-        {/* {searchStarted === true ? (
-          <MapMarker
-            data={{ storedSearchPoint, storedRange }}
-            map={map}
-            position={storedSearchPoint}
-            onClick={() => {}}
-          >
-            <Circle
-              // required
-              center={storedSearchPoint}
-              // required
-              options={{
-                radius: storedRange,
-                strokeColor: "white",
-                strokeOpacity: 0.8,
-                strokeWeight: 3,
-                fillColor: cupcakeColours["base-content"],
-                fillOpacity: 0.1,
-                clickable: false,
-                draggable: false,
-                editable: false,
-                visible: true,
-                zIndex: 1,
-              }}
-            />
-            <RadiusMarker
-            center={storedSearchPoint}
-            radius={storedRange}
-            map={map}
-          />
-          </MapMarker>
-        ) : null} */}
 
         {/* ATMs being looked at */}
         {fullAtmList.map((atm) => (
