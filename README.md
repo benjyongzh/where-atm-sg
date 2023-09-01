@@ -18,10 +18,7 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 
 ## To-do list
 
-- mapID
 - clicking atmmarker to scroll atmlist
-- shadow of search radius: try react-wrapper
-- map colour styling
 - Use placeDetail for detailed address for map itemWindow and directions(?)
 - Loading animations for buttons and lists
 - Display error messages. Proper error handling of form submissions for nulls etc
