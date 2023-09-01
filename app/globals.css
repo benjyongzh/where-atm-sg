@@ -65,7 +65,7 @@ input:-webkit-autofill:active {
   }
 
   .radiusMarker {
-    @apply object-center border-4 rounded-full aspect-square bg-base-content bg-opacity-10 border-opacity-80;
+    @apply object-center border-4 rounded-full shadow-2xl aspect-square bg-base-content bg-opacity-10 border-opacity-80 border-base-100;
   }
 
   /* 
