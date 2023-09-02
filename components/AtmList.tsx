@@ -11,10 +11,6 @@ const AtmList = () => {
     (state) => state.display.currentBreakpoint
   );
 
-  const searchStarted: boolean = useAppSelector(
-    (state) => state.atmData.searchStarted
-  );
-
   const fullAtmList: IAtmObject[] = useAppSelector(
     (state) => state.atmData.allAtms
   );

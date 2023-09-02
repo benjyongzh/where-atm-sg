@@ -39,7 +39,10 @@ const AtmListItem = (props: AtmListItemProps) => {
 
   useEffect(() => {
     if (listItemRef.current && storedSelectedAtmId === atm.place_id) {
-      listItemRef.current.scrollIntoView({ behavior: "smooth" });
+      listItemRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
     }
   }, [storedSelectedAtmId]);
 
