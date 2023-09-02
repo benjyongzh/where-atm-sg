@@ -9,16 +9,18 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 - GMaps API (geocoding, nearby places, place detail with ID)
 - Making system design decisions based on user experience and API limitations and optimizations
 - Using multiple API calls per bank for better UX
-- react-google-maps API and customizing its styling
+- react-google-maps-API and customizing its styling
 - Mobile-first web design
 - Google Maps API prominence algorithm
 - Identifying similar addresses can only be done via GMaps' PlaceDetail API or via a 3rd-party API like Placekey, unless I reinvent the wheel for this
-- Different open-source libraries for using google maps in react
+- Different open-source libraries for using google maps in react. (this project migrated from react-google-maps-API to react-wrapper)
 - Google Advanced Markers for maps
+- Custom styling of overlayView in google maps API
+- Custom styling of google map
+- element.scrollIntoView
 
 ## To-do list
 
-- clicking atmmarker to scroll atmlist
 - Use placeDetail for detailed address for map itemWindow and directions(?)
 - Loading animations for buttons and lists
 - Display error messages. Proper error handling of form submissions for nulls etc
