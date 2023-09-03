@@ -37,6 +37,13 @@ const atmDataSlice = createSlice({
       // console.log("add action. payload: ", action.payload);
       state.searchStarted = action.payload;
     },
+    setParticularAtmData: (state, action: PayloadAction<IAtmObject>) => {
+      state.allAtms = state.allAtms.map((atm) => {
+        if (atm.place_id === action.payload.place_id) {
+          return action.payload;
+        } else return atm;
+      });
+    },
   },
 });
 
@@ -46,4 +53,5 @@ export const {
   setSelectedAtmPlaceId,
   setOnHoverAtmPlaceId,
   setSearchStarted,
+  setParticularAtmData,
 } = atmDataSlice.actions;
