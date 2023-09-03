@@ -1,3 +1,4 @@
+import { IDirections } from "@/features/googleAPI/directions";
 import { IGeoCode } from "@/features/googleAPI/geocoder";
 import { haversine_distance } from "@/utils/distance";
 
@@ -54,6 +55,7 @@ export interface IAtmObject {
   address: string;
   info?: string[];
   distance: number;
+  directions?: IDirections;
 }
 
 export interface rawFetchedNearbyPlacesInfo {
