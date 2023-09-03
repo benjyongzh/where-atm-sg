@@ -7,13 +7,17 @@ import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
 import {
   setSelectedAtmPlaceId,
   setOnHoverAtmPlaceId,
+  setParticularAtmData,
 } from "@/features/atmData/atmDataSlice";
+import { getWalkingDirections } from "@/features/googleAPI/directions";
+import { IGeoCode } from "@/features/googleAPI/geocoder";
 
 type AtmListItemProps = {
   atmData: IAtmObject;
 };
 
 const AtmListItem = (props: AtmListItemProps) => {
+  const { atmData: atm } = props;
   const dispatch = useAppDispatch();
   const listItemRef = useRef<HTMLLIElement>(null);
   const storedSelectedAtmId = useAppSelector(
@@ -22,12 +26,18 @@ const AtmListItem = (props: AtmListItemProps) => {
   const storedHoveredAtmId = useAppSelector(
     (state) => state.atmData.onHoverAtmPlaceId
   );
-  const { atmData: atm } = props;
+
+  const storedSearchPoint: IGeoCode = useAppSelector(
+    (state) => state.settings.searchLocationPoint
+  );
 
   const handleClick = () => {
     dispatch(setOnHoverAtmPlaceId(atm.place_id));
     if (storedSelectedAtmId !== atm.place_id) {
       dispatch(setSelectedAtmPlaceId(atm.place_id));
+      if (!atm.directions) {
+        getDirections();
+      }
     } else {
       dispatch(setSelectedAtmPlaceId(null));
     }
@@ -35,6 +45,26 @@ const AtmListItem = (props: AtmListItemProps) => {
 
   const handleMouseOver = (over: boolean) => {
     dispatch(setOnHoverAtmPlaceId(over ? atm.place_id : null));
+  };
+
+  const getDirections = async () => {
+    const directionsData = await getWalkingDirections(
+      storedSearchPoint,
+      atm.place_id
+    );
+    console.log("directions data: ", directionsData);
+    dispatch(
+      setParticularAtmData({
+        ...atm,
+        directions: {
+          originLatLng: storedSearchPoint,
+          destinationPlaceId: atm.place_id,
+          mode: "walking",
+          duration: 5, // in minutes
+          pathPolyline: "some polyline string",
+        },
+      })
+    );
   };
 
   useEffect(() => {
