@@ -9,7 +9,7 @@ import {
   setOnHoverAtmPlaceId,
   setParticularAtmData,
 } from "@/features/atmData/atmDataSlice";
-import { getWalkingDirections } from "@/features/googleAPI/directions";
+import { handleGetDirections } from "@/features/googleAPI/directions";
 import { IGeoCode } from "@/features/googleAPI/geocoder";
 
 type AtmListItemProps = {
@@ -48,23 +48,23 @@ const AtmListItem = (props: AtmListItemProps) => {
   };
 
   const getDirections = async () => {
-    const directionsData = await getWalkingDirections(
+    const directionsData = await handleGetDirections(
       storedSearchPoint,
       atm.place_id
     );
     console.log("directions data: ", directionsData);
-    dispatch(
-      setParticularAtmData({
-        ...atm,
-        directions: {
-          originLatLng: storedSearchPoint,
-          destinationPlaceId: atm.place_id,
-          mode: "walking",
-          duration: 5, // in minutes
-          pathPolyline: "some polyline string",
-        },
-      })
-    );
+    // dispatch(
+    //   setParticularAtmData({
+    //     ...atm,
+    //     directions: {
+    //       originLatLng: storedSearchPoint,
+    //       destinationPlaceId: atm.place_id,
+    //       mode: "walking",
+    //       duration: 5, // in minutes
+    //       pathPolyline: "some polyline string",
+    //     },
+    //   })
+    // );
   };
 
   useEffect(() => {
