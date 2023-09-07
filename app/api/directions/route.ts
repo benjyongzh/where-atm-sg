@@ -1,13 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { IGeoCode } from "@/features/googleAPI/geocoder";
 import { errorMessageObject } from "@/lib/errors";
-import {
-  IAtmObject,
-  bankNameList,
-  bankFilters,
-  processAtmDataForRedux,
-} from "@/lib/atmObject";
-import { cullDuplicatesBasedOnId } from "@/utils/objects";
 import { getWalkingDirections } from "@/features/googleAPI/directions";
 
 export async function POST(req: NextRequest) {
@@ -28,8 +20,12 @@ export async function POST(req: NextRequest) {
         }`,
       });
     }
+    const resData = {
+      directionsData,
+      errorMessages,
+    };
 
-    return new NextResponse(JSON.stringify(directionsData));
+    return new NextResponse(JSON.stringify(resData));
   } catch (err) {
     return new NextResponse(
       JSON.stringify({
