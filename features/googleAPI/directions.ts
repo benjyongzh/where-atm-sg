@@ -1,4 +1,5 @@
 import { IGeoCode } from "./geocoder";
+import { errorMessageObject, isErrorMessageObject } from "@/lib/errors";
 
 export interface IDirections {
   originLatLng: IGeoCode;
@@ -51,7 +52,7 @@ export const handleGetDirections = async (
   // Get the response data from server as JSON.
   // If server returns the name submitted, that means the form works.
   const result = await response.json();
-  console.log("search result: ", result);
+  console.log("directions search result: ", result);
 
   if (!isErrorMessageObject(result)) {
     // overall fetching success
