@@ -9,7 +9,11 @@ import {
   setOnHoverAtmPlaceId,
   setParticularAtmData,
 } from "@/features/atmData/atmDataSlice";
-import { handleGetDirections } from "@/features/googleAPI/directions";
+import {
+  getTotalWalkingDistanceMetres,
+  getTotalWalkingTimeMins,
+  handleGetDirections,
+} from "@/features/googleAPI/directions";
 import { IGeoCode } from "@/features/googleAPI/geocoder";
 
 type AtmListItemProps = {
@@ -52,7 +56,9 @@ const AtmListItem = (props: AtmListItemProps) => {
       storedSearchPoint,
       atm.place_id
     );
-    console.log("directions data: ", directionsData);
+    console.log("directions data from atmListItem: ", directionsData);
+    const distance = getTotalWalkingDistanceMetres(directionsData);
+    const duration = getTotalWalkingTimeMins(directionsData);
     // dispatch(
     //   setParticularAtmData({
     //     ...atm,

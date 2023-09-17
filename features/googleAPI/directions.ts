@@ -52,7 +52,7 @@ export const handleGetDirections = async (
   // Get the response data from server as JSON.
   // If server returns the name submitted, that means the form works.
   const result = await response.json();
-  console.log("directions search result: ", result);
+  // console.log("handleGetDirections search result: ", result);
 
   if (!isErrorMessageObject(result)) {
     // overall fetching success
@@ -64,4 +64,39 @@ export const handleGetDirections = async (
     //fetching failed
     console.log("Client fetching error: ", result.errorMessage); //error message gotta show
   }
+  return result;
+};
+
+export const getTotalWalkingDistanceMetres = (
+  data: google.maps.DirectionsResult
+) => {
+  let total = 0;
+  const myroute = data.routes[0];
+
+  if (!myroute) {
+    //no directions
+    return total;
+  }
+
+  for (let i = 0; i < myroute.legs.length; i++) {
+    total += myroute.legs[i]!.distance!.value;
+  }
+
+  return total;
+};
+
+export const getTotalWalkingTimeMins = (data: google.maps.DirectionsResult) => {
+  let total = 0;
+  const myroute = data.routes[0];
+
+  if (!myroute) {
+    //no directions
+    return total;
+  }
+
+  for (let i = 0; i < myroute.legs.length; i++) {
+    total += myroute.legs[i]!.duration!.value;
+  }
+
+  return Math.ceil(total / 60);
 };
