@@ -5,6 +5,7 @@ export interface IDirections {
   originLatLng: IGeoCode;
   destinationPlaceId: string;
   mode: string; //walking by default
+  distance: number; // in minutes
   duration: number; // in minutes
   pathPolyline: string;
 }
