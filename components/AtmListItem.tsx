@@ -57,20 +57,23 @@ const AtmListItem = (props: AtmListItemProps) => {
       atm.place_id
     );
     console.log("directions data from atmListItem: ", directionsData);
-    const distance = getTotalWalkingDistanceMetres(directionsData);
-    const duration = getTotalWalkingTimeMins(directionsData);
-    // dispatch(
-    //   setParticularAtmData({
-    //     ...atm,
-    //     directions: {
-    //       originLatLng: storedSearchPoint,
-    //       destinationPlaceId: atm.place_id,
-    //       mode: "walking",
-    //       duration: 5, // in minutes
-    //       pathPolyline: "some polyline string",
-    //     },
-    //   })
-    // );
+    const distance = getTotalWalkingDistanceMetres(
+      directionsData.directionsData
+    );
+    const duration = getTotalWalkingTimeMins(directionsData.directionsData);
+    dispatch(
+      setParticularAtmData({
+        ...atm,
+        directions: {
+          originLatLng: storedSearchPoint,
+          destinationPlaceId: atm.place_id,
+          mode: "walking",
+          distance: distance, // in minutes
+          duration: duration, // in minutes
+          pathPolyline: "some polyline string",
+        },
+      })
+    );
   };
 
   useEffect(() => {
@@ -106,6 +109,11 @@ const AtmListItem = (props: AtmListItemProps) => {
         </div>
         <div className="flex flex-col items-start justify-start w-full collapse-content">
           <p className="flex text-sm text-start">{atm.address}</p>
+          {atm.directions && (
+            <p className="flex text-sm text-start">
+              {atm.directions.distance} m, {atm.directions.duration} mins
+            </p>
+          )}
         </div>
       </div>
     </li>
