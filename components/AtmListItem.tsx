@@ -2,7 +2,7 @@ import { IAtmObject } from "@/lib/atmObject";
 import { GiPathDistance } from "react-icons/gi";
 import { FaWalking } from "react-icons/fa";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
 import {
@@ -23,6 +23,7 @@ type AtmListItemProps = {
 
 const AtmListItem = (props: AtmListItemProps) => {
   const { atmData: atm } = props;
+  const [loadedDirections, setLoadedDirections] = useState(false);
   const dispatch = useAppDispatch();
   const listItemRef = useRef<HTMLLIElement>(null);
   const storedSelectedAtmId = useAppSelector(
@@ -53,6 +54,7 @@ const AtmListItem = (props: AtmListItemProps) => {
   };
 
   const getDirections = async () => {
+    setLoadedDirections(true);
     const directionsData = await handleGetDirections(
       storedSearchPoint,
       atm.place_id
@@ -109,10 +111,13 @@ const AtmListItem = (props: AtmListItemProps) => {
           </div>
         </div>
         <div className="flex flex-col items-start justify-start w-full gap-2 collapse-content">
-          {atm.directions && (
+          {loadedDirections && (
             <p className="flex text-sm text-start">
-              <FaWalking />{" "}
-              {atm.directions.duration || (
+              <FaWalking />
+              <span>&nbsp;</span>
+              {atm.directions ? (
+                atm.directions.duration
+              ) : (
                 <span className="loading loading-spinner loading-xs"></span>
               )}{" "}
               mins
