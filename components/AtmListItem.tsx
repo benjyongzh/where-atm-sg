@@ -1,5 +1,6 @@
 import { IAtmObject } from "@/lib/atmObject";
 import { GiPathDistance } from "react-icons/gi";
+import { FaWalking } from "react-icons/fa";
 
 import { useRef, useEffect } from "react";
 
@@ -107,13 +108,17 @@ const AtmListItem = (props: AtmListItemProps) => {
             {atm.distance}m
           </div>
         </div>
-        <div className="flex flex-col items-start justify-start w-full collapse-content">
-          <p className="flex text-sm text-start">{atm.address}</p>
+        <div className="flex flex-col items-start justify-start w-full gap-2 collapse-content">
           {atm.directions && (
             <p className="flex text-sm text-start">
-              {atm.directions.distance} m, {atm.directions.duration} mins
+              <FaWalking />{" "}
+              {atm.directions.duration || (
+                <span className="loading loading-spinner loading-xs"></span>
+              )}{" "}
+              mins
             </p>
           )}
+          <p className="flex text-sm text-start">{atm.address}</p>
         </div>
       </div>
     </li>
