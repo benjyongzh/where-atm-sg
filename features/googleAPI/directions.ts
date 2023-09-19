@@ -59,11 +59,11 @@ export const handleGetDirections = async (
     // overall fetching success
     // check for handled error messages
     result.errorMessages.forEach((error: errorMessageObject) => {
-      console.log(`Client error message: `, error); //error message gotta show
+      // console.log(`Client error message: `, error); //error message gotta show
     });
   } else {
     //fetching failed
-    console.log("Client fetching error: ", result.errorMessage); //error message gotta show
+    // console.log("Client fetching error: ", result.errorMessage); //error message gotta show
   }
   return result;
 };
