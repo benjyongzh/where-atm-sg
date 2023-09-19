@@ -18,6 +18,7 @@ import { IAtmObject } from "@/lib/atmObject";
 import MapMarker from "./MapMarker";
 import AtmMarker from "./AtmMarker";
 import MapCircleDrawing from "./MapCircleDrawing";
+import SearchpointMarker from "./SearchpointMarker";
 
 export default function Map() {
   //redux
@@ -131,7 +132,19 @@ export default function Map() {
   return (
     <>
       <div id="mainMap" ref={mapRef} style={{ width: "100%", height: "100%" }}>
-        {/* center marking */}
+        {/* search point marking */}
+        {searchStarted === true && map !== null ? (
+          <MapMarker
+            data={{}}
+            map={map}
+            position={storedSearchPoint}
+            onClick={() => {}}
+          >
+            <SearchpointMarker />
+          </MapMarker>
+        ) : null}
+
+        {/* search radius marking */}
         {searchStarted === true && map !== null ? (
           <MapCircleDrawing
             map={map}
