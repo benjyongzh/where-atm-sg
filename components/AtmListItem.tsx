@@ -49,7 +49,7 @@ const AtmListItem = (props: AtmListItemProps) => {
     dispatch(setOnHoverAtmPlaceId(atm.place_id));
     if (storedSelectedAtmId !== atm.place_id) {
       dispatch(setSelectedAtmPlaceId(atm.place_id));
-      if (!atm.directions) {
+      if (!atm.directions || !loadedDirections) {
         getDirections();
       }
     } else {
@@ -68,6 +68,15 @@ const AtmListItem = (props: AtmListItemProps) => {
       atm.place_id
     );
     console.log("directions data from atmListItem: ", directionsData);
+    if (isErrorMessageObject(directionsData)) {
+      dispatch(
+        setParticularAtmData({
+          ...atm,
+          directions: undefined,
+        })
+      );
+      setLoadedDirections(false);
+    }
     const distance = getTotalWalkingDistanceMetres(
       directionsData.directionsData
     );
@@ -119,19 +128,25 @@ const AtmListItem = (props: AtmListItemProps) => {
           </div>
         </div>
         <div className="flex flex-col items-start justify-start w-full gap-2 collapse-content">
-          {loadedDirections && (
-            <p className="flex text-sm text-start">
-              <FaWalking />
-              <span>&nbsp;</span>
-              {atm.directions ? (
-                atm.directions.duration
-              ) : (
-                <span className="loading loading-spinner loading-xs"></span>
-              )}{" "}
-              mins
-            </p>
-          )}
-          <p className="flex text-sm text-start">{atm.address}</p>
+          <p className="flex text-sm text-start">
+            <FaWalking />
+            <span>&nbsp;</span>
+            {loadedDirections ? (
+              <span>
+                {atm.directions ? (
+                  atm.directions.duration
+                ) : (
+                  <span className="loading loading-spinner loading-xs"></span>
+                )}{" "}
+                mins
+              </span>
+            ) : (
+              <span className="text-error">
+                Failed to load walking distance
+              </span>
+            )}
+          </p>
+          )<p className="flex text-sm text-start">{atm.address}</p>
         </div>
       </div>
     </li>
