@@ -1,15 +1,23 @@
-import { IAtmObject } from "@/lib/atmObject";
+//react
+import { useRef, useEffect, useState } from "react";
+
+//icons
 import { GiPathDistance } from "react-icons/gi";
 import { FaWalking } from "react-icons/fa";
 
-import { useRef, useEffect, useState } from "react";
+//libraries
+import { IAtmObject } from "@/lib/atmObject";
+import { isErrorMessageObject } from "@/lib/errors";
 
+//redux
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
 import {
   setSelectedAtmPlaceId,
   setOnHoverAtmPlaceId,
   setParticularAtmData,
 } from "@/features/atmData/atmDataSlice";
+
+//features
 import {
   getTotalWalkingDistanceMetres,
   getTotalWalkingTimeMins,
