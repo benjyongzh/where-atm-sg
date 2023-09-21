@@ -21,10 +21,10 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 
 ## To-do list
 
-- Use placeDetail for detailed address for map itemWindow and directions(?)
-- Loading animations for buttons and lists
+- Error message for invalid search address
+- autofill search address
+- Loading animations for atmList
 - Display error messages. Proper error handling of form submissions for nulls etc
-- sanitization and validation of addressInput for search
 - using user's location, navigator.geolocation(?)
 - set website restriction for GMaps API
 
