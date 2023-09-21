@@ -135,7 +135,7 @@ export default function Map() {
         {/* search point marking */}
         {searchStarted === true && map !== null ? (
           <MapMarker
-            data={{}}
+            data={storedSearchPoint}
             map={map}
             position={storedSearchPoint}
             onClick={() => {}}
