@@ -146,7 +146,7 @@ const AtmListItem = (props: AtmListItemProps) => {
               </span>
             )}
           </p>
-          )<p className="flex text-sm text-start">{atm.address}</p>
+          <p className="flex text-sm text-start">{atm.address}</p>
         </div>
       </div>
     </li>
