@@ -40,7 +40,7 @@ const FilterButton = (props: { banks: string[] }) => {
         const currentAtm = fullAtmList.find(
           (atm) => atm.place_id === storedSelectedAtmId
         );
-        if (banks.includes(currentAtm!.brand))
+        if (currentAtm && banks.includes(currentAtm.brand))
           dispatch(setSelectedAtmPlaceId(null));
       }
     } else {
