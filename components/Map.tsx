@@ -66,6 +66,7 @@ export default function Map() {
     // console.log("something is  clicked");
     if (storedBankFilters.includes(brand)) return;
     dispatch(setSelectedAtmPlaceId(id));
+    //load walking distance
   };
 
   useEffect(() => {
