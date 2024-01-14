@@ -50,7 +50,8 @@ const AtmListItem = (props: AtmListItemProps) => {
     if (storedSelectedAtmId !== atm.place_id) {
       dispatch(setSelectedAtmPlaceId(atm.place_id));
       if (!atm.directions || !loadedDirections) {
-        getDirections();
+        setLoadedDirections(true);
+        getDirections(storedSearchPoint, atm.place_id);
       }
     } else {
       dispatch(setSelectedAtmPlaceId(null));
