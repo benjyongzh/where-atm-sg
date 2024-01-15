@@ -1,5 +1,10 @@
 import { IGeoCode } from "./geocoder";
 import { errorMessageObject, isErrorMessageObject } from "@/lib/errors";
+import { store } from "@/context/store";
+import { IAtmObject } from "@/lib/atmObject";
+
+import { setParticularAtmData } from "../atmData/atmDataSlice";
+
 
 export interface IDirections {
   originLatLng: IGeoCode;
@@ -23,6 +28,41 @@ export async function getWalkingDirections(
   } catch (err) {
     console.log(`Walking Directions error: `, err);
   }
+}
+
+export const handleUpdateDirections = async (originLatLng: IGeoCode, atm: IAtmObject, isLoadingBoolFn: Function) => {
+  isLoadingBoolFn(true);
+  const directionsData = await handleGetDirections(
+    originLatLng,
+    atm.place_id
+  );
+  console.log("directions data from atmListItem: ", directionsData);
+  if (isErrorMessageObject(directionsData)) {
+    store.dispatch(
+      setParticularAtmData({
+        ...atm,
+        directions: undefined,
+      })
+    );
+    isLoadingBoolFn(false);
+  }
+  const distance = getTotalWalkingDistanceMetres(
+    directionsData.directionsData
+  );
+  const duration = getTotalWalkingTimeMins(directionsData.directionsData);
+  store.dispatch(
+    setParticularAtmData({
+      ...atm,
+      directions: {
+        originLatLng,
+        destinationPlaceId: atm.place_id,
+        mode: "walking",
+        distance: distance, // in minutes
+        duration: duration, // in minutes
+        pathPolyline: "some polyline string",
+      },
+    })
+  );
 }
 
 export const handleGetDirections = async (

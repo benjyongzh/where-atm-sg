@@ -7,21 +7,17 @@ import { FaWalking } from "react-icons/fa";
 
 //libraries
 import { IAtmObject } from "@/lib/atmObject";
-import { isErrorMessageObject } from "@/lib/errors";
 
 //redux
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
 import {
   setSelectedAtmPlaceId,
   setOnHoverAtmPlaceId,
-  setParticularAtmData,
 } from "@/features/atmData/atmDataSlice";
 
 //features
 import {
-  getTotalWalkingDistanceMetres,
-  getTotalWalkingTimeMins,
-  handleGetDirections,
+  handleUpdateDirections,
 } from "@/features/googleAPI/directions";
 import { IGeoCode } from "@/features/googleAPI/geocoder";
 
@@ -51,7 +47,7 @@ const AtmListItem = (props: AtmListItemProps) => {
       dispatch(setSelectedAtmPlaceId(atm.place_id));
       if (!atm.directions || !loadedDirections) {
         setLoadedDirections(true);
-        getDirections(storedSearchPoint, atm.place_id);
+        updateAtmDirections();
       }
     } else {
       dispatch(setSelectedAtmPlaceId(null));
@@ -62,40 +58,9 @@ const AtmListItem = (props: AtmListItemProps) => {
     dispatch(setOnHoverAtmPlaceId(over ? atm.place_id : null));
   };
 
-  const getDirections = async () => {
-    setLoadedDirections(true);
-    const directionsData = await handleGetDirections(
-      storedSearchPoint,
-      atm.place_id
-    );
-    console.log("directions data from atmListItem: ", directionsData);
-    if (isErrorMessageObject(directionsData)) {
-      dispatch(
-        setParticularAtmData({
-          ...atm,
-          directions: undefined,
-        })
-      );
-      setLoadedDirections(false);
-    }
-    const distance = getTotalWalkingDistanceMetres(
-      directionsData.directionsData
-    );
-    const duration = getTotalWalkingTimeMins(directionsData.directionsData);
-    dispatch(
-      setParticularAtmData({
-        ...atm,
-        directions: {
-          originLatLng: storedSearchPoint,
-          destinationPlaceId: atm.place_id,
-          mode: "walking",
-          distance: distance, // in minutes
-          duration: duration, // in minutes
-          pathPolyline: "some polyline string",
-        },
-      })
-    );
-  };
+  const updateAtmDirections = () => {
+    handleUpdateDirections(storedSearchPoint, atm, setLoadedDirections);
+  }
 
   useEffect(() => {
     if (listItemRef.current && storedSelectedAtmId === atm.place_id) {
