@@ -65,6 +65,11 @@ export interface rawFetchedNearbyPlacesInfo {
   address: string;
 }
 
+export interface atmLoadingDirectionsFlag {
+  atm:IAtmObject;
+  isLoadingDirections: boolean
+}
+
 export const getBrandFromRawPlacesInfo = (arg: rawFetchedNearbyPlacesInfo) => {
   //use includes between bankNameList and arg.name
   for (let i = 0; i < bankNameList.length; i++) {

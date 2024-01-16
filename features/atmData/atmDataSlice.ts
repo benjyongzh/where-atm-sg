@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IGeoCode } from "../googleAPI/geocoder";
-import { IAtmObject, rawFetchedNearbyPlacesInfo } from "@/lib/atmObject";
+import { IAtmObject, atmLoadingDirectionsFlag } from "@/lib/atmObject";
 
 type InitialState = {
   allAtms: Array<IAtmObject>;
   selectedAtmPlaceId: string | null;
   onHoverAtmPlaceId: string | null;
   searchStarted: boolean;
+  allAtmLoadingDirectionsFlags: Array<atmLoadingDirectionsFlag>
 };
 
 const initialState: InitialState = {
@@ -14,6 +15,7 @@ const initialState: InitialState = {
   selectedAtmPlaceId: null,
   onHoverAtmPlaceId: null,
   searchStarted: false,
+  allAtmLoadingDirectionsFlags: []
 };
 
 // create slice takes an object with name, initialState and reducers
@@ -24,6 +26,10 @@ const atmDataSlice = createSlice({
     setAtmData: (state, action: PayloadAction<Array<IAtmObject>>) => {
       // console.log("add action. payload: ", action.payload);
       state.allAtms = action.payload;
+      action.payload.forEach(atm => {
+        state.allAtmLoadingDirectionsFlags.push({atm,
+          isLoadingDirections: false})
+      });
     },
     setSelectedAtmPlaceId: (state, action: PayloadAction<string | null>) => {
       // console.log("add action. payload: ", action.payload);
@@ -44,6 +50,13 @@ const atmDataSlice = createSlice({
         } else return atm;
       });
     },
+    setParticularAtmIsLoadingDirectionsFlag: (state, action: PayloadAction<atmLoadingDirectionsFlag>) => {
+      state.allAtmLoadingDirectionsFlags = state.allAtmLoadingDirectionsFlags.map((flagObject) => {
+        if (flagObject.atm.place_id === action.payload.atm.place_id) {
+          return action.payload;
+        } else return flagObject;
+      });
+    },
   },
 });
 
@@ -54,4 +67,5 @@ export const {
   setOnHoverAtmPlaceId,
   setSearchStarted,
   setParticularAtmData,
+  setParticularAtmIsLoadingDirectionsFlag
 } = atmDataSlice.actions;
