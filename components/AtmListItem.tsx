@@ -1,5 +1,5 @@
 //react
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect} from "react";
 
 //icons
 import { GiPathDistance } from "react-icons/gi";
@@ -27,7 +27,6 @@ type AtmListItemProps = {
 
 const AtmListItem = (props: AtmListItemProps) => {
   const { atmData: atm } = props;
-  const [loadedDirections, setLoadedDirections] = useState(false);
   const dispatch = useAppDispatch();
   const listItemRef = useRef<HTMLLIElement>(null);
   const storedSelectedAtmId = useAppSelector(
@@ -41,12 +40,15 @@ const AtmListItem = (props: AtmListItemProps) => {
     (state) => state.settings.searchLocationPoint
   );
 
+  const storedIsLoadingAtmDirectionsFlag = useAppSelector(
+    (state) => state.atmData.allAtmLoadingDirectionsFlags.filter(flagObject => {flagObject.atm.place_id === atm.place_id})[0]
+  );
+
   const handleClick = () => {
     dispatch(setOnHoverAtmPlaceId(atm.place_id));
     if (storedSelectedAtmId !== atm.place_id) {
       dispatch(setSelectedAtmPlaceId(atm.place_id));
-      if (!atm.directions || !loadedDirections) {
-        setLoadedDirections(true);
+      if (!atm.directions || !storedIsLoadingAtmDirectionsFlag) {
         updateAtmDirections();
       }
     } else {
@@ -59,7 +61,7 @@ const AtmListItem = (props: AtmListItemProps) => {
   };
 
   const updateAtmDirections = () => {
-    handleUpdateDirections(storedSearchPoint, atm, setLoadedDirections);
+    handleUpdateDirections(storedSearchPoint, atm);
   }
 
   useEffect(() => {
@@ -97,7 +99,7 @@ const AtmListItem = (props: AtmListItemProps) => {
           <p className="flex text-sm text-start">
             <FaWalking />
             <span>&nbsp;</span>
-            {loadedDirections ? (
+            {storedIsLoadingAtmDirectionsFlag ? (
               <span>
                 {atm.directions ? (
                   atm.directions.duration
