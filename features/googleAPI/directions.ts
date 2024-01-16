@@ -3,7 +3,7 @@ import { errorMessageObject, isErrorMessageObject } from "@/lib/errors";
 import { store } from "@/context/store";
 import { IAtmObject } from "@/lib/atmObject";
 
-import { setParticularAtmData } from "../atmData/atmDataSlice";
+import { setParticularAtmData,setParticularAtmIsLoadingDirectionsFlag } from "../atmData/atmDataSlice";
 
 
 export interface IDirections {
@@ -30,8 +30,9 @@ export async function getWalkingDirections(
   }
 }
 
-export const handleUpdateDirections = async (originLatLng: IGeoCode, atm: IAtmObject, isLoadingBoolFn: Function) => {
-  isLoadingBoolFn(true);
+export const handleUpdateDirections = async (originLatLng: IGeoCode, atm: IAtmObject, /* isLoadingBoolFn: Function */) => {
+  // isLoadingBoolFn(true);
+  store.dispatch(setParticularAtmIsLoadingDirectionsFlag({atm, isLoadingDirections: true}))
   const directionsData = await handleGetDirections(
     originLatLng,
     atm.place_id
@@ -44,8 +45,10 @@ export const handleUpdateDirections = async (originLatLng: IGeoCode, atm: IAtmOb
         directions: undefined,
       })
     );
-    isLoadingBoolFn(false);
+    // isLoadingBoolFn(false);
+    store.dispatch(setParticularAtmIsLoadingDirectionsFlag({atm, isLoadingDirections: false}))
   }
+
   const distance = getTotalWalkingDistanceMetres(
     directionsData.directionsData
   );
