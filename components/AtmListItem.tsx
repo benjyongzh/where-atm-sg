@@ -41,16 +41,14 @@ const AtmListItem = (props: AtmListItemProps) => {
   );
 
   const storedIsLoadingAtmDirectionsFlag = useAppSelector(
-    (state) => state.atmData.allAtmLoadingDirectionsFlags.filter(flagObject => {flagObject.atm.place_id === atm.place_id})[0]
+    (state) => state.atmData.allAtmLoadingDirectionsFlags.filter(flagObject => flagObject.atm.place_id === atm.place_id)[0].isLoadingDirections
   );
 
   const handleClick = () => {
     dispatch(setOnHoverAtmPlaceId(atm.place_id));
     if (storedSelectedAtmId !== atm.place_id) {
       dispatch(setSelectedAtmPlaceId(atm.place_id));
-      if (!atm.directions || !storedIsLoadingAtmDirectionsFlag) {
-        updateAtmDirections();
-      }
+      updateAtmDirections();
     } else {
       dispatch(setSelectedAtmPlaceId(null));
     }

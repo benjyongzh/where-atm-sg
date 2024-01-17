@@ -13,7 +13,7 @@ import {
 //lib/utils
 import {handleUpdateDirections} from "@/features/googleAPI/directions";
 import { IGeoCode } from "@/features/googleAPI/geocoder";
-import { IAtmObject, atmLoadingDirectionsFlag } from "@/lib/atmObject";
+import { IAtmObject } from "@/lib/atmObject";
 
 //components
 import MapMarker from "./MapMarker";
@@ -38,10 +38,6 @@ export default function Map() {
 
   const fullAtmList: IAtmObject[] = useAppSelector(
     (state) => state.atmData.allAtms
-  );
-
-  const storedIsLoadingAtmDirectionsFlag = useAppSelector(
-    (state) => state.atmData.allAtmLoadingDirectionsFlags
   );
 
   const storedSearchPoint: IGeoCode = useAppSelector(
@@ -69,14 +65,10 @@ export default function Map() {
   };
 
   const handleAtmMarkerClick = (atm:IAtmObject) => {
-    // console.log("something is  clicked");
     if (storedBankFilters.includes(atm.brand)) return;
     dispatch(setSelectedAtmPlaceId(atm.place_id));
     //load walking distance
-    const isLoadingFlagObject: atmLoadingDirectionsFlag = storedIsLoadingAtmDirectionsFlag.filter(flagObject => {flagObject.atm.place_id === atm.place_id})[0]
-    if (!atm.directions || !isLoadingFlagObject.isLoadingDirections) {
-      updateAtmDirections(atm);
-    }
+    updateAtmDirections(atm);
 
   };
 

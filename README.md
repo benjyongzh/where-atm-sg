@@ -20,11 +20,9 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 - element.scrollIntoView
 
 ## To-do list
-
-- Error message for invalid search address
-- Fix walking distance not getting loaded when clicking atmMapMarker instead of atmListItem. Find out about pubsub in react, since gettingdirectionsdata should be an event published by either atmListItem or atmMapMarker.
+- try serversideprops for googlemaps search page
 - autofill search address
-- Loading animations for atmList
+- Error message for invalid search address
 - Display error messages. Proper error handling of form submissions for nulls etc
 - using user's location, navigator.geolocation(?)
 - set website restriction for GMaps API
