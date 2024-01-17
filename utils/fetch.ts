@@ -1,0 +1,1 @@
+export const reqTimeOut = AbortSignal.timeout(3000)

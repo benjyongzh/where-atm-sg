@@ -1,21 +1,16 @@
 "use client";
 import { useState } from "react";
 //redux
-import { setSearchLocationPoint } from "@/features/settings/settingsSlice";
+import { setSearchLocationPoint,setFilterIsOpen } from "@/features/settings/settingsSlice";
 import { setAtmData, setSearchStarted } from "@/features/atmData/atmDataSlice";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 
-import {
-  maxSearchRange,
-  setFilterIsOpen,
-} from "@/features/settings/settingsSlice";
+//utils
 import { errorMessageObject, isErrorMessageObject } from "@/lib/errors";
-import { IAtmObject } from "@/lib/atmObject";
+import { reqTimeOut } from "@/utils/fetch";
 
-import { IGeoCode } from "@/features/googleAPI/geocoder";
-
+//graphics
 import SearchIcon from "@/public/assets/icons/search.svg";
-// import { MdSearch } from "react-icons/md";
 
 const SearchSection = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -48,6 +43,7 @@ const SearchSection = () => {
         searchRange: storedRange,
         filteredBanks: storedBankFilterList,
       }),
+      reqTimeOut
     };
 
     // Send the form data to our forms API on Vercel and get a response.
