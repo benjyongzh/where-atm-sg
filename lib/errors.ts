@@ -9,6 +9,13 @@ export function isErrorMessageObject(arg: any): arg is errorMessageObject {
   return arg && arg.errorMessage && typeof arg.errorMessage === "string";
 }
 
-export function setDisplayErrorMessage(msg:string | null){
-  store.dispatch(setDisplayedErrorMessage(msg))
+export function setDisplayErrorMessage(msg: string | null) {
+  store.dispatch(setDisplayedErrorMessage(msg));
 }
+
+export const errorMessageStrings = {
+  noResultsFound: "No results",
+  geocodingFailure: "Failed to get location data",
+  placesFailure: "Failed to get ATM data",
+  directionsFailure: "Failed to get directions data",
+};

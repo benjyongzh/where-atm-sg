@@ -1,19 +1,19 @@
 "use client";
-
-import { useState } from "react";
 import { useAppSelector } from "@/hooks/reduxHooks";
 
-
 const ErrorMessageModal = () => {
-  const mediaBreakpoint: string = useAppSelector(
-    (state) => state.display.currentBreakpoint
+  const errorMessage: string | null = useAppSelector(
+    (state) => state.errors.displayedErrorMessage
   );
 
-  return mediaBreakpoint === "xs" ? null : (
-    <div className="relative z-10 flex flex-col items-stretch max-h-[30%] lg:max-h-none overflow-y-auto mt-auto lg:mt-0 lg:w-[30%] max-w-5xl">
+  if (errorMessage === null) return;
+
+  return (
+    <div className="relative z-10 flex flex-col items-stretch justify-start w-full lg:w-[30%]">
       <div
-        className={`flex flex-col items-center gap-2 h-full min-h-0 mb-10 nav-bg justify-start`}
+        className={`relative flex flex-col justify-center nav-bg gap-2 item-center`}
       >
+        {errorMessage}
       </div>
     </div>
   );

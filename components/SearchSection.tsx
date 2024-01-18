@@ -1,12 +1,19 @@
 "use client";
 import { useState } from "react";
 //redux
-import { setSearchLocationPoint,setFilterIsOpen } from "@/features/settings/settingsSlice";
+import {
+  setSearchLocationPoint,
+  setFilterIsOpen,
+} from "@/features/settings/settingsSlice";
 import { setAtmData, setSearchStarted } from "@/features/atmData/atmDataSlice";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 
 //utils
-import { errorMessageObject, isErrorMessageObject } from "@/lib/errors";
+import {
+  errorMessageObject,
+  isErrorMessageObject,
+  setDisplayErrorMessage,
+} from "@/lib/errors";
 import { reqTimeOut } from "@/utils/fetch";
 
 //graphics
@@ -26,6 +33,7 @@ const SearchSection = () => {
     event.preventDefault();
     dispatch(setFilterIsOpen(false));
     setIsLoading(true);
+    setDisplayErrorMessage(null);
     //should validate and sanitize addressInput string here first
     const endpoint = "/api/search";
 
@@ -43,7 +51,7 @@ const SearchSection = () => {
         searchRange: storedRange,
         filteredBanks: storedBankFilterList,
       }),
-      reqTimeOut
+      reqTimeOut,
     };
 
     // Send the form data to our forms API on Vercel and get a response.
@@ -65,6 +73,7 @@ const SearchSection = () => {
     } else {
       //fetching failed
       console.log("Client fetching error: ", result.errorMessage); //error message gotta show
+      setDisplayErrorMessage(result.errorMessage);
     }
     setIsLoading(false);
     dispatch(setSearchStarted(true));
