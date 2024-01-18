@@ -20,6 +20,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import atmDataReducer from "@/features/atmData/atmDataSlice";
 import settingsReducer from "@/features/settings/settingsSlice";
 import displayReducer from "@/features/display/displaySlice";
+import errorsReducer from "@/features/errors/errorsSlice";
 // const rootReducer = combineReducers({
 //   auth: authReducer,
 //   page: pageReducer,
@@ -35,6 +36,7 @@ export const store = configureStore({
     atmData: atmDataReducer,
     settings: settingsReducer,
     display: displayReducer,
+    errors: errorsReducer,
   },
   //middleware takes a function that has getDefaultMiddleware. concat your middleware to it
   // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
