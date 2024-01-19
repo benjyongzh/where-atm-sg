@@ -15,7 +15,12 @@ export function setDisplayErrorMessage(msg: string | null) {
 
 export const errorMessageStrings = {
   noResultsFound: "No results",
-  geocodingFailure: "Failed to get location data",
-  placesFailure: "Failed to get ATM data",
-  directionsFailure: "Failed to get directions data",
+  geocodingAPIFailure: "Failed to reach geocoding service",
+  geocodingDataFailure: "Error in geocoding data",
+  placesAPIFailure: "Failed to reach server for ATM data",
+  placesDataFailure: "Error in ATM data",
+  directionsAPIFailure: "Failed to reach server for directions",
+  directionsDataFailure: "Error in directions data",
+  searchAPIFailure: "Failed to reach server for search",
+  searchDataFailure: "Error in searched data",
 };
