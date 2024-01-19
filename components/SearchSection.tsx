@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 //utils
 import {
   errorMessageObject,
+  errorMessageStrings,
   isErrorMessageObject,
   setDisplayErrorMessage,
 } from "@/lib/errors";
@@ -73,7 +74,7 @@ const SearchSection = () => {
     } else {
       //fetching failed
       console.log("Client fetching error: ", result.errorMessage); //error message gotta show
-      setDisplayErrorMessage(result.errorMessage);
+      setDisplayErrorMessage(errorMessageStrings.geocodingFailure);
     }
     setIsLoading(false);
     dispatch(setSearchStarted(true));
