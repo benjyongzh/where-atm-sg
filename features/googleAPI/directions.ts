@@ -4,7 +4,10 @@ import { store } from "@/context/store";
 import { IAtmObject } from "@/lib/atmObject";
 import { isEmptyObj } from "@/utils/objects";
 
-import { setParticularAtmData,setParticularAtmIsLoadingDirectionsFlag } from "../atmData/atmDataSlice";
+import {
+  setParticularAtmData,
+  setParticularAtmIsLoadingDirectionsFlag,
+} from "../atmData/atmDataSlice";
 
 export interface IDirections {
   originLatLng: IGeoCode;
@@ -30,24 +33,31 @@ export async function getWalkingDirections(
   }
 }
 
-export const handleUpdateDirections = async (originLatLng: IGeoCode, atm: IAtmObject) => {
-
+export const handleUpdateDirections = async (
+  originLatLng: IGeoCode,
+  atm: IAtmObject
+) => {
   //guard clause
-  const allAtmDirectionFlags = store.getState().atmData.allAtmLoadingDirectionsFlags
-  const storedIsLoadingAtmDirectionsFlag = allAtmDirectionFlags.filter(flagObject => flagObject.atm.place_id === atm.place_id)[0]
+  const allAtmDirectionFlags =
+    store.getState().atmData.allAtmLoadingDirectionsFlags;
+  const storedIsLoadingAtmDirectionsFlag = allAtmDirectionFlags.filter(
+    (flagObject) => flagObject.atm.place_id === atm.place_id
+  )[0];
   // console.log('flag:', storedIsLoadingAtmDirectionsFlag)
-  if (!isEmptyObj(atm.directions) || storedIsLoadingAtmDirectionsFlag.isLoadingDirections) {
+  if (
+    !isEmptyObj(atm.directions) ||
+    storedIsLoadingAtmDirectionsFlag.isLoadingDirections
+  ) {
     return;
   }
-  
+
   //start loading
-  store.dispatch(setParticularAtmIsLoadingDirectionsFlag({atm, isLoadingDirections: true}))
+  store.dispatch(
+    setParticularAtmIsLoadingDirectionsFlag({ atm, isLoadingDirections: true })
+  );
 
   //get data
-  const directionsData = await handleGetDirections(
-    originLatLng,
-    atm.place_id
-  );
+  const directionsData = await handleGetDirections(originLatLng, atm.place_id);
   console.log("directions data from atmListItem: ", directionsData);
 
   //check for errors
@@ -58,14 +68,17 @@ export const handleUpdateDirections = async (originLatLng: IGeoCode, atm: IAtmOb
         directions: undefined,
       })
     );
-    store.dispatch(setParticularAtmIsLoadingDirectionsFlag({atm, isLoadingDirections: false}));
+    store.dispatch(
+      setParticularAtmIsLoadingDirectionsFlag({
+        atm,
+        isLoadingDirections: false,
+      })
+    );
     return;
   }
-  
+
   //log distance into store
-  const distance = getTotalWalkingDistanceMetres(
-    directionsData.directionsData
-  );
+  const distance = getTotalWalkingDistanceMetres(directionsData.directionsData);
   const duration = getTotalWalkingTimeMins(directionsData.directionsData);
   store.dispatch(
     setParticularAtmData({
@@ -80,8 +93,10 @@ export const handleUpdateDirections = async (originLatLng: IGeoCode, atm: IAtmOb
       },
     })
   );
-  store.dispatch(setParticularAtmIsLoadingDirectionsFlag({atm, isLoadingDirections: false}))
-}
+  store.dispatch(
+    setParticularAtmIsLoadingDirectionsFlag({ atm, isLoadingDirections: false })
+  );
+};
 
 export const handleGetDirections = async (
   originLatLng: IGeoCode,
