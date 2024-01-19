@@ -74,7 +74,6 @@ const SearchSection = () => {
     } else {
       //fetching failed
       console.log("Client fetching error: ", result.errorMessage); //error message gotta show
-      setDisplayErrorMessage(errorMessageStrings.geocodingFailure);
     }
     setIsLoading(false);
     dispatch(setSearchStarted(true));
