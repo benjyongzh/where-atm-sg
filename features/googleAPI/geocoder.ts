@@ -1,3 +1,5 @@
+import { setDisplayErrorMessage, errorMessageStrings } from "@/lib/errors";
+
 export interface IGeoCode {
   lat: number;
   lng: number;
@@ -14,6 +16,7 @@ export async function getAddressGeocoded(address: string) {
     return data;
   } catch (err) {
     console.log(`Geocoding error: `, err);
+    setDisplayErrorMessage(errorMessageStrings.geocodingAPIFailure);
   }
 }
 
