@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { errorMessageObject } from "@/lib/errors";
+import {
+  errorMessageObject,
+  setDisplayErrorMessage,
+  errorMessageStrings,
+} from "@/lib/errors";
 import { getWalkingDirections } from "@/features/googleAPI/directions";
 
 export async function POST(req: NextRequest) {
@@ -14,6 +18,7 @@ export async function POST(req: NextRequest) {
       destinationPlaceId
     );
     if (directionsData.status !== "OK") {
+      setDisplayErrorMessage(errorMessageStrings.directionsDataFailure);
       errorMessages.push({
         errorMessage: `Directions Error: ${directionsData.status}. ${
           directionsData.error_message || ""
@@ -27,6 +32,7 @@ export async function POST(req: NextRequest) {
 
     return new NextResponse(JSON.stringify(resData));
   } catch (err) {
+    setDisplayErrorMessage(errorMessageStrings.directionsAPIFailure);
     return new NextResponse(
       JSON.stringify({
         errorMessage: "failed to fetch directions data, " + err,
