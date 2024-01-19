@@ -5,8 +5,12 @@ import {
   getLatLongFromGeoCodeResult,
 } from "@/features/googleAPI/geocoder";
 import { getNearbyAtms } from "@/features/googleAPI/nearbySearch";
-import { getPlaceDetails } from "@/features/googleAPI/placeDetails";
-import { errorMessageObject } from "@/lib/errors";
+// import { getPlaceDetails } from "@/features/googleAPI/placeDetails";
+import {
+  errorMessageObject,
+  setDisplayErrorMessage,
+  errorMessageStrings,
+} from "@/lib/errors";
 import {
   IAtmObject,
   bankNameList,
@@ -94,6 +98,8 @@ export async function POST(req: NextRequest) {
         })
       );
     console.log(`atmDetails: `, atmDetails); */
+    if (desiredAtms.length < 1)
+      setDisplayErrorMessage(errorMessageStrings.noResultsFound);
 
     const searchData = {
       searchPointLatLong,
@@ -104,6 +110,8 @@ export async function POST(req: NextRequest) {
 
     return new NextResponse(JSON.stringify(searchData));
   } catch (err) {
+    setDisplayErrorMessage(errorMessageStrings.searchAPIFailure);
+
     return new NextResponse(
       JSON.stringify({ errorMessage: "failed to fetch data, " + err })
     );
