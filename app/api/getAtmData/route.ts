@@ -3,7 +3,12 @@ import { rawAtmInfo, isRawAtmInfo } from "@/lib/webscraping-data";
 import { getBankAtmList } from "@/lib/load-atm-data";
 import { bankNameList } from "@/lib/atmObject";
 
-import { errorMessageObject, isErrorMessageObject } from "@/lib/errors";
+import {
+  errorMessageObject,
+  isErrorMessageObject,
+  setDisplayErrorMessage,
+  errorMessageStrings,
+} from "@/lib/errors";
 
 export async function GET(req: NextRequest) {
   try {
@@ -30,6 +35,7 @@ export async function GET(req: NextRequest) {
       })
     );
   } catch (err) {
+    setDisplayErrorMessage(errorMessageStrings.placesAPIFailure);
     return new Response(
       JSON.stringify({ message: "failed to load any ATM data" })
     );
