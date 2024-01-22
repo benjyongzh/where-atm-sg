@@ -14,6 +14,7 @@ import {
 } from "@/lib/errors";
 import {
   IAtmObject,
+  searchResults,
   bankNameList,
   bankFilters,
   processAtmDataForRedux,
@@ -37,7 +38,7 @@ export async function POST(req: NextRequest) {
         }`,
       });
       //send immediate response here for geocoding error
-      const searchData = {
+      const searchData: searchResults = {
         searchPointLatLong: mapCenterDefault,
         searchRange,
         desiredAtms: [],
@@ -46,6 +47,7 @@ export async function POST(req: NextRequest) {
 
       return new NextResponse(JSON.stringify(searchData));
     }
+
     const searchPointLatLong: IGeoCode = getLatLongFromGeoCodeResult(
       geocodedAddress.results[0]
     );
@@ -112,7 +114,7 @@ export async function POST(req: NextRequest) {
     if (desiredAtms.length < 1)
       setDisplayErrorMessage(errorMessageStrings.noResultsFound);
 
-    const searchData = {
+    const searchData: searchResults = {
       searchPointLatLong,
       searchRange,
       desiredAtms,
