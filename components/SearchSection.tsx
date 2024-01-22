@@ -9,6 +9,7 @@ import { setAtmData, setSearchStarted } from "@/features/atmData/atmDataSlice";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 
 //utils
+import { searchResults } from "@/lib/atmObject";
 import {
   errorMessageObject,
   errorMessageStrings,
@@ -63,7 +64,9 @@ const SearchSection = () => {
     const result = await response.json();
     console.log("search result: ", result);
 
-    if (!isErrorMessageObject(result)) {
+    dispatchMapMovements(result);
+
+    /* if (!isErrorMessageObject(result)) {
       // overall fetching success
       // check for handled error messages
       result.errorMessages.forEach((error: errorMessageObject) => {
@@ -74,9 +77,26 @@ const SearchSection = () => {
     } else {
       //fetching failed
       console.log("Client fetching error: ", result.errorMessage); //error message gotta show
-    }
+    } */
     setIsLoading(false);
     dispatch(setSearchStarted(true));
+  };
+
+  const dispatchMapMovements = (results: searchResults) => {
+    if (!isErrorMessageObject(results)) {
+      // overall fetching success
+      // check for handled error messages
+      results.errorMessages.forEach((error: errorMessageObject) => {
+        console.log(`Client error message: `, error); //error message gotta show
+      });
+
+      //check if it is worth dispatching data as a valid search, or keep remain with current search data (in event of error)
+      dispatch(setSearchLocationPoint(results.searchPointLatLong));
+      dispatch(setAtmData(results.desiredAtms));
+    } else {
+      //fetching failed
+      console.log("Client fetching error: ", results.errorMessage); //error message gotta show
+    }
   };
 
   return (
