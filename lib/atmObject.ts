@@ -1,6 +1,7 @@
 import { IDirections } from "@/features/googleAPI/directions";
 import { IGeoCode } from "@/features/googleAPI/geocoder";
 import { haversine_distance } from "@/utils/distance";
+import { errorMessageObject } from "./errors";
 
 export const bankNameList: string[] = [
   "DBS",
@@ -58,6 +59,14 @@ export interface IAtmObject {
   directions?: IDirections;
 }
 
+export interface searchResults {
+  searchPointLatLong: IGeoCode;
+  searchRange: number;
+  desiredAtms: IAtmObject[];
+  errorMessages: errorMessageObject[];
+  // mainErrorType: string
+}
+
 export interface rawFetchedNearbyPlacesInfo {
   location: IGeoCode;
   name: string;
@@ -66,8 +75,8 @@ export interface rawFetchedNearbyPlacesInfo {
 }
 
 export interface atmLoadingDirectionsFlag {
-  atm:IAtmObject;
-  isLoadingDirections: boolean
+  atm: IAtmObject;
+  isLoadingDirections: boolean;
 }
 
 export const getBrandFromRawPlacesInfo = (arg: rawFetchedNearbyPlacesInfo) => {
