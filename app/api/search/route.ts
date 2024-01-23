@@ -11,6 +11,7 @@ import {
   errorMessageObject,
   setDisplayErrorMessage,
   errorMessageStrings,
+  addToErrorMessageList,
 } from "@/lib/errors";
 import {
   IAtmObject,
@@ -26,23 +27,22 @@ export async function POST(req: NextRequest) {
   try {
     const { addressInput, searchRange, filteredBanks } = await req.json();
 
-    let errorMessages: errorMessageObject[] = [];
+    // let errorMessages: errorMessageObject[] = [];
 
     // geocoding input address
     const geocodedAddress = await getAddressGeocoded(addressInput);
     if (geocodedAddress.status !== "OK") {
-      setDisplayErrorMessage(errorMessageStrings.geocodingAPIFailure);
-      errorMessages.push({
+      addToErrorMessageList(errorMessageStrings.geocodingAPIFailure);
+      /* errorMessages.push({
         errorMessage: `Geocoding Error: ${geocodedAddress.status}. ${
           geocodedAddress.error_message || ""
         }`,
-      });
+      }); */
       //send immediate response here for geocoding error
       const searchData: searchResults = {
         searchPointLatLong: mapCenterDefault,
         searchRange,
         desiredAtms: [],
-        errorMessages,
       };
 
       return new NextResponse(JSON.stringify(searchData));
@@ -66,11 +66,14 @@ export async function POST(req: NextRequest) {
       .then((response) =>
         response.map((item) => {
           if (item.status !== "OK") {
-            errorMessages.push({
+            /* errorMessages.push({
               errorMessage: `Nearby Places Error: ${item.status}. ${
                 item.error_message || ""
               }`,
-            });
+            }); */
+            addToErrorMessageList(
+              `Nearby Places Error: ${item.status}. ${item.error_message || ""}`
+            );
           }
           return item.results;
         })
@@ -112,21 +115,28 @@ export async function POST(req: NextRequest) {
       );
     console.log(`atmDetails: `, atmDetails); */
     if (desiredAtms.length < 1)
-      setDisplayErrorMessage(errorMessageStrings.noResultsFound);
+      addToErrorMessageList(errorMessageStrings.noResultsFound);
 
     const searchData: searchResults = {
       searchPointLatLong,
       searchRange,
       desiredAtms,
-      errorMessages,
     };
 
     return new NextResponse(JSON.stringify(searchData));
   } catch (err) {
-    setDisplayErrorMessage(errorMessageStrings.searchAPIFailure);
+    // return new NextResponse(
+    //   JSON.stringify({ errorMessage: "failed to fetch data, " + err }));
 
-    return new NextResponse(
-      JSON.stringify({ errorMessage: "failed to fetch data, " + err })
-    );
+    // const { addressInput, searchRange, filteredBanks } = await req.json();
+    addToErrorMessageList(errorMessageStrings.searchAPIFailure);
+
+    /* const searchData: searchResults = {
+      searchPointLatLong: mapCenterDefault,
+      searchRange,
+      desiredAtms: [],
+    };
+
+    return new NextResponse(JSON.stringify(searchData)); */
   }
 }

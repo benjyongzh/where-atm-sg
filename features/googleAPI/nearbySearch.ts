@@ -1,3 +1,4 @@
+import { addToErrorMessageList, errorMessageStrings } from "@/lib/errors";
 import { IGeoCode } from "./geocoder";
 
 export async function getNearbyAtms(params: {
@@ -51,10 +52,11 @@ export async function getNearbyPlaces(params: {
     const data = await res.json();
     return data;
   } catch (err) {
-    return {
-      results: [],
-      status: "FETCH_FAILED",
-      error_message: "Could not reach nearby search API",
-    };
+    addToErrorMessageList(errorMessageStrings.searchAPIFailure);
+    // return {
+    //   results: [],
+    //   status: "FETCH_FAILED",
+    //   error_message: "Could not reach nearby search API",
+    // };
   }
 }

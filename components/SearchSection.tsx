@@ -15,6 +15,8 @@ import {
   errorMessageStrings,
   isErrorMessageObject,
   setDisplayErrorMessage,
+  setErrorMessageList,
+  takeActionIfNoErrors,
 } from "@/lib/errors";
 import { reqTimeOut } from "@/utils/fetch";
 
@@ -27,6 +29,9 @@ const SearchSection = () => {
   const dispatch = useAppDispatch();
 
   const storedRange = useAppSelector((state) => state.settings.maxRange);
+  const storedErrorMessagesList = useAppSelector(
+    (state) => state.errors.currentErrorMessages
+  );
   const storedBankFilterList = useAppSelector(
     (state) => state.settings.bankFilterOut
   );
@@ -36,6 +41,7 @@ const SearchSection = () => {
     dispatch(setFilterIsOpen(false));
     setIsLoading(true);
     setDisplayErrorMessage(null);
+    setErrorMessageList([]);
     //should validate and sanitize addressInput string here first
     const endpoint = "/api/search";
 
@@ -64,39 +70,13 @@ const SearchSection = () => {
     const result = await response.json();
     console.log("search result: ", result);
 
-    dispatchMapMovements(result);
-
-    /* if (!isErrorMessageObject(result)) {
-      // overall fetching success
-      // check for handled error messages
-      result.errorMessages.forEach((error: errorMessageObject) => {
-        console.log(`Client error message: `, error); //error message gotta show
-      });
+    takeActionIfNoErrors(() => {
       dispatch(setSearchLocationPoint(result.searchPointLatLong));
       dispatch(setAtmData(result.desiredAtms));
-    } else {
-      //fetching failed
-      console.log("Client fetching error: ", result.errorMessage); //error message gotta show
-    } */
+    }, storedErrorMessagesList);
+
     setIsLoading(false);
     dispatch(setSearchStarted(true));
-  };
-
-  const dispatchMapMovements = (results: searchResults) => {
-    if (!isErrorMessageObject(results)) {
-      // overall fetching success
-      // check for handled error messages
-      results.errorMessages.forEach((error: errorMessageObject) => {
-        console.log(`Client error message: `, error); //error message gotta show
-      });
-
-      //check if it is worth dispatching data as a valid search, or keep remain with current search data (in event of error)
-      dispatch(setSearchLocationPoint(results.searchPointLatLong));
-      dispatch(setAtmData(results.desiredAtms));
-    } else {
-      //fetching failed
-      console.log("Client fetching error: ", results.errorMessage); //error message gotta show
-    }
   };
 
   return (

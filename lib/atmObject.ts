@@ -63,8 +63,6 @@ export interface searchResults {
   searchPointLatLong: IGeoCode;
   searchRange: number;
   desiredAtms: IAtmObject[];
-  errorMessages: errorMessageObject[];
-  // mainErrorType: string
 }
 
 export interface rawFetchedNearbyPlacesInfo {

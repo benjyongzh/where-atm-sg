@@ -1,5 +1,10 @@
 import { IGeoCode } from "./geocoder";
-import { errorMessageObject, isErrorMessageObject } from "@/lib/errors";
+import {
+  addToErrorMessageList,
+  errorMessageObject,
+  errorMessageStrings,
+  isErrorMessageObject,
+} from "@/lib/errors";
 import { store } from "@/context/store";
 import { IAtmObject } from "@/lib/atmObject";
 import { isEmptyObj } from "@/utils/objects";
@@ -29,6 +34,7 @@ export async function getWalkingDirections(
     const data = await res.json();
     return data;
   } catch (err) {
+    addToErrorMessageList(errorMessageStrings.directionsAPIFailure);
     console.log(`Walking Directions error: `, err);
   }
 }
@@ -61,7 +67,7 @@ export const handleUpdateDirections = async (
   console.log("directions data from atmListItem: ", directionsData);
 
   //check for errors
-  if (isErrorMessageObject(directionsData)) {
+  if (directionsData.status !== "OK") {
     store.dispatch(
       setParticularAtmData({
         ...atm,
@@ -128,16 +134,16 @@ export const handleGetDirections = async (
   const result = await response.json();
   // console.log("handleGetDirections search result: ", result);
 
-  if (!isErrorMessageObject(result)) {
-    // overall fetching success
-    // check for handled error messages
-    result.errorMessages.forEach((error: errorMessageObject) => {
-      // console.log(`Client error message: `, error); //error message gotta show
-    });
-  } else {
-    //fetching failed
-    // console.log("Client fetching error: ", result.errorMessage); //error message gotta show
-  }
+  // if (!isErrorMessageObject(result)) {
+  // overall fetching success
+  // check for handled error messages
+  // result.errorMessages.forEach((error: errorMessageObject) => {
+  // console.log(`Client error message: `, error); //error message gotta show
+  // });
+  // } else {
+  //fetching failed
+  // console.log("Client fetching error: ", result.errorMessage); //error message gotta show
+  // }
   return result;
 };
 
