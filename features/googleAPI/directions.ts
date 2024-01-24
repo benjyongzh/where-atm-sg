@@ -126,7 +126,7 @@ export const handleGetDirections = async (
   // Get the response data from server as JSON.
   // If server returns the name submitted, that means the form works.
   const result = await response.json();
-  console.log("handleGetDirections search result: ", result.directionsData);
+  // console.log("handleGetDirections search result: ", result.directionsData);
 
   // if (!isErrorMessageObject(result)) {
   // overall fetching success
