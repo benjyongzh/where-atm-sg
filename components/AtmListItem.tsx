@@ -1,5 +1,5 @@
 //react
-import { useRef, useEffect} from "react";
+import { useRef, useEffect } from "react";
 
 //icons
 import { GiPathDistance } from "react-icons/gi";
@@ -16,9 +16,7 @@ import {
 } from "@/features/atmData/atmDataSlice";
 
 //features
-import {
-  handleUpdateDirections,
-} from "@/features/googleAPI/directions";
+import { handleUpdateDirections } from "@/features/googleAPI/directions";
 import { IGeoCode } from "@/features/googleAPI/geocoder";
 
 type AtmListItemProps = {
@@ -41,7 +39,10 @@ const AtmListItem = (props: AtmListItemProps) => {
   );
 
   const storedIsLoadingAtmDirectionsFlag = useAppSelector(
-    (state) => state.atmData.allAtmLoadingDirectionsFlags.filter(flagObject => flagObject.atm.place_id === atm.place_id)[0].isLoadingDirections
+    (state) =>
+      state.atmData.allAtmLoadingDirectionsFlags.filter(
+        (flagObject) => flagObject.atm.place_id === atm.place_id
+      )[0].isLoadingDirections
   );
 
   const handleClick = () => {
@@ -60,7 +61,7 @@ const AtmListItem = (props: AtmListItemProps) => {
 
   const updateAtmDirections = () => {
     handleUpdateDirections(storedSearchPoint, atm);
-  }
+  };
 
   useEffect(() => {
     if (listItemRef.current && storedSelectedAtmId === atm.place_id) {
@@ -99,16 +100,18 @@ const AtmListItem = (props: AtmListItemProps) => {
             <span>&nbsp;</span>
             {storedIsLoadingAtmDirectionsFlag ? (
               <span>
-                {atm.directions ? (
-                  atm.directions.duration
-                ) : (
-                  <span className="loading loading-spinner loading-xs"></span>
-                )}{" "}
+                <span className="loading loading-spinner loading-xs"></span>{" "}
                 mins
               </span>
             ) : (
-              <span className="text-error">
-                Failed to load walking distance
+              <span>
+                {atm.directions ? (
+                  <span>{atm.directions.duration} mins</span>
+                ) : (
+                  <span className="text-error">
+                    Failed to load walking distance
+                  </span>
+                )}
               </span>
             )}
           </p>

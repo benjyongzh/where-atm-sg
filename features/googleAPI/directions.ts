@@ -74,31 +74,25 @@ export const handleUpdateDirections = async (
         directions: undefined,
       })
     );
+  } else {
+    //log distance into store
+    const distance = getTotalWalkingDistanceMetres(directionsData);
+    const duration = getTotalWalkingTimeMins(directionsData);
     store.dispatch(
-      setParticularAtmIsLoadingDirectionsFlag({
-        atm,
-        isLoadingDirections: false,
+      setParticularAtmData({
+        ...atm,
+        directions: {
+          originLatLng,
+          destinationPlaceId: atm.place_id,
+          mode: "walking",
+          distance: distance, // in minutes
+          duration: duration, // in minutes
+          pathPolyline: "some polyline string",
+        },
       })
     );
-    return;
   }
 
-  //log distance into store
-  const distance = getTotalWalkingDistanceMetres(directionsData.directionsData);
-  const duration = getTotalWalkingTimeMins(directionsData.directionsData);
-  store.dispatch(
-    setParticularAtmData({
-      ...atm,
-      directions: {
-        originLatLng,
-        destinationPlaceId: atm.place_id,
-        mode: "walking",
-        distance: distance, // in minutes
-        duration: duration, // in minutes
-        pathPolyline: "some polyline string",
-      },
-    })
-  );
   store.dispatch(
     setParticularAtmIsLoadingDirectionsFlag({ atm, isLoadingDirections: false })
   );
@@ -132,7 +126,7 @@ export const handleGetDirections = async (
   // Get the response data from server as JSON.
   // If server returns the name submitted, that means the form works.
   const result = await response.json();
-  // console.log("handleGetDirections search result: ", result);
+  console.log("handleGetDirections search result: ", result.directionsData);
 
   // if (!isErrorMessageObject(result)) {
   // overall fetching success
@@ -144,7 +138,7 @@ export const handleGetDirections = async (
   //fetching failed
   // console.log("Client fetching error: ", result.errorMessage); //error message gotta show
   // }
-  return result;
+  return result.directionsData;
 };
 
 export const getTotalWalkingDistanceMetres = (
