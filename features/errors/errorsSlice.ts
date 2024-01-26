@@ -26,7 +26,7 @@ const errorsSlice = createSlice({
     },
     removeErrorMessage: (state, action: PayloadAction<string>) => {
       state.currentErrorMessages = state.currentErrorMessages.filter(
-        (errorMsg) => !action.payload
+        (errorMsg) => errorMsg != action.payload
       );
     },
   },
