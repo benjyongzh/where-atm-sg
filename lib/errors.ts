@@ -52,3 +52,33 @@ export const takeActionIfNoErrors = (action: Function, errorList: string[]) => {
   //no errors
   action();
 };
+
+class errorMessagesContainer {
+  private static instance: errorMessagesContainer;
+  private messages: string[] = [];
+  private constructor() {}
+  public static getInstance(): errorMessagesContainer {
+    if (!errorMessagesContainer.instance) {
+      errorMessagesContainer.instance = new errorMessagesContainer();
+    }
+    return errorMessagesContainer.instance;
+  }
+
+  addMessage(error: string) {
+    this.messages.push(error);
+    console.log("Error Messages Container: error message added: ", error);
+    console.log("Error Messages Container: ", this.messages);
+  }
+
+  removeMessage(error: string) {
+    this.messages = this.messages.filter((errorMsg) => errorMsg != error);
+    console.log("Error Messages Container: error message removed: ", error);
+    console.log("Error Messages Container: ", this.messages);
+  }
+
+  get allMessages() {
+    return this.messages;
+  }
+}
+
+export const errorMessages = errorMessagesContainer.getInstance();
