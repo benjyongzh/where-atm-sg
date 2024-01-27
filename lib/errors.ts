@@ -1,4 +1,5 @@
-import { store } from "@/context/store";
+// import { makeStore } from "@/context/store";
+import { useAppDispatch } from "@/hooks/reduxHooks";
 import {
   setDisplayedErrorMessage,
   setErrorMessages,
@@ -15,19 +16,23 @@ export function isErrorMessageObject(arg: any): arg is errorMessageObject {
 }
 
 export function setDisplayErrorMessage(msg: string | null) {
-  store.dispatch(setDisplayedErrorMessage(msg));
+  const dispatch = useAppDispatch();
+  dispatch(setDisplayedErrorMessage(msg));
 }
 
 export function setErrorMessageList(msg: string[]) {
-  store.dispatch(setErrorMessages(msg));
+  const dispatch = useAppDispatch();
+  dispatch(setErrorMessages(msg));
 }
 
 export function addToErrorMessageList(msg: string) {
-  store.dispatch(addErrorMessage(msg));
+  const dispatch = useAppDispatch();
+  dispatch(addErrorMessage(msg));
 }
 
 export function removeFromErrorMessageList(msg: string) {
-  store.dispatch(removeErrorMessage(msg));
+  const dispatch = useAppDispatch();
+  dispatch(removeErrorMessage(msg));
 }
 
 export const errorMessageStrings = {

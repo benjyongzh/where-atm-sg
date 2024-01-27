@@ -1,13 +1,31 @@
 "use client";
+import { useRef } from "react";
+import { Provider } from "react-redux";
+import { makeStore, AppStore } from "@/context/store";
+import ScreenSizeProvider from "./ScreenSizeProvider";
+
+export default function ProviderGroup({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const storeRef = useRef<AppStore>();
+  if (!storeRef.current) {
+    // Create the store instance the first time this renders
+    storeRef.current = makeStore();
+  }
+
+  return (
+    <Provider store={storeRef.current}>
+      <ScreenSizeProvider>{children}</ScreenSizeProvider>
+    </Provider>
+  );
+}
 
 //nextjs theme
 // import { Provider as ThemeProvider } from "@/components/ThemeProvider";
 //redux
-import { Provider as StoreProvider } from "react-redux";
-import { store /* storeWrapper */ } from "@/context/store";
-
-import ScreenSizeProvider from "./ScreenSizeProvider";
-
+/* 
 export default function ProviderGroup({
   children,
 }: {
@@ -21,3 +39,4 @@ export default function ProviderGroup({
     // </ThemeProvider>
   );
 }
+ */
