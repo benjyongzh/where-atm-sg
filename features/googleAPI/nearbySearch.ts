@@ -13,7 +13,7 @@ export async function getNearbyAtms(params: {
     buildingType: "atm",
     keyword: bank,
   });
-  return res;
+  return { bank, data: res };
 }
 
 export async function getNearbyPlaces(params: {
@@ -52,7 +52,11 @@ export async function getNearbyPlaces(params: {
     const data = await res.json();
     return data;
   } catch (err) {
-    addToErrorMessageList(errorMessageStrings.searchAPIFailure);
+    // addToErrorMessageList(errorMessageStrings.searchAPIFailure);
+    return {
+      status: "API error",
+      message: [errorMessageStrings.searchAPIFailure],
+    };
     // return {
     //   results: [],
     //   status: "FETCH_FAILED",

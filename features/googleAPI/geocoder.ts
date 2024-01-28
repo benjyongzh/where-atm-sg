@@ -23,7 +23,12 @@ export async function getAddressGeocoded(address: string) {
     return data;
   } catch (err) {
     console.log(`Geocoding error: `, err);
-    addToErrorMessageList(errorMessageStrings.geocodingAPIFailure);
+    return {
+      status: "API error",
+      message: errorMessageStrings.geocodingAPIFailure,
+    };
+    // geocodedAddress.status !== "OK"
+    // addToErrorMessageList(errorMessageStrings.geocodingAPIFailure);
   }
 }
 

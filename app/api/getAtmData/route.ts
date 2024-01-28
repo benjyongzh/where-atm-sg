@@ -4,7 +4,7 @@ import { getBankAtmList } from "@/lib/load-atm-data";
 import { bankNameList } from "@/lib/atmObject";
 
 import {
-  errorMessageObject,
+  errorMessageQueue,
   isErrorMessageObject,
   setDisplayErrorMessage,
   errorMessageStrings,
@@ -13,10 +13,10 @@ import {
 export async function GET(req: NextRequest) {
   try {
     let atmList: rawAtmInfo[] = [];
-    let errors: errorMessageObject[] = [];
+    let errors: errorMessageQueue[] = [];
 
     for (let i = 0; i < bankNameList.length; i++) {
-      let Atms: rawAtmInfo[] | errorMessageObject = await getBankAtmList(
+      let Atms: rawAtmInfo[] | errorMessageQueue = await getBankAtmList(
         bankNameList[i]
       );
       if (Array.isArray(Atms)) {

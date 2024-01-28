@@ -11,12 +11,13 @@ import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 //utils
 import { searchResults } from "@/lib/atmObject";
 import {
-  errorMessageObject,
+  errorMessageQueue,
   errorMessageStrings,
   isErrorMessageObject,
   setDisplayErrorMessage,
   setErrorMessageList,
   takeActionIfNoErrors,
+  logErrorsToStore,
 } from "@/lib/errors";
 import { reqTimeOut } from "@/utils/fetch";
 
@@ -59,7 +60,7 @@ const SearchSection = () => {
         searchRange: storedRange,
         filteredBanks: storedBankFilterList,
       }),
-      reqTimeOut,
+      // reqTimeOut,
     };
 
     // Send the form data to our forms API on Vercel and get a response.
@@ -69,6 +70,8 @@ const SearchSection = () => {
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
     console.log("search result: ", result);
+
+    logErrorsToStore(result.errorMessages);
 
     takeActionIfNoErrors(() => {
       dispatch(setSearchLocationPoint(result.searchPointLatLong));

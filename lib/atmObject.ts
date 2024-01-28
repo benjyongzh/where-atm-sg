@@ -1,7 +1,7 @@
 import { IDirections } from "@/features/googleAPI/directions";
 import { IGeoCode } from "@/features/googleAPI/geocoder";
 import { haversine_distance } from "@/utils/distance";
-import { errorMessageObject } from "./errors";
+import { errorMessageQueue } from "./errors";
 
 export const bankNameList: string[] = [
   "DBS",
@@ -63,6 +63,7 @@ export interface searchResults {
   searchPointLatLong: IGeoCode;
   searchRange: number;
   desiredAtms: IAtmObject[];
+  errorMessages: errorMessageQueue;
 }
 
 export interface rawFetchedNearbyPlacesInfo {
