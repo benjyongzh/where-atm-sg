@@ -72,3 +72,55 @@ export const cullDuplicatesBasedOnId = <T extends any>(
 
   return { cleanArray, cleanIds: setIds, culledIndexes };
 };
+
+export const sortListAccordingToKeyOnCategoryList = <
+  T extends Record<string, string | number>
+>(
+  list: Array<T>,
+  key: keyof T,
+  categoryList: Record<string, number>
+): Array<T> => {
+  const dict: Record<string, T[]> = {};
+  const uncategorisedListItems: T[] = [];
+  const finalList: T[] = [];
+  for (let i = 0; i < list.length; i++) {
+    const item: T = list[i];
+    if (typeof item[key] !== "number") {
+      uncategorisedListItems.push(item);
+    } else {
+      const itemCategoryValue = item[key];
+
+      //check if itemCategory exists in categoryList
+      const categoryToFile: string = Object.keys(categoryList).filter(
+        (category) => {
+          categoryList[category] === itemCategoryValue;
+        }
+      )[0];
+
+      //check if dict already has such a key
+      if (Object.keys(dict).includes(categoryToFile)) {
+        //dict already includes category
+        dict[categoryToFile].push(item);
+      } else {
+        //dict does not include category yet. make new one
+        dict[categoryToFile] = [item];
+      }
+    }
+  }
+  return finalList.concat(uncategorisedListItems);
+};
+
+export const extractValuesFromObjectAccordingToKey = <
+  T extends Record<string, any>
+>(
+  array: T[],
+  key: string
+): T[] => {
+  const finalList: any[] = [];
+  for (let i = 0; i < array.length; i++) {
+    const value = array[i][key];
+    finalList.push(value);
+  }
+
+  return finalList;
+};
