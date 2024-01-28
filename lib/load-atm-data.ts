@@ -5,17 +5,17 @@ import bankEndpoints, {
   isRawAtmInfo,
 } from "@/lib/webscraping-data";
 import { JSDOM } from "jsdom";
-import { errorMessageObject, isErrorMessageObject } from "./errors";
+import { errorMessageQueue, isErrorMessageObject } from "./errors";
 
 import { bankNameList } from "./atmObject";
 
 export async function getAllAtmData() {
   //webscraping done here
   let atmList: rawAtmInfo[] = [];
-  let errors: errorMessageObject[] = [];
+  let errors: errorMessageQueue[] = [];
 
   for (let i = 0; i < bankNameList.length; i++) {
-    let Atms: rawAtmInfo[] | errorMessageObject = await getBankAtmList(
+    let Atms: rawAtmInfo[] | errorMessageQueue = await getBankAtmList(
       bankNameList[i]
     );
     if (Array.isArray(Atms)) {
