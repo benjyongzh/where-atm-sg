@@ -25,7 +25,7 @@ export const isArrayOfInterface = (
   });
 };
 
-export const cullDuplicatesBasedOnId = <T extends any>(
+export const cullDuplicatesBasedOnId = <T extends Record<string, any>>(
   arr: Array<T>,
   idKey: string
 ): {
@@ -41,17 +41,15 @@ export const cullDuplicatesBasedOnId = <T extends any>(
   // check if idKey is a valid key in arr
   if (
     !arr.every((item) => {
-      return (
-        item[idKey as keyof T] && typeof item[idKey as keyof T] === "string"
-      );
+      return item[idKey] && typeof item[idKey] === "string";
     })
   ) {
-    console.log(`item.id does not exxist, or is not a string`);
+    console.log(`item.id does not exist, or is not a string`);
     return { cleanArray: [], cleanIds: [], culledIndexes: [] };
   }
 
   //make set of ids
-  const allIds: string[] = arr.map((item) => item[idKey as keyof T]);
+  const allIds: string[] = arr.map((item) => item[idKey]);
 
   let setIds: string[] = [];
 
