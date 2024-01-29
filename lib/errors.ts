@@ -6,7 +6,6 @@ import {
   addErrorMessage,
   removeErrorMessage,
 } from "@/features/errors/errorsSlice";
-import { EnumType } from "typescript";
 import {
   sortListAccordingToKeyOnCategoryList,
   extractValuesFromObjectListAccordingToKey,

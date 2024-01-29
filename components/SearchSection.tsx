@@ -9,17 +9,12 @@ import { setAtmData, setSearchStarted } from "@/features/atmData/atmDataSlice";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 
 //utils
-import { searchResults } from "@/lib/atmObject";
 import {
-  errorMessageQueue,
-  errorMessageStrings,
-  isErrorMessageObject,
   setDisplayErrorMessage,
   setErrorMessageList,
   takeActionIfNoErrors,
   logErrorsToStore,
 } from "@/lib/errors";
-import { reqTimeOut } from "@/utils/fetch";
 
 //graphics
 import SearchIcon from "@/public/assets/icons/search.svg";
