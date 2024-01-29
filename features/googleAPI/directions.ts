@@ -1,13 +1,13 @@
 import { IGeoCode } from "./geocoder";
 import {
   addToErrorMessageList,
-  errorMessageObject,
+  errorMessageQueue,
   errorMessageStrings,
   isErrorMessageObject,
 } from "@/lib/errors";
-import { store } from "@/context/store";
 import { IAtmObject } from "@/lib/atmObject";
 import { isEmptyObj } from "@/utils/objects";
+import { useAppStore } from "@/hooks/reduxHooks";
 
 import {
   setParticularAtmData,
@@ -34,8 +34,12 @@ export async function getWalkingDirections(
     const data = await res.json();
     return data;
   } catch (err) {
-    addToErrorMessageList(errorMessageStrings.directionsAPIFailure);
+    // addToErrorMessageList(errorMessageStrings.directionsAPIFailure);
     console.log(`Walking Directions error: `, err);
+    return {
+      status: "API error",
+      message: errorMessageStrings.directionsAPIFailure,
+    };
   }
 }
 
@@ -44,6 +48,7 @@ export const handleUpdateDirections = async (
   atm: IAtmObject
 ) => {
   //guard clause
+  const store = useAppStore();
   const allAtmDirectionFlags =
     store.getState().atmData.allAtmLoadingDirectionsFlags;
   const storedIsLoadingAtmDirectionsFlag = allAtmDirectionFlags.filter(
