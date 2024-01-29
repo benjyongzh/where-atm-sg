@@ -6,23 +6,56 @@ import {
   addErrorMessage,
   removeErrorMessage,
 } from "@/features/errors/errorsSlice";
+import { EnumType } from "typescript";
+import {
+  sortListAccordingToKeyOnCategoryList,
+  extractValuesFromObjectListAccordingToKey,
+} from "@/utils/objects";
 
-export type errorMessageObject = {
-  errorMessage: string;
+export type errorMessageQueue = errorMessageObject[];
+
+export const errorSeverity: Record<string, number> = {
+  OK: 0,
+  WARNING: 1,
+  CRITICAL: 2,
 };
 
-export function isErrorMessageObject(arg: any): arg is errorMessageObject {
-  return arg && arg.errorMessage && typeof arg.errorMessage === "string";
+export type errorMessageObject = {
+  message: string;
+  severity: (typeof errorSeverity)[keyof typeof errorSeverity];
+};
+
+export function isErrorMessageObject(arg: any): arg is errorMessageQueue {
+  return (
+    arg &&
+    arg.displayedErrorMessage &&
+    (typeof arg.displayedErrorMessage === "string" ||
+      typeof arg.displayedErrorMessage === null) &&
+    arg.currentErrorMessages &&
+    typeof arg.currentErrorMessages === "object"
+  );
 }
 
-export function setDisplayErrorMessage(msg: string | null) {
+export function setDisplayErrorMessage(msg: errorMessageObject | null) {
   const dispatch = useAppDispatch();
-  dispatch(setDisplayedErrorMessage(msg));
+  if (typeof msg === null) {
+    dispatch(setDisplayedErrorMessage(msg as null));
+    return;
+  }
+  const firstMessage: string = extractValuesFromObjectListAccordingToKey(
+    [msg as errorMessageObject],
+    "severity"
+  )[0];
+  dispatch(setDisplayedErrorMessage(firstMessage));
 }
 
-export function setErrorMessageList(msg: string[]) {
+export function setErrorMessageList(msg: errorMessageObject[]) {
   const dispatch = useAppDispatch();
-  dispatch(setErrorMessages(msg));
+  const sortedMessages: string[] = extractValuesFromObjectListAccordingToKey(
+    msg,
+    "severity"
+  );
+  dispatch(setErrorMessages(sortedMessages));
 }
 
 export function addToErrorMessageList(msg: string) {
@@ -45,6 +78,18 @@ export const errorMessageStrings = {
   directionsDataFailure: "Error in directions data",
   searchAPIFailure: "Failed to reach server for search",
   searchDataFailure: "Error in searched data",
+};
+
+export const logErrorsToStore = (errorMessages: errorMessageQueue) => {
+  const sortedErrorList: errorMessageQueue =
+    sortListAccordingToKeyOnCategoryList(
+      errorMessages,
+      "severity",
+      errorSeverity
+    );
+
+  setErrorMessageList(sortedErrorList);
+  setDisplayErrorMessage(sortedErrorList[0]);
 };
 
 export const takeActionIfNoErrors = (action: Function, errorList: string[]) => {

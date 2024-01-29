@@ -110,13 +110,13 @@ export const sortListAccordingToKeyOnCategoryList = <
   return finalList.concat(uncategorisedListItems);
 };
 
-export const extractValuesFromObjectAccordingToKey = <
+export const extractValuesFromObjectListAccordingToKey = <
   T extends Record<string, any>
 >(
   array: T[],
   key: string
-): T[] => {
-  const finalList: any[] = [];
+): Array<any> => {
+  const finalList: Array<any> = [];
   for (let i = 0; i < array.length; i++) {
     const value = array[i][key];
     finalList.push(value);
