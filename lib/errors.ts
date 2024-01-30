@@ -79,6 +79,11 @@ export const errorMessageStrings = {
   searchDataFailure: "Error in searched data",
 };
 
+export const clearErrorMessageStore = () => {
+  setDisplayErrorMessage(null);
+  setErrorMessageList([]);
+};
+
 export const logErrorsToStore = (errorMessages: errorMessageQueue) => {
   const sortedErrorList: errorMessageQueue =
     sortListAccordingToKeyOnCategoryList(

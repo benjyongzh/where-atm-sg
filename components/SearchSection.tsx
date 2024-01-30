@@ -10,8 +10,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 
 //utils
 import {
-  setDisplayErrorMessage,
-  setErrorMessageList,
+  clearErrorMessageStore,
   takeActionIfNoErrors,
   logErrorsToStore,
 } from "@/lib/errors";
@@ -36,8 +35,7 @@ const SearchSection = () => {
     event.preventDefault();
     dispatch(setFilterIsOpen(false));
     setIsLoading(true);
-    setDisplayErrorMessage(null);
-    setErrorMessageList([]);
+    clearErrorMessageStore();
     //should validate and sanitize addressInput string here first
     const endpoint = "/api/search";
 
