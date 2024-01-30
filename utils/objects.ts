@@ -80,7 +80,6 @@ export const sortListAccordingToKeyOnCategoryList = <
 ): Array<T> => {
   const dict: Record<string, T[]> = {};
   const uncategorisedListItems: T[] = [];
-  const finalList: T[] = [];
   for (let i = 0; i < list.length; i++) {
     const item: T = list[i];
     if (typeof item[key] !== "number") {
@@ -105,7 +104,37 @@ export const sortListAccordingToKeyOnCategoryList = <
       }
     }
   }
+  //compile dict into finalList based on key
+  const finalList: T[] = compileRecordIntoArrayAccordingToKeySorting(dict);
+  //add uncategorised items to the back
   return finalList.concat(uncategorisedListItems);
+};
+
+export const compileRecordIntoArrayAccordingToKeySorting = <T extends any>(
+  dict: Record<string | number, T[]>
+): Array<T> => {
+  const sortedDict = Object.keys(dict)
+    .sort()
+    .reduce(
+      (sortedDict: Record<string | number, T[]>, key: string | number) => {
+        sortedDict[key] = dict[key];
+        return sortedDict;
+      },
+      {}
+    );
+  const finalList: Array<T> = flattenArray(Object.values(sortedDict));
+  return finalList;
+};
+
+const flattenArray = (originalArray: Array<any>): Array<any> => {
+  return originalArray.reduce((stackingArray, nextItem) => {
+    if (Array.isArray(nextItem)) {
+      stackingArray.push(...flattenArray(nextItem));
+    } else {
+      stackingArray.push(nextItem);
+    }
+    return stackingArray;
+  }, []);
 };
 
 export const extractValuesFromObjectListAccordingToKey = <
