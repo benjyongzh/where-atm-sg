@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   errorMessageQueue,
   errorMessageStrings,
-  addToErrorMessageList,
   errorSeverity,
 } from "@/lib/errors";
 import { getWalkingDirections } from "@/features/googleAPI/directions";

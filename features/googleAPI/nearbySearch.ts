@@ -1,4 +1,4 @@
-import { addToErrorMessageList, errorMessageStrings } from "@/lib/errors";
+import { errorMessageStrings } from "@/lib/errors";
 import { IGeoCode } from "./geocoder";
 
 export async function getNearbyAtms(params: {

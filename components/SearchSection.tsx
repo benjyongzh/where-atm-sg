@@ -35,7 +35,7 @@ const SearchSection = () => {
     event.preventDefault();
     dispatch(setFilterIsOpen(false));
     setIsLoading(true);
-    clearErrorMessageStore();
+    clearErrorMessageStore(dispatch);
     //should validate and sanitize addressInput string here first
     const endpoint = "/api/search";
 
@@ -64,7 +64,7 @@ const SearchSection = () => {
     const result = await response.json();
     console.log("search result: ", result);
 
-    logErrorsToStore(result.errorMessages);
+    logErrorsToStore(result.errorMessages, dispatch);
 
     takeActionIfNoErrors(() => {
       dispatch(setSearchLocationPoint(result.searchPointLatLong));

@@ -35,36 +35,45 @@ export function isErrorMessageObject(arg: any): arg is errorMessageQueue {
   );
 }
 
-export function setDisplayErrorMessage(msg: errorMessageObject | null) {
-  const dispatch = useAppDispatch();
+export function setDisplayErrorMessage(
+  msg: errorMessageObject | null,
+  dispatchCallback: Function
+) {
+  // const dispatch = useAppDispatch();
   if (typeof msg === null) {
-    dispatch(setDisplayedErrorMessage(msg as null));
+    dispatchCallback(setDisplayedErrorMessage(msg as null));
     return;
   }
   const firstMessage: string = extractValuesFromObjectListAccordingToKey(
     [msg as errorMessageObject],
     "severity"
   )[0];
-  dispatch(setDisplayedErrorMessage(firstMessage));
+  dispatchCallback(setDisplayedErrorMessage(firstMessage));
 }
 
-export function setErrorMessageList(msg: errorMessageObject[]) {
-  const dispatch = useAppDispatch();
+export function setErrorMessageList(
+  msg: errorMessageObject[],
+  dispatchCallback: Function
+) {
+  // const dispatch = useAppDispatch();
   const sortedMessages: string[] = extractValuesFromObjectListAccordingToKey(
     msg,
     "severity"
   );
-  dispatch(setErrorMessages(sortedMessages));
+  dispatchCallback(setErrorMessages(sortedMessages));
 }
 
-export function addToErrorMessageList(msg: string) {
-  const dispatch = useAppDispatch();
-  dispatch(addErrorMessage(msg));
+export function addToErrorMessageList(msg: string, dispatchCallback: Function) {
+  // const dispatch = useAppDispatch();
+  dispatchCallback(addErrorMessage(msg));
 }
 
-export function removeFromErrorMessageList(msg: string) {
-  const dispatch = useAppDispatch();
-  dispatch(removeErrorMessage(msg));
+export function removeFromErrorMessageList(
+  msg: string,
+  dispatchCallback: Function
+) {
+  // const dispatch = useAppDispatch();
+  dispatchCallback(removeErrorMessage(msg));
 }
 
 export const errorMessageStrings = {
@@ -79,12 +88,15 @@ export const errorMessageStrings = {
   searchDataFailure: "Error in searched data",
 };
 
-export const clearErrorMessageStore = () => {
-  setDisplayErrorMessage(null);
-  setErrorMessageList([]);
+export const clearErrorMessageStore = (dispatchCallback: Function) => {
+  setDisplayErrorMessage(null, dispatchCallback);
+  setErrorMessageList([], dispatchCallback);
 };
 
-export const logErrorsToStore = (errorMessages: errorMessageQueue) => {
+export const logErrorsToStore = (
+  errorMessages: errorMessageQueue,
+  dispatchCallback: Function
+) => {
   const sortedErrorList: errorMessageQueue =
     sortListAccordingToKeyOnCategoryList(
       errorMessages,
@@ -92,8 +104,8 @@ export const logErrorsToStore = (errorMessages: errorMessageQueue) => {
       errorSeverity
     );
 
-  setErrorMessageList(sortedErrorList);
-  setDisplayErrorMessage(sortedErrorList[0]);
+  setErrorMessageList(sortedErrorList, dispatchCallback);
+  setDisplayErrorMessage(sortedErrorList[0], dispatchCallback);
 };
 
 export const takeActionIfNoErrors = (action: Function, errorList: string[]) => {

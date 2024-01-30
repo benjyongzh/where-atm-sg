@@ -9,9 +9,7 @@ import { getNearbyAtms } from "@/features/googleAPI/nearbySearch";
 // import { getPlaceDetails } from "@/features/googleAPI/placeDetails";
 import {
   errorMessageQueue,
-  setDisplayErrorMessage,
   errorMessageStrings,
-  addToErrorMessageList,
   errorSeverity,
 } from "@/lib/errors";
 import {

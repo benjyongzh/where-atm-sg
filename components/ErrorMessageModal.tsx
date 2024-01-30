@@ -1,9 +1,10 @@
 "use client";
 import { useEffect } from "react";
-import { useAppSelector } from "@/hooks/reduxHooks";
+import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
 import { setDisplayErrorMessage } from "@/lib/errors";
 
 const ErrorMessageModal = () => {
+  const dispatch = useAppDispatch();
   const errorMessage: string | null = useAppSelector(
     (state) => state.errors.displayedErrorMessage
   );
@@ -12,7 +13,7 @@ const ErrorMessageModal = () => {
   useEffect(() => {
     console.log("useeffect is run");
     if (errorMessage !== null)
-      setTimeout(() => setDisplayErrorMessage(null), 1000);
+      setTimeout(() => setDisplayErrorMessage(null, dispatch), 1000);
 
     // return () => {
     //   setDisplayErrorMessage(null);
