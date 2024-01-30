@@ -1,8 +1,8 @@
 import { IGeoCode } from "./geocoder";
 import { errorMessageStrings } from "@/lib/errors";
-import { IAtmObject } from "@/lib/atmObject";
+import { IAtmObject, atmLoadingDirectionsFlag } from "@/lib/atmObject";
 import { isEmptyObj } from "@/utils/objects";
-import { useAppStore } from "@/hooks/reduxHooks";
+// import { useAppStore } from "@/hooks/reduxHooks";
 
 import {
   setParticularAtmData,
@@ -40,25 +40,30 @@ export async function getWalkingDirections(
 
 export const handleUpdateDirections = async (
   originLatLng: IGeoCode,
-  atm: IAtmObject
+  atm: IAtmObject,
+  allAtmLoadingDirectionsFlags: Array<atmLoadingDirectionsFlag>,
+  dispatchCallback: Function
 ) => {
   //guard clause
-  const store = useAppStore();
-  const allAtmDirectionFlags =
-    store.getState().atmData.allAtmLoadingDirectionsFlags;
-  const storedIsLoadingAtmDirectionsFlag = allAtmDirectionFlags.filter(
+  // const store = useAppStore();
+  // const allAtmDirectionFlags =
+  //   store.getState().atmData.allAtmLoadingDirectionsFlags;
+  const filteredAtmDirectionsFlag = allAtmLoadingDirectionsFlags.filter(
     (flagObject) => flagObject.atm.place_id === atm.place_id
   )[0];
-  // console.log('flag:', storedIsLoadingAtmDirectionsFlag)
+  // console.log('flag:', filteredAtmDirectionsFlag)
   if (
     !isEmptyObj(atm.directions) ||
-    storedIsLoadingAtmDirectionsFlag.isLoadingDirections
+    filteredAtmDirectionsFlag.isLoadingDirections
   ) {
     return;
   }
 
   //start loading
-  store.dispatch(
+  /* store.dispatch(
+    setParticularAtmIsLoadingDirectionsFlag({ atm, isLoadingDirections: true })
+  ); */
+  dispatchCallback(
     setParticularAtmIsLoadingDirectionsFlag({ atm, isLoadingDirections: true })
   );
 
@@ -68,17 +73,23 @@ export const handleUpdateDirections = async (
 
   //check for errors
   if (directionsData.status !== "OK") {
-    store.dispatch(
+    dispatchCallback(
       setParticularAtmData({
         ...atm,
         directions: undefined,
       })
     );
+    /* store.dispatch(
+      setParticularAtmData({
+        ...atm,
+        directions: undefined,
+      })
+    ); */
   } else {
     //log distance into store
     const distance = getTotalWalkingDistanceMetres(directionsData);
     const duration = getTotalWalkingTimeMins(directionsData);
-    store.dispatch(
+    dispatchCallback(
       setParticularAtmData({
         ...atm,
         directions: {
@@ -91,9 +102,25 @@ export const handleUpdateDirections = async (
         },
       })
     );
+    /* store.dispatch(
+      setParticularAtmData({
+        ...atm,
+        directions: {
+          originLatLng,
+          destinationPlaceId: atm.place_id,
+          mode: "walking",
+          distance: distance, // in minutes
+          duration: duration, // in minutes
+          pathPolyline: "some polyline string",
+        },
+      })
+    ); */
   }
 
-  store.dispatch(
+  /* store.dispatch(
+    setParticularAtmIsLoadingDirectionsFlag({ atm, isLoadingDirections: false })
+  ); */
+  dispatchCallback(
     setParticularAtmIsLoadingDirectionsFlag({ atm, isLoadingDirections: false })
   );
 };

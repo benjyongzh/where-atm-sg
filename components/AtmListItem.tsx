@@ -60,7 +60,12 @@ const AtmListItem = (props: AtmListItemProps) => {
   };
 
   const updateAtmDirections = () => {
-    handleUpdateDirections(storedSearchPoint, atm);
+    handleUpdateDirections(
+      storedSearchPoint,
+      atm,
+      storedIsLoadingAtmDirectionsFlag,
+      dispatch
+    );
   };
 
   useEffect(() => {

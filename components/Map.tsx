@@ -11,9 +11,9 @@ import {
 } from "@/features/atmData/atmDataSlice";
 
 //lib/utils
-import {handleUpdateDirections} from "@/features/googleAPI/directions";
+import { handleUpdateDirections } from "@/features/googleAPI/directions";
 import { IGeoCode } from "@/features/googleAPI/geocoder";
-import { IAtmObject } from "@/lib/atmObject";
+import { IAtmObject, atmLoadingDirectionsFlag } from "@/lib/atmObject";
 
 //components
 import MapMarker from "./MapMarker";
@@ -38,6 +38,9 @@ export default function Map() {
 
   const fullAtmList: IAtmObject[] = useAppSelector(
     (state) => state.atmData.allAtms
+  );
+  const allLoadingDirectionsFlags: atmLoadingDirectionsFlag[] = useAppSelector(
+    (state) => state.atmData.allAtmLoadingDirectionsFlags
   );
 
   const storedSearchPoint: IGeoCode = useAppSelector(
@@ -64,17 +67,21 @@ export default function Map() {
     dispatch(setOnHoverAtmPlaceId(over ? id : null));
   };
 
-  const handleAtmMarkerClick = (atm:IAtmObject) => {
+  const handleAtmMarkerClick = (atm: IAtmObject) => {
     if (storedBankFilters.includes(atm.brand)) return;
     dispatch(setSelectedAtmPlaceId(atm.place_id));
     //load walking distance
     updateAtmDirections(atm);
-
   };
 
   const updateAtmDirections = (atm: IAtmObject) => {
-    handleUpdateDirections(storedSearchPoint, atm);
-  }
+    handleUpdateDirections(
+      storedSearchPoint,
+      atm,
+      allLoadingDirectionsFlags,
+      dispatch
+    );
+  };
 
   useEffect(() => {
     if (storedSelectedAtmId !== null) {
