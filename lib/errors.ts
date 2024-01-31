@@ -40,8 +40,8 @@ export function setDisplayErrorMessage(
   dispatchCallback: Function
 ) {
   // const dispatch = useAppDispatch();
-  if (typeof msg === null) {
-    dispatchCallback(setDisplayedErrorMessage(msg as null));
+  if (msg === null) {
+    dispatchCallback(setDisplayedErrorMessage(msg));
     return;
   }
   const firstMessage: string = extractValuesFromObjectListAccordingToKey(
@@ -97,6 +97,7 @@ export const logErrorsToStore = (
   errorMessages: errorMessageQueue,
   dispatchCallback: Function
 ) => {
+  if (errorMessages.length < 1) return;
   const sortedErrorList: errorMessageQueue =
     sortListAccordingToKeyOnCategoryList(
       errorMessages,
