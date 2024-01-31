@@ -28,6 +28,7 @@ const ErrorMessageModal = () => {
         className={`relative flex flex-col justify-center nav-bg gap-2 item-center`}
       >
         {errorMessage}
+        //TODO it showed '1' when search initiated with zero filtered banks
       </div>
     </div>
   );
