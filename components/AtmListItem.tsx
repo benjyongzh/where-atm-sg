@@ -1,5 +1,5 @@
 //react
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 //icons
 import { GiPathDistance } from "react-icons/gi";
@@ -26,6 +26,8 @@ type AtmListItemProps = {
 const AtmListItem = (props: AtmListItemProps) => {
   const { atmData: atm } = props;
   const dispatch = useAppDispatch();
+  const [isLoadingDirectionsFlag, setIsLoadingDirectionsFlag] =
+    useState<Boolean>(false);
   const listItemRef = useRef<HTMLLIElement>(null);
   const storedSelectedAtmId = useAppSelector(
     (state) => state.atmData.selectedAtmPlaceId
@@ -38,11 +40,10 @@ const AtmListItem = (props: AtmListItemProps) => {
     (state) => state.settings.searchLocationPoint
   );
 
-  const storedIsLoadingAtmDirectionsFlag = useAppSelector(
-    (state) =>
-      state.atmData.allAtmLoadingDirectionsFlags.filter(
+  const allAtmLoadingDirectionsFlag = useAppSelector(
+    (state) => state.atmData.allAtmLoadingDirectionsFlags /* .filter(
         (flagObject) => flagObject.atm.place_id === atm.place_id
-      )[0].isLoadingDirections
+      )[0].isLoadingDirections */
   );
 
   const handleClick = () => {
@@ -63,7 +64,7 @@ const AtmListItem = (props: AtmListItemProps) => {
     handleUpdateDirections(
       storedSearchPoint,
       atm,
-      storedIsLoadingAtmDirectionsFlag,
+      allAtmLoadingDirectionsFlag,
       dispatch
     );
   };
@@ -76,6 +77,14 @@ const AtmListItem = (props: AtmListItemProps) => {
       });
     }
   }, [storedSelectedAtmId]);
+
+  useEffect(() => {
+    setIsLoadingDirectionsFlag(
+      allAtmLoadingDirectionsFlag.filter(
+        (flagObject) => flagObject.atm.place_id === atm.place_id
+      )[0].isLoadingDirections
+    );
+  }, [allAtmLoadingDirectionsFlag]);
 
   return (
     <li className="w-full" ref={listItemRef}>
@@ -103,7 +112,7 @@ const AtmListItem = (props: AtmListItemProps) => {
           <p className="flex text-sm text-start">
             <FaWalking />
             <span>&nbsp;</span>
-            {storedIsLoadingAtmDirectionsFlag ? (
+            {isLoadingDirectionsFlag ? ( //TODO
               <span>
                 <span className="loading loading-spinner loading-xs"></span>{" "}
                 mins
