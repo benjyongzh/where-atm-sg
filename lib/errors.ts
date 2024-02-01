@@ -36,26 +36,17 @@ export function isErrorMessageObject(arg: any): arg is errorMessageQueue {
 }
 
 export function setDisplayErrorMessage(
-  msg: errorMessageObject | null,
+  msg: string | null,
   dispatchCallback: Function
 ) {
-  // const dispatch = useAppDispatch();
-  if (msg === null) {
-    dispatchCallback(setDisplayedErrorMessage(msg));
-    return;
-  }
-  const firstMessage: string = extractValuesFromObjectListAccordingToKey(
-    [msg as errorMessageObject],
-    "severity"
-  )[0];
-  dispatchCallback(setDisplayedErrorMessage(firstMessage));
+  console.log("setDisplayErrorMessage msg: ", msg);
+  dispatchCallback(setDisplayedErrorMessage(msg));
 }
 
 export function setErrorMessageList(
   msg: errorMessageObject[],
   dispatchCallback: Function
 ) {
-  // const dispatch = useAppDispatch();
   const sortedMessages: string[] = extractValuesFromObjectListAccordingToKey(
     msg,
     "severity"
@@ -63,18 +54,28 @@ export function setErrorMessageList(
   dispatchCallback(setErrorMessages(sortedMessages));
 }
 
-export function addToErrorMessageList(msg: string, dispatchCallback: Function) {
-  // const dispatch = useAppDispatch();
-  dispatchCallback(addErrorMessage(msg));
-}
+export const instantOverrideErrorMessageStore = (
+  message: string | null,
+  dispatchCallback: Function
+) => {
+  if (message === null) {
+    dispatchCallback(setErrorMessages([]));
+  } else {
+    dispatchCallback(setErrorMessages([message]));
+  }
+  setDisplayErrorMessage(message, dispatchCallback);
+};
 
-export function removeFromErrorMessageList(
+/* export function addToErrorMessageList(msg: string, dispatchCallback: Function) {
+  dispatchCallback(addErrorMessage(msg));
+} */
+
+/* export function removeFromErrorMessageList(
   msg: string,
   dispatchCallback: Function
 ) {
-  // const dispatch = useAppDispatch();
   dispatchCallback(removeErrorMessage(msg));
-}
+} */
 
 export const errorMessageStrings = {
   noResultsFound: "No results",
@@ -86,11 +87,6 @@ export const errorMessageStrings = {
   directionsDataFailure: "Error in directions data",
   searchAPIFailure: "Failed to reach server for search",
   searchDataFailure: "Error in searched data",
-};
-
-export const clearErrorMessageStore = (dispatchCallback: Function) => {
-  setDisplayErrorMessage(null, dispatchCallback);
-  setErrorMessageList([], dispatchCallback);
 };
 
 export const logErrorsToStore = (
@@ -106,7 +102,7 @@ export const logErrorsToStore = (
     );
 
   setErrorMessageList(sortedErrorList, dispatchCallback);
-  setDisplayErrorMessage(sortedErrorList[0], dispatchCallback);
+  setDisplayErrorMessage(sortedErrorList[0].message, dispatchCallback);
 };
 
 export const takeActionIfNoErrors = (action: Function, errorList: string[]) => {
