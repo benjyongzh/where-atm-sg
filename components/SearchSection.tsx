@@ -38,7 +38,6 @@ const SearchSection = () => {
     instantOverrideErrorMessageStore(null, dispatch);
     if (storedBankFilterList.length >= bankFilters.length) {
       instantOverrideErrorMessageStore("no banks selected to search", dispatch);
-      console.log("no banks selected to search");
       return;
     }
 
