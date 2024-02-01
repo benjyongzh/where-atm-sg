@@ -112,7 +112,7 @@ const AtmListItem = (props: AtmListItemProps) => {
           <p className="flex text-sm text-start">
             <FaWalking />
             <span>&nbsp;</span>
-            {isLoadingDirectionsFlag ? ( //TODO
+            {isLoadingDirectionsFlag ? (
               <span>
                 <span className="loading loading-spinner loading-xs"></span>{" "}
                 mins
