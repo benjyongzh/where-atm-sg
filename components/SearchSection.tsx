@@ -35,9 +35,8 @@ const SearchSection = () => {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-    //TODO check if bankfilters arer valid (at least 1 is not filtered out)
+    instantOverrideErrorMessageStore(null, dispatch);
     if (storedBankFilterList.length >= bankFilters.length) {
-      //TODO create error message for bank filters
       instantOverrideErrorMessageStore("no banks selected to search", dispatch);
       console.log("no banks selected to search");
       return;
@@ -45,7 +44,6 @@ const SearchSection = () => {
 
     dispatch(setFilterIsOpen(false));
     setIsLoading(true);
-    instantOverrideErrorMessageStore(null, dispatch);
     //should validate and sanitize addressInput string here first
     const endpoint = "/api/search";
 
