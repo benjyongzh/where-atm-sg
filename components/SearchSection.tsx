@@ -8,11 +8,13 @@ import {
 import { setAtmData, setSearchStarted } from "@/features/atmData/atmDataSlice";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 
+import { bankFilters } from "@/lib/atmObject";
+
 //utils
 import {
-  clearErrorMessageStore,
   takeActionIfNoErrors,
   logErrorsToStore,
+  instantOverrideErrorMessageStore,
 } from "@/lib/errors";
 
 //graphics
@@ -33,9 +35,17 @@ const SearchSection = () => {
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
+    //TODO check if bankfilters arer valid (at least 1 is not filtered out)
+    if (storedBankFilterList.length >= bankFilters.length) {
+      //TODO create error message for bank filters
+      instantOverrideErrorMessageStore("no banks selected to search", dispatch);
+      console.log("no banks selected to search");
+      return;
+    }
+
     dispatch(setFilterIsOpen(false));
     setIsLoading(true);
-    clearErrorMessageStore(dispatch);
+    instantOverrideErrorMessageStore(null, dispatch);
     //should validate and sanitize addressInput string here first
     const endpoint = "/api/search";
 
@@ -60,7 +70,6 @@ const SearchSection = () => {
     const response = await fetch(endpoint, options);
 
     // Get the response data from server as JSON.
-    // If server returns the name submitted, that means the form works.
     const result = await response.json();
     console.log("search result: ", result);
 
