@@ -36,6 +36,8 @@ const SearchSection = () => {
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     instantOverrideErrorMessageStore(null, dispatch);
+
+    //check if bank filter is valid
     if (storedBankFilterList.length >= bankFilters.length) {
       instantOverrideErrorMessageStore("no banks selected to search", dispatch);
       return;
