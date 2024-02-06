@@ -31,14 +31,14 @@ const ErrorMessageModal = () => {
     <motion.div
       animate={{
         opacity: errorMessage !== null ? 1 : 0,
-        y: errorMessage !== null ? 0 : 80,
+        y: errorMessage !== null ? 0 : -50,
       }}
       transition={{ type: "tween", duration: 0.2 }}
       className="relative z-10 flex flex-col items-stretch justify-start w-full lg:w-[30%]"
     >
       <div
         onClick={errorMessage !== null ? handleClick : () => {}}
-        className={`relative flex flex-col justify-center nav-bg gap-2 item-center`}
+        className={`relative flex flex-col justify-center nav-bg item-center px-4 text-error`}
       >
         {errorMessage}
         {/* TODO styling of error messages of different severity, if any*/}
