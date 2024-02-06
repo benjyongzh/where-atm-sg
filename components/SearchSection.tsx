@@ -39,7 +39,7 @@ const SearchSection = () => {
 
     //check if bank filter is valid
     if (storedBankFilterList.length >= bankFilters.length) {
-      instantOverrideErrorMessageStore("no banks selected to search", dispatch);
+      instantOverrideErrorMessageStore("no banks selected to search", dispatch); //TODO fix bug where this is run even though some banks are not filtered out
       return;
     }
 
