@@ -33,8 +33,10 @@ const ErrorMessageModal = () => {
         opacity: errorMessage !== null ? 1 : 0,
         y: errorMessage !== null ? 0 : -50,
       }}
-      transition={{ type: "tween", duration: 0.2 }}
-      className="relative z-10 flex flex-col items-stretch justify-start w-full lg:w-[30%]"
+      transition={{ type: "spring", bounce: 0.5 }}
+      className={`relative z-10 flex flex-col items-stretch justify-start w-full lg:w-[30%] ${
+        errorMessage !== null ? "" : "pointer-events-none"
+      }`}
     >
       <div
         onClick={errorMessage !== null ? handleClick : () => {}}
