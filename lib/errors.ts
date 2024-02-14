@@ -39,7 +39,7 @@ export function setDisplayErrorMessage(
   msg: string | null,
   dispatchCallback: Function
 ) {
-  console.log("setDisplayErrorMessage msg: ", msg);
+  console.log("setDisplayErrorMessage msg: ", msg); //TODO setDisplayErrorMessage msg:  Failed to reach geocoding service. wrong error message when 0 search results
   dispatchCallback(setDisplayedErrorMessage(msg));
 }
 
@@ -108,7 +108,7 @@ export const logErrorsToStore = (
 export const takeActionIfNoErrors = (action: Function, errorList: string[]) => {
   if (errorList.length > 0) {
     errorList.forEach((error: string) => {
-      console.log(`Error message: `, error); //error message gotta show
+      console.log(`Error message: `, error); //TODO console shows: "Error message:  2"when there are no search results, which might come frrom severity number
     });
     return;
   }
