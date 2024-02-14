@@ -126,7 +126,7 @@ export const compileRecordIntoArrayAccordingToKeySorting = <T extends any>(
   return finalList;
 };
 
-const flattenArray = (originalArray: Array<any>): Array<any> => {
+export const flattenArray = (originalArray: Array<any>): Array<any> => {
   return originalArray.reduce((stackingArray, nextItem) => {
     if (Array.isArray(nextItem)) {
       stackingArray.push(...flattenArray(nextItem));

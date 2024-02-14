@@ -16,6 +16,7 @@ import {
   logErrorsToStore,
   instantOverrideErrorMessageStore,
 } from "@/lib/errors";
+import { flattenArray } from "@/utils/objects";
 
 //graphics
 import SearchIcon from "@/public/assets/icons/search.svg";
@@ -38,8 +39,13 @@ const SearchSection = () => {
     instantOverrideErrorMessageStore(null, dispatch);
 
     //check if bank filter is valid
-    if (storedBankFilterList.length >= bankFilters.length) {
-      instantOverrideErrorMessageStore("no banks selected to search", dispatch); //TODO fix bug where this is run even though some banks are not filtered out
+    const bankFiltersMax: number = flattenArray(
+      bankFilters.map((filterObject) => filterObject.banks)
+    ).length;
+    // console.log("bankFiltersTotalCount: ", bankFiltersMax);
+    // console.log("storedBankFilterListCount: ", storedBankFilterList.length);
+    if (storedBankFilterList.length >= bankFiltersMax) {
+      instantOverrideErrorMessageStore("no banks selected to search", dispatch);
       return;
     }
 
