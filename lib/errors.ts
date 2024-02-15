@@ -49,7 +49,7 @@ export function setErrorMessageList(
 ) {
   const sortedMessages: string[] = extractValuesFromObjectListAccordingToKey(
     msg,
-    "severity"
+    "message"
   );
   dispatchCallback(setErrorMessages(sortedMessages));
 }
@@ -101,18 +101,23 @@ export const logErrorsToStore = (
       errorSeverity
     );
 
+  console.log("sortedErrorList: ", sortedErrorList);
+
   setErrorMessageList(sortedErrorList, dispatchCallback);
   setDisplayErrorMessage(sortedErrorList[0].message, dispatchCallback);
 };
 
 export const takeActionIfNoErrors = (action: Function, errorList: string[]) => {
+  //TODO this is reading redux store faster than it is getting updated
+  console.log("errorList: ", errorList);
   if (errorList.length > 0) {
     errorList.forEach((error: string) => {
-      console.log(`Error message: `, error); //TODO console shows: "Error message:  2"when there are no search results, which might come frrom severity number
+      console.log(`Error message: `, error);
     });
     return;
   }
   //no errors
+  console.log("no errors detected. executing action...");
   action();
 };
 
