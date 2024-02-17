@@ -92,8 +92,8 @@ export const errorMessageStrings = {
 export const logErrorsToStore = (
   errorMessages: errorMessageQueue,
   dispatchCallback: Function
-) => {
-  if (errorMessages.length < 1) return;
+): errorMessageQueue => {
+  if (errorMessages.length < 1) return [];
   const sortedErrorList: errorMessageQueue =
     sortListAccordingToKeyOnCategoryList(
       errorMessages,
@@ -105,6 +105,7 @@ export const logErrorsToStore = (
 
   setErrorMessageList(sortedErrorList, dispatchCallback);
   setDisplayErrorMessage(sortedErrorList[0].message, dispatchCallback);
+  return sortedErrorList;
 };
 
 export const takeActionIfNoErrors = (action: Function, errorList: string[]) => {

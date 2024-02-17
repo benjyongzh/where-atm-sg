@@ -12,6 +12,7 @@ import { bankFilters } from "@/lib/atmObject";
 
 //utils
 import {
+  errorMessageQueue,
   takeActionIfNoErrors,
   logErrorsToStore,
   instantOverrideErrorMessageStore,
@@ -78,12 +79,15 @@ const SearchSection = () => {
     const result = await response.json();
     console.log("search result: ", result);
 
-    logErrorsToStore(result.errorMessages, dispatch);
+    const loggedErrorList: errorMessageQueue = logErrorsToStore(
+      result.errorMessages,
+      dispatch
+    );
 
     takeActionIfNoErrors(() => {
       dispatch(setSearchLocationPoint(result.searchPointLatLong));
       dispatch(setAtmData(result.desiredAtms));
-    }, storedErrorMessagesList);
+    }, loggedErrorList); //TODO should be string array
 
     setIsLoading(false);
     dispatch(setSearchStarted(true));
