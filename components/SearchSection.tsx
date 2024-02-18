@@ -17,7 +17,10 @@ import {
   logErrorsToStore,
   instantOverrideErrorMessageStore,
 } from "@/lib/errors";
-import { flattenArray } from "@/utils/objects";
+import {
+  flattenArray,
+  extractValuesFromObjectListAccordingToKey,
+} from "@/utils/objects";
 
 //graphics
 import SearchIcon from "@/public/assets/icons/search.svg";
@@ -53,6 +56,7 @@ const SearchSection = () => {
     dispatch(setFilterIsOpen(false));
     setIsLoading(true);
     //should validate and sanitize addressInput string here first
+    //TODO clear atmList items here. map should default to showing zero results. (when changing atam filter selection into one without results)
     const endpoint = "/api/search";
 
     // Form the request for sending data to the server.
@@ -84,10 +88,15 @@ const SearchSection = () => {
       dispatch
     );
 
+    const sortedMessages: string[] = extractValuesFromObjectListAccordingToKey(
+      loggedErrorList,
+      "message"
+    );
+
     takeActionIfNoErrors(() => {
       dispatch(setSearchLocationPoint(result.searchPointLatLong));
       dispatch(setAtmData(result.desiredAtms));
-    }, loggedErrorList); //TODO should be string array
+    }, sortedMessages);
 
     setIsLoading(false);
     dispatch(setSearchStarted(true));
