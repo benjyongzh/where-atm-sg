@@ -28,6 +28,8 @@ const ErrorMessageModal = () => {
   }, [errorMessage]);
 
   return (
+    //TODO there is space between errorModal and atmList
+    //TODO errorMessage still shows if severity is 0, but text is red
     <motion.div
       animate={{
         opacity: errorMessage !== null ? 1 : 0,
