@@ -39,7 +39,7 @@ export function setDisplayErrorMessage(
   msg: string | null,
   dispatchCallback: Function
 ) {
-  console.log("setDisplayErrorMessage msg: ", msg); //TODO setDisplayErrorMessage msg:  Failed to reach geocoding service. wrong error message when 0 search results
+  console.log("setDisplayErrorMessage msg: ", msg);
   dispatchCallback(setDisplayedErrorMessage(msg));
 }
 
@@ -109,7 +109,6 @@ export const logErrorsToStore = (
 };
 
 export const takeActionIfNoErrors = (action: Function, errorList: string[]) => {
-  //TODO this is reading redux store faster than it is getting updated
   console.log("errorList: ", errorList);
   if (errorList.length > 0) {
     errorList.forEach((error: string) => {
