@@ -94,6 +94,7 @@ const SearchSection = () => {
     );
 
     takeActionIfNoErrors(() => {
+      //TODO ends up disallowing data to be shown if there are any banks with errors
       dispatch(setSearchLocationPoint(result.searchPointLatLong));
       dispatch(setAtmData(result.desiredAtms));
     }, sortedMessages);

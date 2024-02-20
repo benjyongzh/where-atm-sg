@@ -21,7 +21,7 @@ export async function getAddressGeocoded(address: string) {
     // console.log(`Geocoding error: `, err);
     return {
       status: "API error",
-      message: errorMessageStrings.geocodingAPIFailure,
+      message: errorMessageStrings.geocodingAPIFailure, //TODO "failed to reach geocoding service" is error given when searchpoint is invalid. should check if address is valid first
     };
     // geocodedAddress.status !== "OK"
     // addToErrorMessageList(errorMessageStrings.geocodingAPIFailure);
