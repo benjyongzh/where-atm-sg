@@ -103,22 +103,11 @@ export const logErrorsToStore = (
 
   console.log("sortedErrorList: ", sortedErrorList);
 
+  //TODO if top message has severity 0, carry on with actions. need a separate function to check
+
   setErrorMessageList(sortedErrorList, dispatchCallback);
   setDisplayErrorMessage(sortedErrorList[0].message, dispatchCallback);
   return sortedErrorList;
-};
-
-export const takeActionIfNoErrors = (action: Function, errorList: string[]) => {
-  console.log("errorList: ", errorList);
-  if (errorList.length > 0) {
-    errorList.forEach((error: string) => {
-      console.log(`Error message: `, error);
-    });
-    return;
-  }
-  //no errors
-  console.log("no errors detected. executing action...");
-  action();
 };
 
 class errorMessagesContainer {

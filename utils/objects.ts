@@ -151,3 +151,20 @@ export const extractValuesFromObjectListAccordingToKey = <
 
   return finalList;
 };
+
+export const executeCallbackIfEmptyArray = <T>(
+  callback: Function,
+  arrayList: Array<T>,
+  itemName: string = "executeCallbackIfEmptyArray's arrayItem"
+) => {
+  console.log("arrayList: ", arrayList);
+  if (arrayList.length > 0) {
+    arrayList.forEach((item: T) => {
+      console.log(`${itemName}: `, item);
+    });
+    return;
+  }
+  //no errors
+  console.log("no arrayItems detected. executing callback...");
+  callback();
+};

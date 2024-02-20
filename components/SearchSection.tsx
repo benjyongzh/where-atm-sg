@@ -13,13 +13,13 @@ import { bankFilters } from "@/lib/atmObject";
 //utils
 import {
   errorMessageQueue,
-  takeActionIfNoErrors,
   logErrorsToStore,
   instantOverrideErrorMessageStore,
 } from "@/lib/errors";
 import {
   flattenArray,
   extractValuesFromObjectListAccordingToKey,
+  executeCallbackIfEmptyArray,
 } from "@/utils/objects";
 
 //graphics
@@ -93,7 +93,7 @@ const SearchSection = () => {
       "message"
     );
 
-    takeActionIfNoErrors(() => {
+    executeCallbackIfEmptyArray(() => {
       //TODO ends up disallowing data to be shown if there are any banks with errors
       dispatch(setSearchLocationPoint(result.searchPointLatLong));
       dispatch(setAtmData(result.desiredAtms));
