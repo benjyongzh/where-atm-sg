@@ -8,8 +8,8 @@ const page = () => {
   return (
     <main id="mainContainer" className="defaultPageLayout">
       <Navbar />
-      <ErrorMessageModal />
       <AtmList />
+      <ErrorMessageModal />
       <div className="absolute w-full h-full">
         <GoogleMap />
       </div>
