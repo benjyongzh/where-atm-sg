@@ -2,7 +2,7 @@
 import { useAppDispatch } from "@/hooks/reduxHooks";
 import {
   setDisplayedErrorMessage,
-  setErrorMessages,
+  setErrorMessages as setStoreErrorMessages,
   addErrorMessage,
   removeErrorMessage,
 } from "@/features/errors/errorsSlice";
@@ -51,7 +51,7 @@ export function setErrorMessageList(
     msg,
     "message"
   );
-  dispatchCallback(setErrorMessages(sortedMessages));
+  dispatchCallback(setStoreErrorMessages(sortedMessages));
 }
 
 export const instantOverrideErrorMessageStore = (
@@ -59,9 +59,9 @@ export const instantOverrideErrorMessageStore = (
   dispatchCallback: Function
 ) => {
   if (message === null) {
-    dispatchCallback(setErrorMessages([]));
+    dispatchCallback(setStoreErrorMessages([]));
   } else {
-    dispatchCallback(setErrorMessages([message]));
+    dispatchCallback(setStoreErrorMessages([message]));
   }
   setDisplayErrorMessage(message, dispatchCallback);
 };
@@ -91,9 +91,11 @@ export const errorMessageStrings = {
 
 export const logErrorsToStore = (
   errorMessages: errorMessageQueue,
-  dispatchCallback: Function
-): errorMessageQueue => {
-  if (errorMessages.length < 1) return [];
+  dispatchCallback: Function,
+  lowestAcceptableSeverity: number = 1
+): { severityAcceptable: boolean; errorMessages: errorMessageQueue } => {
+  if (errorMessages.length < 1)
+    return { severityAcceptable: true, errorMessages: [] };
   const sortedErrorList: errorMessageQueue =
     sortListAccordingToKeyOnCategoryList(
       errorMessages,
@@ -104,10 +106,29 @@ export const logErrorsToStore = (
   console.log("sortedErrorList: ", sortedErrorList);
 
   //TODO if top message has severity 0, carry on with actions. need a separate function to check
+  const severityAcceptable: boolean = setErrorMessages(
+    sortedErrorList,
+    dispatchCallback,
+    lowestAcceptableSeverity
+  );
 
-  setErrorMessageList(sortedErrorList, dispatchCallback);
-  setDisplayErrorMessage(sortedErrorList[0].message, dispatchCallback);
-  return sortedErrorList;
+  return {
+    severityAcceptable: severityAcceptable,
+    errorMessages: sortedErrorList,
+  };
+};
+
+const setErrorMessages = (
+  errorList: errorMessageQueue,
+  dispatchCallback: Function,
+  lowestAcceptableSeverity: number
+) => {
+  setErrorMessageList(errorList, dispatchCallback);
+  setDisplayErrorMessage(errorList[0].message, dispatchCallback);
+  if (errorList[0].severity >= lowestAcceptableSeverity) {
+    return false;
+  }
+  return true;
 };
 
 class errorMessagesContainer {

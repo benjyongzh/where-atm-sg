@@ -57,6 +57,7 @@ const SearchSection = () => {
     setIsLoading(true);
     //should validate and sanitize addressInput string here first
     //TODO clear atmList items here. map should default to showing zero results. (when changing atam filter selection into one without results)
+    dispatch(setAtmData([]));
     const endpoint = "/api/search";
 
     // Form the request for sending data to the server.
@@ -83,21 +84,29 @@ const SearchSection = () => {
     const result = await response.json();
     console.log("search result: ", result);
 
-    const loggedErrorList: errorMessageQueue = logErrorsToStore(
-      result.errorMessages,
-      dispatch
-    );
+    const loggedErrorListResult: {
+      severityAcceptable: boolean;
+      errorMessages: errorMessageQueue;
+    } = logErrorsToStore(result.errorMessages, dispatch);
 
-    const sortedMessages: string[] = extractValuesFromObjectListAccordingToKey(
-      loggedErrorList,
-      "message"
-    );
+    if (loggedErrorListResult.severityAcceptable) {
+      //highest severity is acceptable. carry on with actions
+      /* const sortedMessages: string[] =
+        extractValuesFromObjectListAccordingToKey(
+          loggedErrorListResult.errorMessages,
+          "message"
+        ); */
+      dispatch(setSearchLocationPoint(result.searchPointLatLong));
+      dispatch(setAtmData(result.desiredAtms));
+    } else {
+      //highest severity is unacceptable. do not carry out actions
+    }
 
-    executeCallbackIfEmptyArray(() => {
+    /* executeCallbackIfEmptyArray(() => {
       //TODO ends up disallowing data to be shown if there are any banks with errors
       dispatch(setSearchLocationPoint(result.searchPointLatLong));
       dispatch(setAtmData(result.desiredAtms));
-    }, sortedMessages);
+    }, sortedMessages); */
 
     setIsLoading(false);
     dispatch(setSearchStarted(true));
