@@ -1,8 +1,9 @@
+import { errorMessageQueue, errorMessageObject } from "@/lib/errors";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type InitialState = {
   displayedErrorMessage: string | null;
-  currentErrorMessages: string[];
+  currentErrorMessages: errorMessageQueue;
 };
 
 const initialState: InitialState = {
@@ -18,15 +19,17 @@ const errorsSlice = createSlice({
     setDisplayedErrorMessage: (state, action: PayloadAction<string | null>) => {
       state.displayedErrorMessage = action.payload;
     },
-    setErrorMessages: (state, action: PayloadAction<string[]>) => {
+    setErrorMessages: (state, action: PayloadAction<errorMessageQueue>) => {
       state.currentErrorMessages = action.payload;
     },
-    addErrorMessage: (state, action: PayloadAction<string>) => {
+    addErrorMessage: (state, action: PayloadAction<errorMessageObject>) => {
       state.currentErrorMessages.push(action.payload);
     },
-    removeErrorMessage: (state, action: PayloadAction<string>) => {
+    removeErrorMessage: (state, action: PayloadAction<errorMessageObject>) => {
       state.currentErrorMessages = state.currentErrorMessages.filter(
-        (errorMsg) => errorMsg != action.payload
+        (errorMsg) =>
+          errorMsg.severity != action.payload.severity &&
+          errorMsg.message != action.payload.message
       );
     },
   },

@@ -43,7 +43,7 @@ export function setDisplayErrorMessage(
   dispatchCallback(setDisplayedErrorMessage(msg));
 }
 
-export function setErrorMessageList(
+/* export function setErrorMessageList(
   msg: errorMessageObject[],
   dispatchCallback: Function
 ) {
@@ -51,19 +51,19 @@ export function setErrorMessageList(
     msg,
     "message"
   );
-  dispatchCallback(setStoreErrorMessages(sortedMessages));
-}
+  dispatchCallback(setErrorMessages(sortedMessages));
+} */
 
 export const instantOverrideErrorMessageStore = (
-  message: string | null,
+  errorObj: errorMessageObject | null,
   dispatchCallback: Function
 ) => {
-  if (message === null) {
+  if (errorObj === null) {
     dispatchCallback(setStoreErrorMessages([]));
   } else {
-    dispatchCallback(setStoreErrorMessages([message]));
+    dispatchCallback(setStoreErrorMessages([errorObj]));
   }
-  setDisplayErrorMessage(message, dispatchCallback);
+  setDisplayErrorMessage(errorObj!.message, dispatchCallback);
 };
 
 /* export function addToErrorMessageList(msg: string, dispatchCallback: Function) {
@@ -122,7 +122,8 @@ const setErrorMessages = (
   dispatchCallback: Function,
   lowestAcceptableSeverity: number
 ) => {
-  setErrorMessageList(errorList, dispatchCallback); //TODO errorMessages stored in redux should record severity levels instead of just the message string
+  setStoreErrorMessages(errorList);
+  // setErrorMessageList(errorList, dispatchCallback); //TODO errorMessages stored in redux should record severity levels instead of just the message string
   setDisplayErrorMessage(errorList[0].message, dispatchCallback);
   if (errorList[0].severity >= lowestAcceptableSeverity) {
     return false;

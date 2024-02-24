@@ -49,7 +49,10 @@ const SearchSection = () => {
     // console.log("bankFiltersTotalCount: ", bankFiltersMax);
     // console.log("storedBankFilterListCount: ", storedBankFilterList.length);
     if (storedBankFilterList.length >= bankFiltersMax) {
-      instantOverrideErrorMessageStore("no banks selected to search", dispatch);
+      instantOverrideErrorMessageStore(
+        { message: "no banks selected to search", severity: 1 },
+        dispatch
+      );
       return;
     }
 
