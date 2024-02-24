@@ -60,10 +60,11 @@ export const instantOverrideErrorMessageStore = (
 ) => {
   if (errorObj === null) {
     dispatchCallback(setStoreErrorMessages([]));
+    setDisplayErrorMessage(null, dispatchCallback);
   } else {
     dispatchCallback(setStoreErrorMessages([errorObj]));
+    setDisplayErrorMessage(errorObj!.message, dispatchCallback);
   }
-  setDisplayErrorMessage(errorObj!.message, dispatchCallback);
 };
 
 /* export function addToErrorMessageList(msg: string, dispatchCallback: Function) {
