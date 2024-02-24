@@ -95,6 +95,9 @@ const SearchSection = () => {
       //highest severity is acceptable. carry on with actions
       dispatch(setSearchLocationPoint(result.searchPointLatLong));
       dispatch(setAtmData(result.desiredAtms));
+      dispatch(
+        setDisplayedErrorMessage(loggedErrorListResult.errorMessages[0].message)
+      );
     }
 
     setIsLoading(false);
