@@ -105,7 +105,6 @@ export const logErrorsToStore = (
 
   console.log("sortedErrorList: ", sortedErrorList);
 
-  //TODO if top message has severity 0, carry on with actions. need a separate function to check
   const severityAcceptable: boolean = setErrorMessages(
     sortedErrorList,
     dispatchCallback,
@@ -123,12 +122,13 @@ const setErrorMessages = (
   dispatchCallback: Function,
   lowestAcceptableSeverity: number
 ) => {
-  setErrorMessageList(errorList, dispatchCallback);
+  setErrorMessageList(errorList, dispatchCallback); //TODO errorMessages stored in redux should record severity levels instead of just the message string
   setDisplayErrorMessage(errorList[0].message, dispatchCallback);
   if (errorList[0].severity >= lowestAcceptableSeverity) {
     return false;
   }
   return true;
+  //TODO when 1 bank has zero results, error message still shows as ATM result error
 };
 
 class errorMessagesContainer {
