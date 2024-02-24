@@ -90,22 +90,9 @@ const SearchSection = () => {
 
     if (loggedErrorListResult.severityAcceptable) {
       //highest severity is acceptable. carry on with actions
-      /* const sortedMessages: string[] =
-        extractValuesFromObjectListAccordingToKey(
-          loggedErrorListResult.errorMessages,
-          "message"
-        ); */
       dispatch(setSearchLocationPoint(result.searchPointLatLong));
       dispatch(setAtmData(result.desiredAtms));
-    } else {
-      //highest severity is unacceptable. do not carry out actions
     }
-
-    /* executeCallbackIfEmptyArray(() => {
-      //TODO ends up disallowing data to be shown if there are any banks with errors
-      dispatch(setSearchLocationPoint(result.searchPointLatLong));
-      dispatch(setAtmData(result.desiredAtms));
-    }, sortedMessages); */
 
     setIsLoading(false);
     dispatch(setSearchStarted(true));
