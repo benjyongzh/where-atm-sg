@@ -7,6 +7,7 @@ import {
 } from "@/features/settings/settingsSlice";
 import { setAtmData, setSearchStarted } from "@/features/atmData/atmDataSlice";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
+import { setDisplayedErrorMessage } from "@/features/errors/errorsSlice";
 
 import { bankFilters } from "@/lib/atmObject";
 
