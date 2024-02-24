@@ -51,6 +51,7 @@ const FilterButton = (props: { banks: string[] }) => {
   };
 
   return (
+    //TODO changing between mobile and desktop view alters the filter toggle status
     <div
       className={`indicator ${brandCount > 0 ? "mr-3" : ""} ${
         filterIsOpen || mediaBreakpoint !== "xs"
