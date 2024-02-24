@@ -56,7 +56,6 @@ const SearchSection = () => {
     dispatch(setFilterIsOpen(false));
     setIsLoading(true);
     //should validate and sanitize addressInput string here first
-    //TODO clear atmList items here. map should default to showing zero results. (when changing atam filter selection into one without results)
     dispatch(setAtmData([]));
     const endpoint = "/api/search";
 
