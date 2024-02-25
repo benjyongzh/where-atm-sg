@@ -123,8 +123,7 @@ const setErrorMessages = (
   dispatchCallback: Function,
   lowestAcceptableSeverity: number
 ) => {
-  setStoreErrorMessages(errorList);
-  // setErrorMessageList(errorList, dispatchCallback); //TODO errorMessages stored in redux should record severity levels instead of just the message string
+  dispatchCallback(setStoreErrorMessages(errorList));
   if (errorList[0].severity >= lowestAcceptableSeverity) {
     //errorMessage has higher severity than threshold for executing
     return false;
