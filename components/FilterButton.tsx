@@ -13,7 +13,7 @@ import {
 
 const FilterButton = (props: { banks: string[] }) => {
   const { banks } = props;
-  const [activated, setActivated] = useState(true);
+  const [activated, setActivated] = useState(true); //TODO should pair directly to store's bank filter info
   const dispatch = useAppDispatch();
   const fullAtmList: IAtmObject[] = useAppSelector(
     (state) => state.atmData.allAtms
