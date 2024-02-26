@@ -20,7 +20,7 @@ const ErrorMessageModal = () => {
   useEffect(() => {
     console.log("useeffect is run");
     if (errorMessage !== null)
-      setTimeout(() => setDisplayErrorMessage(null, dispatch), 10000); //TODO timer does not refresh upon new error created
+      setTimeout(() => setDisplayErrorMessage(null, dispatch), 5000); //TODO timer does not refresh upon new error created
 
     // return () => {
     //   setDisplayErrorMessage(null, dispatch);
