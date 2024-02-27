@@ -54,26 +54,22 @@ const Navbar = () => {
           </button>
         </div>
       </div>
-      {mediaBreakpoint === "xs" ? (
-        <motion.div
-          animate={{
-            opacity: filterIsOpen ? 1 : 0,
-            y: filterIsOpen ? 0 : -80,
-          }}
-          transition={{ type: "tween", duration: 0.2 }}
-          className={`absolute z-10 top-[94%] left-0 right-0 nav-bg ${
-            filterIsOpen ? "" : "pointer-events-none"
-          }`}
-        >
-          <FilterSection />
-        </motion.div>
-      ) : (
-        <div
-          className={`relative z-10 flex justify-center items-center -mt-0.5 nav-bg`}
-        >
-          <FilterSection />
-        </div>
-      )}
+      <motion.div
+        animate={{
+          opacity: filterIsOpen || mediaBreakpoint !== "xs" ? 1 : 0,
+          y: filterIsOpen || mediaBreakpoint !== "xs" ? 0 : -80,
+        }}
+        transition={{ type: "tween", duration: 0.2 }}
+        className={
+          mediaBreakpoint === "xs"
+            ? `absolute z-10 top-[94%] left-0 right-0 nav-bg ${
+                filterIsOpen ? "" : "pointer-events-none"
+              }`
+            : `relative z-10 flex justify-center items-center -mt-0.5 nav-bg`
+        }
+      >
+        <FilterSection />
+      </motion.div>
     </div>
   );
 };
