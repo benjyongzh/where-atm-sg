@@ -129,7 +129,6 @@ const setErrorMessages = (
     return false;
   }
   return true;
-  //TODO when 1 bank has zero results, error message still shows as ATM result error
 };
 
 class errorMessagesContainer {
