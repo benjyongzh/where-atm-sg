@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { IAtmObject } from "@/lib/atmObject";
+import { arrayContainsAllContentsOfSecondArray } from "@/utils/objects";
 
 //redux
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
@@ -12,8 +12,14 @@ import {
 } from "@/features/settings/settingsSlice";
 
 const FilterButton = (props: { banks: string[] }) => {
-  const { banks } = props;
-  const [activated, setActivated] = useState(true); //TODO should pair directly to store's bank filter info
+  const { banks } = props; //eg. ["DBS", "POSB"]
+  const currentBankGroupEnabled: boolean = useAppSelector(
+    (state) =>
+      !arrayContainsAllContentsOfSecondArray(
+        state.settings.bankFilterOut,
+        banks
+      )
+  );
   const dispatch = useAppDispatch();
   const fullAtmList: IAtmObject[] = useAppSelector(
     (state) => state.atmData.allAtms
@@ -34,7 +40,7 @@ const FilterButton = (props: { banks: string[] }) => {
   const handleClick = () => {
     if (!filterIsOpen && mediaBreakpoint === "xs") return;
 
-    if (activated) {
+    if (currentBankGroupEnabled) {
       dispatch(addBankFilter(banks));
       if (storedSelectedAtmId !== null) {
         const currentAtm = fullAtmList.find(
@@ -47,11 +53,10 @@ const FilterButton = (props: { banks: string[] }) => {
       dispatch(removeBankFilter(banks));
     }
 
-    setActivated((curr) => !curr);
+    //setActivated((curr) => !curr);
   };
 
   return (
-    //TODO changing between mobile and desktop view alters the filter toggle status
     <div
       className={`indicator ${brandCount > 0 ? "mr-3" : ""} ${
         filterIsOpen || mediaBreakpoint !== "xs"
@@ -68,7 +73,7 @@ const FilterButton = (props: { banks: string[] }) => {
         type="button"
         onClick={handleClick}
         className={`px-3 py-1 text-xs rounded-lg ${
-          activated ? "bg-info" : "bg-neutral-content"
+          currentBankGroupEnabled ? "bg-info" : "bg-neutral-content"
         } ${
           filterIsOpen || mediaBreakpoint !== "xs"
             ? "cursor-pointer"
