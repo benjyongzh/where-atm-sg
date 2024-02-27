@@ -64,7 +64,7 @@ const FilterButton = (props: { banks: string[] }) => {
           : "pointer-events-none cursor-default"
       }`}
     >
-      {brandCount > 0 ? (
+      {brandCount > 0 ? ( //TODO atmCount is pushing other buttons on the right. will be a problem if count is high
         <span className="p-3 rounded-full aspect-square indicator-item badge badge-secondary">
           {brandCount}
         </span>
