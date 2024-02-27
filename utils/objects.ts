@@ -168,3 +168,19 @@ export const executeCallbackIfEmptyArray = <T>(
   console.log("no arrayItems detected. executing callback...");
   callback();
 };
+
+export const arrayContainsAllContentsOfSecondArray = <T>(
+  array1: Array<T>,
+  array2: Array<T>
+): boolean => {
+  if (array2.length > array1.length) {
+    //throw "array2 should be shorter than array1";
+    return false;
+  }
+
+  for (let i = 0; i < array2.length; i++) {
+    if (!array1.includes(array2[i])) return false;
+  }
+
+  return true;
+};
