@@ -13,7 +13,7 @@ const ErrorMessageModal = () => {
   );
 
   const handleClick = () => {
-    //TODO clear this component
+    //TODO clear this component upon clicking
     console.log("error message clicked");
   };
 
@@ -28,7 +28,6 @@ const ErrorMessageModal = () => {
   }, [errorMessage]);
 
   return (
-    //TODO errorMessage still shows if severity is 0, but text is red
     <motion.div
       animate={{
         opacity: errorMessage !== null ? 1 : 0,
@@ -44,7 +43,6 @@ const ErrorMessageModal = () => {
         className={`relative flex flex-col justify-center nav-bg item-center px-4 text-error`}
       >
         {errorMessage}
-        {/* TODO styling of error messages of different severity, if any*/}
       </div>
     </motion.div>
   );
