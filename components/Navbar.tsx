@@ -10,6 +10,10 @@ import SettingsIcon from "@/public/assets/icons/settings.svg";
 
 //anims
 import { motion } from "framer-motion";
+import {
+  filterSectionContainerVariant,
+  filterSectionContainerXSVariant,
+} from "@/lib/framerVariants";
 
 //redux
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
@@ -55,11 +59,13 @@ const Navbar = () => {
         </div>
       </div>
       <motion.div
-        animate={{
-          opacity: filterIsOpen || mediaBreakpoint !== "xs" ? 1 : 0,
-          y: filterIsOpen || mediaBreakpoint !== "xs" ? 0 : -80,
-        }}
-        transition={{ type: "tween", duration: 0.2 }}
+        variants={
+          mediaBreakpoint === "xs"
+            ? filterSectionContainerXSVariant
+            : filterSectionContainerVariant
+        }
+        animate={mediaBreakpoint === "xs" && !filterIsOpen ? "hidden" : "show"}
+        //transition={mediaBreakpoint === "xs" ? { type: "tween", duration: 0.2 } : {}}
         className={
           mediaBreakpoint === "xs"
             ? `absolute z-10 top-[94%] left-0 right-0 nav-bg ${
