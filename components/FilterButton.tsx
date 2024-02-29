@@ -11,6 +11,9 @@ import {
   removeBankFilter,
 } from "@/features/settings/settingsSlice";
 
+//config
+import { ATM_COUNT_DISPLAY_MAX } from "@/config/app.config";
+
 const FilterButton = (props: { banks: string[] }) => {
   const { banks } = props; //eg. ["DBS", "POSB"]
   const currentBankGroupEnabled: boolean = useAppSelector(
@@ -58,15 +61,17 @@ const FilterButton = (props: { banks: string[] }) => {
 
   return (
     <div
-      className={`indicator ${brandCount > 0 ? "mr-3" : ""} ${
+      className={`indicator mr-1 ${
         filterIsOpen || mediaBreakpoint !== "xs"
           ? "cursor-pointer"
           : "pointer-events-none cursor-default"
       }`}
     >
-      {brandCount > 0 ? ( //TODO atmCount is pushing other buttons on the right. will be a problem if count is high
+      {brandCount > 0 ? (
         <span className="p-3 rounded-full aspect-square indicator-item badge badge-secondary">
-          {brandCount}
+          {brandCount > ATM_COUNT_DISPLAY_MAX
+            ? `${ATM_COUNT_DISPLAY_MAX}+`
+            : brandCount}
         </span>
       ) : null}
       <button
