@@ -24,7 +24,6 @@ const AtmList = () => {
     .map((atm: IAtmObject) => <AtmListItem key={atm.place_id} atmData={atm} />);
 
   return mediaBreakpoint === "xs" || fullAtmList.length < 1 ? null : (
-    //TODO mobile view leads to errorMessageModal overlapping at top of atmList component
     //TODO atmList component has bottom shadowing cut off
     //TODO upon new search, atmList does not get cleared of previous search. should refresh list upon successful search
     // <div className="relative z-10 flex flex-col items-stretch h-min max-h-[30%] lg:max-h-auto lg:h-fit justify-end lg:w-[30%] max-w-5xl">

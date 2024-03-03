@@ -65,14 +65,11 @@ const Navbar = () => {
             : filterSectionContainerVariant
         }
         animate={mediaBreakpoint === "xs" && !filterIsOpen ? "hidden" : "show"}
-        //transition={mediaBreakpoint === "xs" ? { type: "tween", duration: 0.2 } : {}}
-        className={
+        className={`z-10 flex nav-bg justify-center items-center ${
           mediaBreakpoint === "xs"
-            ? `absolute z-10 top-[94%] left-0 right-0 nav-bg ${
-                filterIsOpen ? "" : "pointer-events-none"
-              }`
-            : `relative z-10 flex justify-center items-center -mt-0.5 nav-bg`
-        }
+            ? `absolute top-[94%] ${filterIsOpen ? "" : "pointer-events-none"}` //TODO mobile view leads to errorMessageModal overlapping at top of atmList component
+            : "relative -mt-0.5"
+        }`}
       >
         <FilterSection />
       </motion.div>
