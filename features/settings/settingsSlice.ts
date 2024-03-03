@@ -1,23 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IGeoCode } from "../googleAPI/geocoder";
-
-export const minSearchRange: number = 50;
-export const maxSearchRange: number = 1500;
-export const mapCenterDefault: IGeoCode = { lat: 1.420681, lng: 103.794389 };
+import { SEARCH_RANGE_MAX, MAP_CENTER_DEFAULT } from "@/config/app.config";
 
 type InitialState = {
   bankFilterOut: string[];
   maxRange: number;
   searchLocationPoint: IGeoCode;
-  // mapCentrePoint: IGeoCode;
   filterIsOpen: boolean;
 };
 
 const initialState: InitialState = {
   bankFilterOut: [],
-  maxRange: maxSearchRange / 2,
-  searchLocationPoint: mapCenterDefault,
-  // mapCentrePoint: mapCenterDefault,
+  maxRange: SEARCH_RANGE_MAX / 2,
+  searchLocationPoint: MAP_CENTER_DEFAULT,
   filterIsOpen: true,
 };
 
@@ -41,9 +36,6 @@ const settingsSlice = createSlice({
     setSearchLocationPoint: (state, action: PayloadAction<IGeoCode>) => {
       state.searchLocationPoint = action.payload;
     },
-    /* setMapCentrePoint: (state, action: PayloadAction<IGeoCode>) => {
-      state.mapCentrePoint = action.payload;
-    }, */
 
     setFilterIsOpen: (state, action: PayloadAction<boolean>) => {
       state.filterIsOpen = action.payload;
@@ -57,6 +49,5 @@ export const {
   removeBankFilter,
   setMaxRange,
   setSearchLocationPoint,
-  // setMapCentrePoint,
   setFilterIsOpen,
 } = settingsSlice.actions;

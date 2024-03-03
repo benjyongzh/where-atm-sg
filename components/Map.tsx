@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 //redux
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
-import { mapCenterDefault } from "@/features/settings/settingsSlice";
+import { MAP_CENTER_DEFAULT } from "@/config/app.config";
 import {
   setOnHoverAtmPlaceId,
   setSelectedAtmPlaceId,
@@ -133,7 +133,7 @@ export default function Map() {
   useEffect(() => {
     if (!mapRef.current) return;
     const newMap: google.maps.Map = new window.google.maps.Map(mapRef.current, {
-      center: mapCenterDefault,
+      center: MAP_CENTER_DEFAULT,
       zoom: initialZoom,
       disableDefaultUI: true,
       gestureHandling: "greedy",

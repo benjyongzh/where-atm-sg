@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { mapCenterDefault } from "@/features/settings/settingsSlice";
+import { MAP_CENTER_DEFAULT } from "@/config/app.config";
 import {
   IGeoCode,
   getAddressGeocoded,
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
       });
       //send immediate response here for geocoding error
       const searchData: searchResults = {
-        searchPointLatLong: mapCenterDefault,
+        searchPointLatLong: MAP_CENTER_DEFAULT,
         searchRange,
         desiredAtms: [],
         errorMessages: errors,
@@ -173,7 +173,7 @@ export async function POST(req: NextRequest) {
     // addToErrorMessageList(errorMessageStrings.searchAPIFailure);
 
     const searchData: searchResults = {
-      searchPointLatLong: mapCenterDefault,
+      searchPointLatLong: MAP_CENTER_DEFAULT,
       searchRange,
       desiredAtms: [],
       errorMessages: [

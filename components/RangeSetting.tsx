@@ -2,10 +2,7 @@
 import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
 import { setMaxRange } from "@/features/settings/settingsSlice";
 import { useState } from "react";
-import {
-  minSearchRange,
-  maxSearchRange,
-} from "@/features/settings/settingsSlice";
+import { SEARCH_RANGE_MIN, SEARCH_RANGE_MAX } from "@/config/app.config";
 
 const RangeSetting = () => {
   const storedRange = useAppSelector((state) => state.settings.maxRange);
@@ -21,7 +18,6 @@ const RangeSetting = () => {
     setRangeValue(int);
     dispatch(setMaxRange(int));
   };
-  
 
   return (
     <div className="flex flex-col w-full sm:flex-row sm:gap-3 lg:gap-0 lg:flex-col form-control">
@@ -37,23 +33,23 @@ const RangeSetting = () => {
           className="range range-primary"
           type="range"
           name="rangeBar"
-          min={minSearchRange}
-          max={maxSearchRange}
+          min={SEARCH_RANGE_MIN}
+          max={SEARCH_RANGE_MAX}
           required
           onChange={(e) => handleChange(e.target.value)}
           value={rangeValue}
-          disabled={!filterIsOpen && mediaBreakpoint==="xs"}
+          disabled={!filterIsOpen && mediaBreakpoint === "xs"}
         />
         <input
           id="rangeNumber"
           className={`w-24 text-center input input-bordered input-primary ${
-            filterIsOpen || mediaBreakpoint!=="xs" ? "" : "cursor-default"
+            filterIsOpen || mediaBreakpoint !== "xs" ? "" : "cursor-default"
           }`}
           type="number"
           name="rangeNumber"
           value={rangeValue}
           onChange={(e) => handleChange(e.target.value)}
-          disabled={!filterIsOpen && mediaBreakpoint==="xs"}
+          disabled={!filterIsOpen && mediaBreakpoint === "xs"}
         ></input>
       </div>
     </div>
