@@ -1,18 +1,19 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 
 //components
 import SearchSection from "@/components/SearchSection";
 import FilterSection from "@/components/FilterSection";
-import SettingsIcon from "@/public/assets/icons/settings.svg";
+import ErrorMessageModal from "@/components/ErrorMessageModal";
 
 //anims
-import { motion } from "framer-motion";
+import SettingsIcon from "@/public/assets/icons/settings.svg";
+import { LayoutGroup, motion } from "framer-motion";
 import {
   filterSectionContainerVariant,
   filterSectionContainerXSVariant,
+  errorMessageModalContainerVariant,
 } from "@/lib/framerVariants";
 
 //redux
@@ -25,17 +26,22 @@ const Navbar = () => {
   const mediaBreakpoint: string = useAppSelector(
     (state) => state.display.currentBreakpoint
   );
+  const errorMessage: string | null = useAppSelector(
+    (state) => state.errors.displayedErrorMessage
+  );
 
   const toggleFilterSection = () => {
     dispatch(setFilterIsOpen(!filterIsOpen));
     // setFilterSectionIsOpen((curr) => !curr);
   };
 
+  const handleErrorMessageClick = () => {
+    console.log("handleErrorMessageClick detected");
+  };
+
   return (
     <div className="relative z-10 flex flex-col items-stretch justify-start w-full lg:w-[30%]">
-      <div
-        className={`relative flex flex-col justify-center nav-bg gap-2 item-center`}
-      >
+      <div className={`flex-col nav-bg gap-2`}>
         <div className="flex w-full">
           <div className="w-full cursor-default pointer-events-none lg:hidden" />
           <Link
@@ -58,21 +64,38 @@ const Navbar = () => {
           </button>
         </div>
       </div>
-      <motion.div
-        variants={
-          mediaBreakpoint === "xs"
-            ? filterSectionContainerXSVariant
-            : filterSectionContainerVariant
-        }
-        animate={mediaBreakpoint === "xs" && !filterIsOpen ? "hidden" : "show"}
-        className={`z-10 flex nav-bg justify-center items-center ${
-          mediaBreakpoint === "xs"
-            ? `absolute top-[94%] ${filterIsOpen ? "" : "pointer-events-none"}` //TODO mobile view leads to errorMessageModal overlapping at top of atmList component
-            : "relative -mt-0.5"
-        }`}
-      >
-        <FilterSection />
-      </motion.div>
+      <LayoutGroup>
+        <motion.div
+          layout
+          variants={
+            mediaBreakpoint === "xs"
+              ? filterSectionContainerXSVariant
+              : filterSectionContainerVariant
+          }
+          animate={
+            mediaBreakpoint === "xs" && !filterIsOpen ? "hidden" : "show"
+          }
+          className={`nav-bg -mt-0.5 ${
+            mediaBreakpoint === "xs" && !filterIsOpen
+              ? "pointer-events-none"
+              : "" //TODO mobile view leads to errorMessageModal overlapping at top of atmList component
+          }`}
+        >
+          <FilterSection />
+        </motion.div>
+        <motion.div
+          layout
+          variants={errorMessageModalContainerVariant}
+          animate={errorMessage ? "show" : "hidden"}
+          className={`nav-bg ${errorMessage ? "" : "pointer-events-none"}`}
+        >
+          <ErrorMessageModal
+            displayTime={20000}
+            textContent={errorMessage}
+            clickEvent={handleErrorMessageClick}
+          />
+        </motion.div>
+      </LayoutGroup>
     </div>
   );
 };

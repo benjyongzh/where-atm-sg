@@ -1,50 +1,43 @@
 "use client";
 import { useEffect } from "react";
-import { useAppSelector, useAppDispatch } from "@/hooks/reduxHooks";
+import { useAppDispatch } from "@/hooks/reduxHooks";
 import { setDisplayErrorMessage } from "@/lib/errors";
 
-//anims
-import { motion } from "framer-motion";
-
-const ErrorMessageModal = () => {
+const ErrorMessageModal = (props: {
+  displayTime: number;
+  textContent: string | null;
+  clickEvent: Function;
+}) => {
   const dispatch = useAppDispatch();
-  const errorMessage: string | null = useAppSelector(
-    (state) => state.errors.displayedErrorMessage
-  );
+  const { displayTime, textContent, clickEvent } = props;
 
   const handleClick = () => {
+    if (textContent) {
+      clickEvent;
+    }
     //TODO clear this component upon clicking
-    console.log("error message clicked");
+    console.log("error message modal click detected");
   };
 
   useEffect(() => {
     console.log("useeffect is run");
-    if (errorMessage !== null)
-      setTimeout(() => setDisplayErrorMessage(null, dispatch), 5000); //TODO timer does not refresh upon new error created
+    if (textContent !== null)
+      setTimeout(() => setDisplayErrorMessage(null, dispatch), displayTime); //TODO timer does not refresh upon new error created
 
     // return () => {
     //   setDisplayErrorMessage(null, dispatch);
     // };
-  }, [errorMessage]);
+  }, [textContent]);
 
   return (
-    <motion.div
-      animate={{
-        opacity: errorMessage !== null ? 1 : 0,
-        y: errorMessage !== null ? 0 : -50,
-      }}
-      transition={{ type: "spring", bounce: 0.5 }}
-      className={`relative z-10 flex flex-col items-stretch justify-start w-full lg:w-[30%] ${
-        errorMessage !== null ? "" : "pointer-events-none"
+    <div
+      onClick={handleClick}
+      className={`relative flex flex-col justify-center item-center px-4 text-error ${
+        textContent !== null ? "" : "pointer-events-none"
       }`}
     >
-      <div
-        onClick={errorMessage !== null ? handleClick : () => {}}
-        className={`relative flex flex-col justify-center nav-bg item-center px-4 text-error`}
-      >
-        {errorMessage}
-      </div>
-    </motion.div>
+      {textContent}
+    </div>
   );
 };
 

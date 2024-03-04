@@ -61,7 +61,7 @@ input:-webkit-autofill:active {
   }
 
   .nav-bg {
-    @apply p-3 mx-4 my-2 shadow-xl bg-opacity-60 bg-base-100 backdrop-blur rounded-3xl;
+    @apply relative flex justify-center items-center p-3 mx-4 my-2 shadow-xl bg-opacity-60 bg-base-100 backdrop-blur rounded-3xl;
   }
 
   .radiusMarker {
