@@ -11,8 +11,8 @@ import ErrorMessageModal from "@/components/ErrorMessageModal";
 import SettingsIcon from "@/public/assets/icons/settings.svg";
 import { LayoutGroup, motion } from "framer-motion";
 import {
-  filterSectionContainerVariant,
-  filterSectionContainerXSVariant,
+  verticalMovementOnlyVariant,
+  opacityOnlyVariant,
   errorMessageModalContainerVariant,
 } from "@/lib/framerVariants";
 
@@ -64,28 +64,29 @@ const Navbar = () => {
           </button>
         </div>
       </div>
-      <LayoutGroup>
+      <motion.div
+        variants={verticalMovementOnlyVariant}
+        transition={{ type: "tween", duration: 0.2 }}
+        animate={mediaBreakpoint === "xs" && !filterIsOpen ? "hidden" : "show"}
+        className={`${
+          mediaBreakpoint === "xs" && !filterIsOpen ? "pointer-events-none" : "" //TODO mobile view leads to errorMessageModal overlapping at top of atmList component
+        }`}
+      >
         <motion.div
-          layout
-          variants={
-            mediaBreakpoint === "xs"
-              ? filterSectionContainerXSVariant
-              : filterSectionContainerVariant
-          }
+          variants={opacityOnlyVariant}
+          transition={{ type: "tween", duration: 0.2 }}
           animate={
             mediaBreakpoint === "xs" && !filterIsOpen ? "hidden" : "show"
           }
-          className={`nav-bg -mt-0.5 ${
-            mediaBreakpoint === "xs" && !filterIsOpen
-              ? "pointer-events-none"
-              : "" //TODO mobile view leads to errorMessageModal overlapping at top of atmList component
-          }`}
+          className="nav-bg h-[80%]"
         >
           <FilterSection />
         </motion.div>
+
         <motion.div
-          layout
           variants={errorMessageModalContainerVariant}
+          //transition={{ type: "tween", duration: 0.2 }}
+          //transition={{ type: "spring", bounce: 0.5 }}
           animate={errorMessage ? "show" : "hidden"}
           className={`nav-bg ${errorMessage ? "" : "pointer-events-none"}`}
         >
@@ -95,7 +96,7 @@ const Navbar = () => {
             clickEvent={handleErrorMessageClick}
           />
         </motion.div>
-      </LayoutGroup>
+      </motion.div>
     </div>
   );
 };
