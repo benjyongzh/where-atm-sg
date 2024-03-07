@@ -65,9 +65,9 @@ const Navbar = () => {
         </div>
       </div>
       <motion.div
-        variants={verticalMovementOnlyVariant}
-        transition={{ type: "tween", duration: 0.2 }}
-        animate={mediaBreakpoint === "xs" && !filterIsOpen ? "hidden" : "show"}
+        // variants={verticalMovementOnlyVariant}
+        // transition={{ type: "tween", duration: 0.2 }}
+        // animate={mediaBreakpoint === "xs" && !filterIsOpen ? "hidden" : "show"}
         className={`${
           mediaBreakpoint === "xs" && !filterIsOpen ? "pointer-events-none" : "" //TODO mobile view leads to errorMessageModal overlapping at top of atmList component
         }`}
@@ -78,7 +78,7 @@ const Navbar = () => {
           animate={
             mediaBreakpoint === "xs" && !filterIsOpen ? "hidden" : "show"
           }
-          className="nav-bg h-[80%]"
+          className="nav-bg"
         >
           <FilterSection />
         </motion.div>
