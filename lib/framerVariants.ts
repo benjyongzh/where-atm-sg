@@ -19,27 +19,16 @@ export const atmDetailModalVariant = {
   },
 };
 
-export const verticalMovementOnlyVariant = {
+export const filterSectionContainerVariant = {
   hidden: {
-    //y: "-80%",
-    scaleY: 0,
-  },
-  show: {
-    //y: 0,
-    scaleY: 1,
-  },
-};
-
-export const opacityOnlyVariant = {
-  hidden: {
+    y: "-100%",
     opacity: 0,
-    scaleY: 0,
-    originY: 0,
+    transition: { type: "tween", duration: 0.3 },
   },
   show: {
+    y: 0,
     opacity: 1,
-    scaleY: 1,
-    originY: 0,
+    transition: { type: "spring", bounce: 0.5 },
   },
 };
 
@@ -47,9 +36,11 @@ export const errorMessageModalContainerVariant = {
   hidden: {
     opacity: 0,
     y: -50,
+    transition: { type: "tween", duration: 0.3 },
   },
   show: {
     opacity: 1,
     y: 0,
+    transition: { type: "spring", bounce: 0.5 },
   },
 };
