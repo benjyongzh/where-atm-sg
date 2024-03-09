@@ -9,11 +9,10 @@ import ErrorMessageModal from "@/components/ErrorMessageModal";
 
 //anims
 import SettingsIcon from "@/public/assets/icons/settings.svg";
-import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
-import {
-  filterSectionContainerVariant,
-  errorMessageModalContainerVariant,
-} from "@/lib/framerVariants";
+import { AnimatePresence, motion } from "framer-motion";
+import { filterSectionContainerVariant } from "@/lib/framerVariants";
+
+import { ERRORMESSAGE_TIMEOUT } from "@/config/app.config";
 
 //redux
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
@@ -25,17 +24,10 @@ const Navbar = () => {
   const mediaBreakpoint: string = useAppSelector(
     (state) => state.display.currentBreakpoint
   );
-  const errorMessage: string | null = useAppSelector(
-    (state) => state.errors.displayedErrorMessage
-  );
 
   const toggleFilterSection = () => {
     dispatch(setFilterIsOpen(!filterIsOpen));
     // setFilterSectionIsOpen((curr) => !curr);
-  };
-
-  const handleErrorMessageClick = () => {
-    console.log("handleErrorMessageClick detected");
   };
 
   return (
@@ -78,23 +70,7 @@ const Navbar = () => {
           </motion.div>
         ) : null}
 
-        {errorMessage ? (
-          <motion.div
-            layout
-            key="errorMessageModal"
-            initial={"hidden"}
-            animate={"show"}
-            exit={"hidden"}
-            variants={errorMessageModalContainerVariant}
-            className="nav-bg"
-          >
-            <ErrorMessageModal
-              displayTime={20000}
-              textContent={errorMessage}
-              clickEvent={handleErrorMessageClick}
-            />
-          </motion.div>
-        ) : null}
+        <ErrorMessageModal displayTime={ERRORMESSAGE_TIMEOUT} />
       </AnimatePresence>
     </div>
   );
