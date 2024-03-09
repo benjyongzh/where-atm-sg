@@ -25,7 +25,6 @@ const AtmList = () => {
 
   return mediaBreakpoint === "xs" || fullAtmList.length < 1 ? null : (
     //TODO atmList component has bottom shadowing cut off
-    //TODO upon new search, atmList does not get cleared of previous search. should refresh list upon successful search
     // <div className="relative z-10 flex flex-col items-stretch h-min max-h-[30%] lg:max-h-auto lg:h-fit justify-end lg:w-[30%] max-w-5xl">
     <div className="relative z-10 flex flex-col items-stretch max-h-[30%] lg:max-h-none overflow-y-auto mt-auto lg:mt-0 lg:w-[30%] max-w-5xl">
       <div
@@ -36,7 +35,7 @@ const AtmList = () => {
         <div className="self-start px-2">
           {fullAtmList.length > 0 ? "Search results" : "No results found"}
         </div>
-        {fullAtmList.length > 0 ? (
+        {displayedAtms.length > 0 ? (
           <ul className="flex flex-col items-center justify-start w-full gap-3 overflow-y-auto rounded-xl">
             {displayedAtms}
           </ul>
