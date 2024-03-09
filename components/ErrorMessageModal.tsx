@@ -19,7 +19,6 @@ const ErrorMessageModal = (props: { displayTime: number }) => {
   const handleClick = () => {
     if (errorMessage) {
     }
-    //TODO clear this component upon clicking
     clearErrorMessage();
     console.log("error message modal click detected");
   };
@@ -42,7 +41,6 @@ const ErrorMessageModal = (props: { displayTime: number }) => {
   return errorMessage ? (
     <motion.div
       layout
-      key="errorMessageModal"
       initial={"hidden"}
       animate={"show"}
       exit={"hidden"}
