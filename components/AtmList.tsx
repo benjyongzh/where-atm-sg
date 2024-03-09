@@ -24,7 +24,6 @@ const AtmList = () => {
     .map((atm: IAtmObject) => <AtmListItem key={atm.place_id} atmData={atm} />);
 
   return mediaBreakpoint === "xs" || fullAtmList.length < 1 ? null : (
-    //TODO atmList component has bottom shadowing cut off
     // <div className="relative z-10 flex flex-col items-stretch h-min max-h-[30%] lg:max-h-auto lg:h-fit justify-end lg:w-[30%] max-w-5xl">
     <div className="relative z-10 flex flex-col items-stretch max-h-[30%] lg:max-h-none overflow-y-auto mt-auto lg:mt-0 lg:w-[30%] max-w-5xl">
       <div
