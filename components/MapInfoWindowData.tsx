@@ -13,7 +13,7 @@ const MapInfoWindowData = (props: InfoWindowProps) => {
       <p>{address}</p>
       <div className="flex items-center justify-start gap-3">
         <GiPathDistance />
-        {distance}m
+        {distance}m{/* TODO walking time? */}
       </div>
     </div>
   );
