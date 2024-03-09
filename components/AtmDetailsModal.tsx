@@ -44,10 +44,11 @@ const AtmDetailsModal = () => {
           className="relative z-10 flex flex-col items-stretch max-w-5xl mt-auto mb-2"
         >
           <div className="card nav-bg">
-            <div className="p-2 card-body">
+            <div className="p-2 card-body w-full">
               <MapInfoWindowData atmData={atmData} />
               <div className="justify-end card-actions">
                 <button className="btn btn-primary">Directions</button>
+                {/* TODO directions event? */}
               </div>
             </div>
           </div>
