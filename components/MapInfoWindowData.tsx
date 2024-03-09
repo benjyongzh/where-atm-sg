@@ -1,12 +1,13 @@
 import { IAtmObject } from "@/lib/atmObject";
 import { GiPathDistance } from "react-icons/gi";
+import { FaWalking } from "react-icons/fa";
 
 type InfoWindowProps = {
   atmData: IAtmObject;
 };
 
 const MapInfoWindowData = (props: InfoWindowProps) => {
-  const { brand, name, address, distance, info } = props.atmData;
+  const { brand, name, address, distance, info, directions } = props.atmData;
   return (
     <div className="flex flex-col gap-2">
       <p className="text-lg font-bold">{brand}</p>
@@ -14,6 +15,8 @@ const MapInfoWindowData = (props: InfoWindowProps) => {
       <div className="flex items-center justify-start gap-3">
         <GiPathDistance />
         {distance}m{/* TODO walking time? */}
+        {directions &&
+          `(approx. ${directions.duration} mins` + <FaWalking /> + ")"}
       </div>
     </div>
   );
