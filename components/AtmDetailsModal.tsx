@@ -31,7 +31,7 @@ const AtmDetailsModal = () => {
         fullAtmList.find((atm) => atm.place_id === storedSelectedAtmId)!
       );
     } else setAtmData(null);
-  }, [storedSelectedAtmId]);
+  }, [storedSelectedAtmId, fullAtmList]);
 
   return (
     <AnimatePresence>
