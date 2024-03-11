@@ -1,26 +1,30 @@
 "use client";
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
+import { useAppDispatch } from "@/hooks/reduxHooks";
 import { setDisplayErrorMessage } from "@/lib/errors";
 
 //animation
 import { motion } from "framer-motion";
 import { errorMessageModalContainerVariant } from "@/lib/framerVariants";
 
-const ErrorMessageModal = (props: { displayTime: number }) => {
+const ErrorMessageModal = (props: {
+  displayTime: number;
+  message: string | null;
+  clickToClear: boolean;
+  eventsForTimerRefresh: Array<Function>;
+}) => {
   const dispatch = useAppDispatch();
-  const { displayTime } = props;
-  const errorMessage: string | null = useAppSelector(
-    (state) => state.errors.displayedErrorMessage
-  );
+  const { displayTime, message: errorMessage, clickToClear } = props;
 
   let timeOut: NodeJS.Timeout;
 
   const handleClick = () => {
+    console.log("error message modal click detected");
     if (errorMessage) {
     }
-    clearErrorMessage();
-    console.log("error message modal click detected");
+    if (clickToClear) {
+      clearErrorMessage();
+    }
   };
 
   const clearErrorMessage = () => {

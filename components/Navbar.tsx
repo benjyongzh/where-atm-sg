@@ -24,6 +24,9 @@ const Navbar = () => {
   const mediaBreakpoint: string = useAppSelector(
     (state) => state.display.currentBreakpoint
   );
+  const errorMessage: string | null = useAppSelector(
+    (state) => state.errors.displayedErrorMessage
+  );
 
   const toggleFilterSection = () => {
     dispatch(setFilterIsOpen(!filterIsOpen));
@@ -70,7 +73,13 @@ const Navbar = () => {
           </motion.div>
         ) : null}
 
-        <ErrorMessageModal displayTime={ERRORMESSAGE_TIMEOUT} />
+        <ErrorMessageModal
+          key="errorMessageModal"
+          displayTime={ERRORMESSAGE_TIMEOUT}
+          message={errorMessage}
+          clickToClear={true}
+          eventsForTimerRefresh={[]}
+        />
       </AnimatePresence>
     </div>
   );
