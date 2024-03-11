@@ -12,6 +12,8 @@ import SettingsIcon from "@/public/assets/icons/settings.svg";
 import { AnimatePresence, motion } from "framer-motion";
 import { filterSectionContainerVariant } from "@/lib/framerVariants";
 
+//libs
+import { errorMessageQueue } from "@/lib/errors";
 import { ERRORMESSAGE_TIMEOUT } from "@/config/app.config";
 
 //redux
@@ -26,6 +28,9 @@ const Navbar = () => {
   );
   const errorMessage: string | null = useAppSelector(
     (state) => state.errors.displayedErrorMessage
+  );
+  const allErrorMessages: errorMessageQueue = useAppSelector(
+    (state) => state.errors.currentErrorMessages
   );
 
   const toggleFilterSection = () => {
@@ -78,7 +83,7 @@ const Navbar = () => {
           displayTime={ERRORMESSAGE_TIMEOUT}
           message={errorMessage}
           clickToClear={true}
-          eventsForTimerRefresh={[]}
+          hookValueForTimerRefresh={allErrorMessages}
         />
       </AnimatePresence>
     </div>

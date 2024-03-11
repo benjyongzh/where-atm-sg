@@ -11,10 +11,15 @@ const ErrorMessageModal = (props: {
   displayTime: number;
   message: string | null;
   clickToClear: boolean;
-  eventsForTimerRefresh: Array<Function>;
+  hookValueForTimerRefresh: any;
 }) => {
   const dispatch = useAppDispatch();
-  const { displayTime, message: errorMessage, clickToClear } = props;
+  const {
+    displayTime,
+    message: errorMessage,
+    clickToClear,
+    hookValueForTimerRefresh,
+  } = props;
 
   let timeOut: NodeJS.Timeout;
 
@@ -40,7 +45,7 @@ const ErrorMessageModal = (props: {
     return () => {
       clearTimeout(timeOut);
     };
-  }, [errorMessage]);
+  }, [hookValueForTimerRefresh]);
 
   return errorMessage ? (
     <motion.div
