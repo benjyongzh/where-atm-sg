@@ -7,65 +7,61 @@ import { setDisplayErrorMessage } from "@/lib/errors";
 import { motion } from "framer-motion";
 import { errorMessageModalContainerVariant } from "@/lib/framerVariants";
 
-const ErrorMessageModal = (props: {
+type errorMessageModalProps = {
   displayTime: number;
   message: string | null;
   clickToClear: boolean;
-  hookValueForTimerRefresh: any;
-}) => {
-  const dispatch = useAppDispatch();
+  onClearEventHook?: Function;
+  hookValuesForTimerRefresh: Array<any>;
+};
+
+const ErrorMessageModal = (props: errorMessageModalProps) => {
   const {
     displayTime,
     message: errorMessage,
     clickToClear,
-    hookValueForTimerRefresh,
+    onClearEventHook,
+    hookValuesForTimerRefresh,
   } = props;
 
   let timeOut: NodeJS.Timeout;
 
   const handleClick = () => {
     console.log("error message modal click detected");
-    if (errorMessage) {
+    if (clickToClear && onClearEventHook) {
+      onClearEventHook();
     }
-    if (clickToClear) {
-      clearErrorMessage();
-    }
-  };
-
-  const clearErrorMessage = () => {
-    setDisplayErrorMessage(null, dispatch);
   };
 
   useEffect(() => {
     console.log("useeffect is run");
     clearTimeout(timeOut);
-    if (errorMessage !== null)
-      timeOut = setTimeout(clearErrorMessage, displayTime); //TODO timer does not refresh upon new error created
+    if (errorMessage !== null && onClearEventHook)
+      timeOut = setTimeout(onClearEventHook(), displayTime); //TODO timer does not refresh upon new error created, nor expire upon displayTime
 
     return () => {
       clearTimeout(timeOut);
     };
-  }, [hookValueForTimerRefresh]);
+  }, hookValuesForTimerRefresh);
 
-  return errorMessage ? (
+  return (
     <motion.div
+      key="errorMessageModal"
       layout
       initial={"hidden"}
       animate={"show"}
       exit={"hidden"}
       variants={errorMessageModalContainerVariant}
       className="nav-bg"
+      onClick={handleClick}
     >
       <div
-        onClick={handleClick}
-        className={`relative flex flex-col justify-center item-center px-4 text-error ${
-          errorMessage !== null ? "" : "pointer-events-none"
-        }`}
+        className={`relative flex flex-col justify-center item-center px-4 text-error`}
       >
         {errorMessage}
       </div>
     </motion.div>
-  ) : null;
+  );
 };
 
 export default ErrorMessageModal;

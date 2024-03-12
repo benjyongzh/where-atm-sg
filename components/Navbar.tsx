@@ -19,6 +19,7 @@ import { ERRORMESSAGE_TIMEOUT } from "@/config/app.config";
 //redux
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { setFilterIsOpen } from "@/features/settings/settingsSlice";
+import { setDisplayedErrorMessage } from "@/features/errors/errorsSlice";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -36,6 +37,11 @@ const Navbar = () => {
   const toggleFilterSection = () => {
     dispatch(setFilterIsOpen(!filterIsOpen));
     // setFilterSectionIsOpen((curr) => !curr);
+  };
+
+  const onClearErrorMessage = () => {
+    console.log("clearErrorMessage activated.");
+    dispatch(setDisplayedErrorMessage(null));
   };
 
   return (
@@ -78,13 +84,16 @@ const Navbar = () => {
           </motion.div>
         ) : null}
 
-        <ErrorMessageModal
-          key="errorMessageModal"
-          displayTime={ERRORMESSAGE_TIMEOUT}
-          message={errorMessage}
-          clickToClear={true}
-          hookValueForTimerRefresh={allErrorMessages}
-        />
+        {errorMessage && (
+          <ErrorMessageModal
+            key="errorMessageModal"
+            displayTime={ERRORMESSAGE_TIMEOUT}
+            message={errorMessage}
+            clickToClear={true}
+            onClearEventHook={onClearErrorMessage}
+            hookValuesForTimerRefresh={[errorMessage, allErrorMessages]}
+          />
+        )}
       </AnimatePresence>
     </div>
   );
