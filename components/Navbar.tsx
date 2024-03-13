@@ -36,11 +36,9 @@ const Navbar = () => {
 
   const toggleFilterSection = () => {
     dispatch(setFilterIsOpen(!filterIsOpen));
-    // setFilterSectionIsOpen((curr) => !curr);
   };
 
   const onClearErrorMessage = () => {
-    console.log("clearErrorMessage activated.");
     dispatch(setDisplayedErrorMessage(null));
   };
 

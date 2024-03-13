@@ -1,7 +1,5 @@
 "use client";
 import { useEffect } from "react";
-import { useAppDispatch } from "@/hooks/reduxHooks";
-import { setDisplayErrorMessage } from "@/lib/errors";
 
 //animation
 import { motion } from "framer-motion";
@@ -24,10 +22,9 @@ const ErrorMessageModal = (props: errorMessageModalProps) => {
     hookValuesForTimerRefresh,
   } = props;
 
-  let timeOut: NodeJS.Timeout;
+  let timeOut: number;
 
   const handleClick = () => {
-    console.log("error message modal click detected");
     if (clickToClear && onClearEventHook) {
       onClearEventHook();
     }
@@ -37,7 +34,7 @@ const ErrorMessageModal = (props: errorMessageModalProps) => {
     console.log("useeffect is run");
     clearTimeout(timeOut);
     if (errorMessage !== null && onClearEventHook)
-      timeOut = setTimeout(onClearEventHook(), displayTime); //TODO timer does not refresh upon new error created, nor expire upon displayTime
+      timeOut = global.setTimeout(onClearEventHook, displayTime);
 
     return () => {
       clearTimeout(timeOut);
@@ -59,6 +56,7 @@ const ErrorMessageModal = (props: errorMessageModalProps) => {
         className={`relative flex flex-col justify-center item-center px-4 text-error`}
       >
         {errorMessage}
+        {/* TODO emphasize when there is a new errorMessage */}
       </div>
     </motion.div>
   );
