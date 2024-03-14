@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 
 //animation
-import { motion } from "framer-motion";
+import { motion, useAnimate } from "framer-motion";
 import { errorMessageModalContainerVariant } from "@/lib/framerVariants";
 
 type errorMessageModalProps = {
@@ -24,10 +24,15 @@ const ErrorMessageModal = (props: errorMessageModalProps) => {
 
   let timeOut: number;
 
+  const [scope, animate] = useAnimate();
+
   const handleClick = () => {
     if (clickToClear && onClearEventHook) {
       onClearEventHook();
     }
+  };
+  const emphasizeText = () => {
+    animate(scope.current, { scale: [null, 1.2, 1] }, { duration: 0.3 });
   };
 
   useEffect(() => {
@@ -35,6 +40,7 @@ const ErrorMessageModal = (props: errorMessageModalProps) => {
     clearTimeout(timeOut);
     if (errorMessage !== null && onClearEventHook)
       timeOut = global.setTimeout(onClearEventHook, displayTime);
+    emphasizeText();
 
     return () => {
       clearTimeout(timeOut);
@@ -53,10 +59,10 @@ const ErrorMessageModal = (props: errorMessageModalProps) => {
       onClick={handleClick}
     >
       <div
+        ref={scope}
         className={`relative flex flex-col justify-center item-center px-4 text-error`}
       >
         {errorMessage}
-        {/* TODO emphasize when there is a new errorMessage */}
       </div>
     </motion.div>
   );
