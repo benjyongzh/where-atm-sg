@@ -20,10 +20,10 @@ Ever been an unfortunate situation where you had to find the nearest ATM to draw
 - element.scrollIntoView
 
 ## To-do list
+
 - try serversideprops for googlemaps search page
 - autofill search address
 - Error message for invalid search address
-- Display error messages. Proper error handling of form submissions for nulls etc
 - using user's location, navigator.geolocation(?)
 - set website restriction for GMaps API
 
