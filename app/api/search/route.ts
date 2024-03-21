@@ -48,7 +48,7 @@ export async function GET(req: NextRequest) {
     // const response = await fetch(endpoint, options);
     // geocoding input address
     console.log("in api search route. going to start geocoding next");
-    const geocodedAddress = await getAddressGeocoded(addressInput);
+    const geocodedAddress = await getAddressGeocoded(addressInput); //TODO to align addressInput, rangeInput and filteredBanks
     console.log(geocodedAddress);
     if (geocodedAddress.status !== "OK") {
       console.log("geocoding status not ok");
