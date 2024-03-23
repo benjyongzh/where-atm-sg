@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
     );
 
     //send immediate response here for geocoding error if address not found
-    //TODO should validate and sanitize addressInput string here first
+    //TODO should validate and sanitize addressInput string here first. check if google API has such a service
     if (!addressInput) {
       errors.push({
         message: errorMessageStrings.geocodingAPIFailure,
