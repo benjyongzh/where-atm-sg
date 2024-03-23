@@ -16,10 +16,13 @@ import {
   processAtmDataForRedux,
 } from "@/lib/atmObject";
 import { cullDuplicatesBasedOnId } from "@/utils/objects";
+import { validateRangeInput } from "@/lib/searchRangeValidation";
 
 //config
 import {
   MAP_CENTER_DEFAULT,
+  SEARCH_RANGE_MIN,
+  SEARCH_RANGE_MAX,
   SEARCHADDRESS_PARAM_NAME,
   SEARCHRANGE_PARAM_NAME,
   FILTEREDBANKS_PARAM_NAME,
@@ -27,36 +30,54 @@ import {
 
 export async function GET(req: NextRequest) {
   try {
-    const addressInput: string | null = req.nextUrl.searchParams.get(
-      SEARCHADDRESS_PARAM_NAME
-    );
+    let errors: errorMessageQueue = [];
+
+    //=========================================================================== defining searchRange from API query param
     const rangeInput: string | null = req.nextUrl.searchParams.get(
       SEARCHRANGE_PARAM_NAME
     );
-    const filteredBanksInput: string | null = req.nextUrl.searchParams.get(
-      FILTEREDBANKS_PARAM_NAME
+    //if range not defined, set to max range by default
+    const searchRange: number = validateRangeInput(
+      rangeInput,
+      SEARCH_RANGE_MIN,
+      SEARCH_RANGE_MAX
     );
 
-    const filteredBanks: string[] =
-      filteredBanksInput !== null ? filteredBanksInput.split(",") : [];
+    //=========================================================================== defining address searched from API query param
+    const addressInput: string | null = req.nextUrl.searchParams.get(
+      SEARCHADDRESS_PARAM_NAME
+    );
 
-    let errors: errorMessageQueue = [];
+    //send immediate response here for geocoding error if address not found
+    //TODO should validate and sanitize addressInput string here first
+    if (!addressInput) {
+      errors.push({
+        message: errorMessageStrings.geocodingAPIFailure,
+        severity: errorSeverity.CRITICAL,
+      });
+      const searchData: searchResults = {
+        searchPointLatLong: MAP_CENTER_DEFAULT,
+        searchRange,
+        desiredAtms: [],
+        errorMessages: errors,
+      };
 
-    // const endpoint = `/api/search?${SEARCHADDRESS_PARAM_NAME}=${addressInput}&${SEARCHRANGE_PARAM_NAME}=${storedRange}`;
+      return new NextResponse(JSON.stringify(searchData));
+    }
 
-    // Send the form data to our forms API on Vercel and get a response.
-    // const response = await fetch(endpoint, options);
-    // geocoding input address
+    //TODO to align addressInput, rangeInput and filteredBanks
+    //=========================================================================== geocoding input address
     console.log("in api search route. going to start geocoding next");
-    const geocodedAddress = await getAddressGeocoded(addressInput); //TODO to align addressInput, rangeInput and filteredBanks
+
+    const geocodedAddress = await getAddressGeocoded(addressInput);
     console.log(geocodedAddress);
+    //send immediate response here for geocoding error if geocoding status not ok
     if (geocodedAddress.status !== "OK") {
       console.log("geocoding status not ok");
       errors.push({
         message: errorMessageStrings.geocodingAPIFailure,
         severity: errorSeverity.CRITICAL,
       });
-      //send immediate response here for geocoding error
       const searchData: searchResults = {
         searchPointLatLong: MAP_CENTER_DEFAULT,
         searchRange,
@@ -71,6 +92,15 @@ export async function GET(req: NextRequest) {
       geocodedAddress.results[0]
     );
 
+    //=========================================================================== defining filteredBanks from API query param
+    const filteredBanksInput: string | null = req.nextUrl.searchParams.get(
+      FILTEREDBANKS_PARAM_NAME
+    );
+    const filteredBanks: string[] =
+      filteredBanksInput !== null ? filteredBanksInput.split(",") : [];
+    //TODO validate each bank here
+
+    //=========================================================================== fetching all atms for each bank selected
     const fetchNearbyAtms = bankNameList
       .filter((bankName) => !filteredBanks.includes(bankName))
       .map((bankName) =>
@@ -81,6 +111,7 @@ export async function GET(req: NextRequest) {
         })
       );
 
+    //=========================================================================== filtering through atms found
     const desiredAtms = await Promise.all(fetchNearbyAtms)
       .then((response) =>
         response.map((item) => {
@@ -134,12 +165,14 @@ export async function GET(req: NextRequest) {
         })
       );
 
+    //=========================================================================== checking count of valid atms
     if (desiredAtms.length < 1)
       errors.push({
         message: errorMessageStrings.noResultsFound,
         severity: errorSeverity.WARNING,
       });
 
+    // ========================================================================== sending valid atm data as response, with errorlist
     const searchData: searchResults = {
       searchPointLatLong,
       searchRange,
@@ -148,17 +181,21 @@ export async function GET(req: NextRequest) {
     };
 
     return new NextResponse(JSON.stringify(searchData));
-
-    return new NextResponse(
-      JSON.stringify({ addressInput, rangeInput, filteredBanks })
-    );
   } catch (err) {
+    // ========================================================================== send error for failing to hit API
     const rangeInput: string | null = req.nextUrl.searchParams.get(
       SEARCHRANGE_PARAM_NAME
     );
+    //if range not defined, set to max range by default
+    //if range not defined, set to max range by default
+    const searchRange: number = validateRangeInput(
+      rangeInput,
+      SEARCH_RANGE_MIN,
+      SEARCH_RANGE_MAX
+    );
     const searchData: searchResults = {
       searchPointLatLong: MAP_CENTER_DEFAULT,
-      rangeInput,
+      searchRange,
       desiredAtms: [],
       errorMessages: [
         {
@@ -167,11 +204,11 @@ export async function GET(req: NextRequest) {
         },
       ],
     };
-
     return new NextResponse(JSON.stringify(searchData));
   }
 }
 
+/*
 export async function POST(req: NextRequest) {
   try {
     const { addressInput, searchRange, filteredBanks } = await req.json();
@@ -298,3 +335,4 @@ export async function POST(req: NextRequest) {
     return new NextResponse(JSON.stringify(searchData));
   }
 }
+*/
