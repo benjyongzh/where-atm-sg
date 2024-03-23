@@ -8,4 +8,4 @@ export const ERRORMESSAGE_TIMEOUT: number = 5000;
 export const SEARCHADDRESS_PARAM_NAME: string = "address";
 export const SEARCHRANGE_PARAM_NAME: string = "range";
 export const FILTEREDBANKS_PARAM_NAME: string = "filteredbanks";
-export const ARRAY_PARAM_SEPARATOR: string = "%2C"; //used for separating bank items in URL searchParams
+//export const ARRAY_PARAM_SEPARATOR: string = "%2C"; //used for separating bank items in URL searchParams

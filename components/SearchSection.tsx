@@ -27,7 +27,6 @@ import {
   SEARCHADDRESS_PARAM_NAME,
   SEARCHRANGE_PARAM_NAME,
   FILTEREDBANKS_PARAM_NAME,
-  ARRAY_PARAM_SEPARATOR,
 } from "@/config/app.config";
 
 const SearchSection = () => {
@@ -65,8 +64,8 @@ const SearchSection = () => {
 
     const endpoint = `/api/search?${SEARCHADDRESS_PARAM_NAME}=${addressInput}&${SEARCHRANGE_PARAM_NAME}=${storedRange}${
       storedBankFilterList.length
-        ? `&${FILTEREDBANKS_PARAM_NAME}=${storedBankFilterList.join(
-            ARRAY_PARAM_SEPARATOR
+        ? `&${FILTEREDBANKS_PARAM_NAME}=${encodeURIComponent(
+            storedBankFilterList.toString().toLowerCase()
           )}`
         : ""
     }`;

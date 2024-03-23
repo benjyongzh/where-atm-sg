@@ -65,7 +65,6 @@ export async function GET(req: NextRequest) {
       return new NextResponse(JSON.stringify(searchData));
     }
 
-    //TODO to align addressInput, rangeInput and filteredBanks
     //=========================================================================== geocoding input address
     console.log("in api search route. going to start geocoding next");
 
@@ -97,17 +96,19 @@ export async function GET(req: NextRequest) {
       FILTEREDBANKS_PARAM_NAME
     );
     const filteredBanks: string[] =
-      filteredBanksInput !== null ? filteredBanksInput.split(",") : [];
-    //TODO validate each bank here
+      filteredBanksInput !== null
+        ? decodeURIComponent(filteredBanksInput).split(",")
+        : [];
 
     //=========================================================================== fetching all atms for each bank selected
     const fetchNearbyAtms = bankNameList
-      .filter((bankName) => !filteredBanks.includes(bankName))
-      .map((bankName) =>
+      .map((originalBankName) => originalBankName.toLowerCase())
+      .filter((lowercaseBankName) => !filteredBanks.includes(lowercaseBankName))
+      .map((lowercaseBankName) =>
         getNearbyAtms({
           searchPoint: searchPointLatLong,
           searchRadius: searchRange,
-          bank: bankName.toLowerCase(),
+          bank: lowercaseBankName,
         })
       );
 
