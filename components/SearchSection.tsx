@@ -17,14 +17,17 @@ import {
   logErrorsToStore,
   instantOverrideErrorMessageStore,
 } from "@/lib/errors";
-import {
-  flattenArray,
-  extractValuesFromObjectListAccordingToKey,
-  executeCallbackIfEmptyArray,
-} from "@/utils/objects";
+import { flattenArray } from "@/utils/objects";
 
 //graphics
 import SearchIcon from "@/public/assets/icons/search.svg";
+
+//config
+import {
+  SEARCHADDRESS_PARAM_NAME,
+  SEARCHRANGE_PARAM_NAME,
+  FILTEREDBANKS_PARAM_NAME,
+} from "@/config/app.config";
 
 const SearchSection = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -47,8 +50,6 @@ const SearchSection = () => {
     const bankFiltersMax: number = flattenArray(
       bankFilters.map((filterObject) => filterObject.banks)
     ).length;
-    // console.log("bankFiltersTotalCount: ", bankFiltersMax);
-    // console.log("storedBankFilterListCount: ", storedBankFilterList.length);
     if (storedBankFilterList.length >= bankFiltersMax) {
       instantOverrideErrorMessageStore(
         { message: "no banks selected to search", severity: 1 },
@@ -59,25 +60,23 @@ const SearchSection = () => {
 
     dispatch(setFilterIsOpen(false));
     setIsLoading(true);
-    //should validate and sanitize addressInput string here first
     dispatch(setAtmData([]));
-    const endpoint = "/api/search";
+
+    const endpoint = `/api/search?${SEARCHADDRESS_PARAM_NAME}=${addressInput}&${SEARCHRANGE_PARAM_NAME}=${storedRange}${
+      storedBankFilterList.length
+        ? `&${FILTEREDBANKS_PARAM_NAME}=${encodeURIComponent(
+            storedBankFilterList.toString().toLowerCase()
+          )}`
+        : ""
+    }`;
 
     // Form the request for sending data to the server.
     const options = {
-      // The method is POST because we are sending data.
-      method: "POST",
+      method: "GET",
       // Tell the server we're sending JSON.
       headers: {
         "Content-Type": "application/json",
       },
-      // Body of the request is the JSON data we created above.
-      body: JSON.stringify({
-        addressInput,
-        searchRange: storedRange,
-        filteredBanks: storedBankFilterList,
-      }),
-      // reqTimeOut,
     };
 
     // Send the form data to our forms API on Vercel and get a response.
