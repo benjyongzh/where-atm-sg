@@ -1,0 +1,10 @@
+services:
+  where-atm-sg:
+    image: where-atm-sg
+    ports: -3000:3000
+    env_file:
+      - "./.env.local"
+    environment:
+      - NEXT_PUBLIC_GMAPS_API_KEY=${NEXT_PUBLIC_GMAPS_API_KEY}
+      - NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT=${NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT}
+      - GMAPS_API_KEY=${GMAPS_API_KEY}
