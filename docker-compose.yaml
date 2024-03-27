@@ -1,12 +1,17 @@
 services:
   where-atm-sg:
-    image: where-atm-sg
+    build:
+      context: .
+      target: runner
     ports:
       - 3000:3000
     secrets:
       - NEXT_PUBLIC_GMAPS_API_KEY
       - NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT
       - GMAPS_API_KEY
+    environment:
+      NODE_ENV: development
+    command: npm run dev
 secrets:
   NEXT_PUBLIC_GMAPS_API_KEY:
     file: ./.env.local
