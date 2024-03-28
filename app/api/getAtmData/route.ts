@@ -1,6 +1,7 @@
+/*
 import { NextRequest, NextResponse } from "next/server";
 import { rawAtmInfo, isRawAtmInfo } from "@/lib/webscraping-data";
-import { getBankAtmList } from "@/lib/load-atm-data";
+//import { getBankAtmList } from "@/lib/load-atm-data";
 import { bankNameList } from "@/lib/atmObject";
 
 import {
@@ -35,9 +36,10 @@ export async function GET(req: NextRequest) {
       })
     );
   } catch (err) {
-    setDisplayErrorMessage(errorMessageStrings.placesAPIFailure);
+    //setDisplayErrorMessage(errorMessageStrings.placesAPIFailure);
     return new Response(
       JSON.stringify({ message: "failed to load any ATM data" })
     );
   }
 }
+*/
