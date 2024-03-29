@@ -140,7 +140,8 @@ export default function Map() {
       disableDefaultUI: true,
       gestureHandling: "greedy",
       streetViewControl: false,
-      mapId: process.env.NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT,
+      //mapId: process.env.NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT,
+      mapId: process.env.GMAPS_MAP_ID_LIGHT,
     });
     newMap.addListener("click", handleMapClick);
     setMap(newMap);

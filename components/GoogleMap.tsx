@@ -5,7 +5,8 @@ import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import Map from "./Map";
 
 export default function GoogleMaps() {
-  const apiKey = process.env.NEXT_PUBLIC_GMAPS_API_KEY;
+  //const apiKey = process.env.NEXT_PUBLIC_GMAPS_API_KEY;
+  const apiKey = process.env.GMAPS_API_KEY;
 
   if (!apiKey) {
     return (
