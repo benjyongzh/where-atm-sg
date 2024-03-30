@@ -21,7 +21,10 @@ import AtmMarker from "./AtmMarker";
 import MapCircleDrawing from "./MapCircleDrawing";
 import SearchpointMarker from "./SearchpointMarker";
 
-export default function Map() {
+// const mapId = process.env.GMAPS_MAP_ID_LIGHT;
+
+export default function Map(props: { mapId: string | undefined }) {
+  const { mapId } = props;
   //redux
   const dispatch = useAppDispatch();
   const storedRange = useAppSelector((state) => state.settings.maxRange);
@@ -141,7 +144,7 @@ export default function Map() {
       gestureHandling: "greedy",
       streetViewControl: false,
       //mapId: process.env.NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT,
-      mapId: process.env.GMAPS_MAP_ID_LIGHT,
+      mapId: mapId,
     });
     newMap.addListener("click", handleMapClick);
     setMap(newMap);
