@@ -21,10 +21,9 @@ import AtmMarker from "./AtmMarker";
 import MapCircleDrawing from "./MapCircleDrawing";
 import SearchpointMarker from "./SearchpointMarker";
 
-// const mapId = process.env.GMAPS_MAP_ID_LIGHT;
+const mapId = process.env.GMAPS_MAP_ID_LIGHT;
 
-export default function Map(props: { mapId: string | undefined }) {
-  const { mapId } = props;
+export default function Map() {
   //redux
   const dispatch = useAppDispatch();
   const storedRange = useAppSelector((state) => state.settings.maxRange);
