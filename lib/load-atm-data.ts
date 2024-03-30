@@ -1,4 +1,4 @@
-import bankEndpoints, {
+/*import bankEndpoints, {
   rawAtmInfo,
   baseBankAtmListUrl,
   divClassName,
@@ -120,3 +120,4 @@ export const getBankAtmList = async (bankName: string) => {
     return { errorMessage: `failed to load data of ${bankName}` };
   }
 };
+*/

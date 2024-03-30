@@ -21,6 +21,8 @@ import AtmMarker from "./AtmMarker";
 import MapCircleDrawing from "./MapCircleDrawing";
 import SearchpointMarker from "./SearchpointMarker";
 
+const mapId = process.env.GMAPS_MAP_ID_LIGHT;
+
 export default function Map() {
   //redux
   const dispatch = useAppDispatch();
@@ -118,10 +120,12 @@ export default function Map() {
     event: google.maps.IconMouseEvent | google.maps.MapMouseEvent
   ) => {
     event.stop();
+    // @ts-ignore
     if (!event.placeId) {
       dispatch(setSelectedAtmPlaceId(null));
     } else {
       const selectedPlaceId = fullAtmList.find(
+        // @ts-ignore
         (atm) => atm.place_id === event.placeId
       );
       if (!selectedPlaceId) {
@@ -138,7 +142,8 @@ export default function Map() {
       disableDefaultUI: true,
       gestureHandling: "greedy",
       streetViewControl: false,
-      mapId: process.env.NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT,
+      //mapId: process.env.NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT,
+      mapId: mapId,
     });
     newMap.addListener("click", handleMapClick);
     setMap(newMap);
@@ -149,6 +154,7 @@ export default function Map() {
       <div id="mainMap" ref={mapRef} style={{ width: "100%", height: "100%" }}>
         {/* search point marking */}
         {searchStarted === true && map !== null ? (
+          // @ts-ignore
           <MapMarker
             data={storedSearchPoint}
             map={map}
@@ -161,6 +167,7 @@ export default function Map() {
 
         {/* search radius marking */}
         {searchStarted === true && map !== null ? (
+          // @ts-ignore
           <MapCircleDrawing
             map={map}
             position={storedSearchPoint}
@@ -171,6 +178,7 @@ export default function Map() {
 
         {/* ATMs being looked at */}
         {fullAtmList.map((atm) => (
+          // @ts-ignore
           <MapMarker
             data={atm}
             key={atm.place_id}

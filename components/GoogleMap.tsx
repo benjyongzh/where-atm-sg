@@ -4,9 +4,9 @@ import { ReactElement } from "react";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import Map from "./Map";
 
-export default function GoogleMaps() {
-  const apiKey = process.env.NEXT_PUBLIC_GMAPS_API_KEY;
+const apiKey = process.env.GMAPS_API_KEY;
 
+export default function GoogleMaps() {
   if (!apiKey) {
     return (
       <div className="flex items-center justify-center w-full h-full gap-3">

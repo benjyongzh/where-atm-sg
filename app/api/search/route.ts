@@ -66,10 +66,10 @@ export async function GET(req: NextRequest) {
     }
 
     //=========================================================================== geocoding input address
-    console.log("in api search route. going to start geocoding next");
+    //console.log("in api search route. going to start geocoding next");
 
     const geocodedAddress = await getAddressGeocoded(addressInput);
-    console.log(geocodedAddress);
+    //console.log(geocodedAddress);
     //send immediate response here for geocoding error if geocoding status not ok
     if (geocodedAddress.status !== "OK") {
       console.log("geocoding status not ok");
