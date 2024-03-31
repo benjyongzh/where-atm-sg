@@ -21,7 +21,7 @@ import AtmMarker from "./AtmMarker";
 import MapCircleDrawing from "./MapCircleDrawing";
 import SearchpointMarker from "./SearchpointMarker";
 
-const mapId = process.env.GMAPS_MAP_ID_LIGHT;
+const mapId = process.env.NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT;
 
 export default function Map() {
   //redux
