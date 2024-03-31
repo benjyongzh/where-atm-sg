@@ -43,9 +43,13 @@ COPY package.json ./
 
 RUN npm install
 
-COPY . .
+ARG NODE_ENV=production
+ENV NODE_ENV $NODE_ENV
 
-ENV NODE_ENV=production
+ARG GMAPS_API_KEY
+ARG GMAPS_MAP_ID_LIGHT
+
+COPY . .
 
 RUN npm run build
 
