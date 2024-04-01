@@ -46,12 +46,10 @@ RUN npm install
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 
-ARG GMAPS_API_KEY
-ARG GMAPS_MAP_ID_LIGHT
-
 COPY . .
 
 RUN npm run build
+RUN rm -f ./.env
 
 EXPOSE 3000
 
