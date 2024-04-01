@@ -9,7 +9,7 @@ const page = () => {
       <Navbar />
       <AtmList />
       <div className="absolute w-full h-full">
-        <GoogleMap />
+        <GoogleMap apiKey={process.env.GMAPS_API_KEY} />
       </div>
       <AtmDetailsModal />
     </main>
