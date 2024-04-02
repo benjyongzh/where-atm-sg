@@ -3,6 +3,9 @@ services:
     image: "benjyongzh/where-atm-sg:1.1.0"
     build:
       context: .
+      args:
+        - GMAPS_API_KEY=${GMAPS_API_KEY}
+        - GMAPS_MAP_ID_LIGHT=${GMAPS_MAP_ID_LIGHT}
     container_name: where-atm-sg
     ports:
       - 3000:3000
@@ -10,4 +13,5 @@ services:
     #   - .:/app
     #   - /app/node_modules
     #   - /app/.next
-    command: npm start
+    env_file:
+      - .env

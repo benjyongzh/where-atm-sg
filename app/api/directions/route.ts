@@ -3,8 +3,9 @@ import {
   errorMessageQueue,
   errorMessageStrings,
   errorSeverity,
-} from "@/lib/errors";
-import { getWalkingDirections } from "@/features/googleAPI/directions";
+} from "@/app/_lib/errors";
+
+import { getWalkingDirections } from "@/app/_features/googleAPI/directions";
 
 export async function POST(req: NextRequest) {
   try {

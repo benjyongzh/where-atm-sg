@@ -11,7 +11,7 @@ const nextConfig = {
   },
   env: {
     GMAPS_API_KEY: process.env.GMAPS_API_KEY,
-    GMAPS_MAP_ID_LIGHT: process.env.GMAPS_MAP_ID_LIGHT,
+    NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT: process.env.NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT,
   },
 };
 

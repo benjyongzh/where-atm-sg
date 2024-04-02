@@ -3,20 +3,20 @@ import {
   IGeoCode,
   getAddressGeocoded,
   getLatLongFromGeoCodeResult,
-} from "@/features/googleAPI/geocoder";
-import { getNearbyAtms } from "@/features/googleAPI/nearbySearch";
+} from "@/app/_features/googleAPI/geocoder";
+import { getNearbyAtms } from "@/app/_features/googleAPI/nearbySearch";
 import {
   errorMessageQueue,
   errorMessageStrings,
   errorSeverity,
-} from "@/lib/errors";
+} from "@/app/_lib/errors";
 import {
   searchResults,
   bankNameList,
   processAtmDataForRedux,
-} from "@/lib/atmObject";
-import { cullDuplicatesBasedOnId } from "@/utils/objects";
-import { validateRangeInput } from "@/lib/searchRangeValidation";
+} from "@/app/_lib/atmObject";
+import { cullDuplicatesBasedOnId } from "@/app/_utils/objects";
+import { validateRangeInput } from "@/app/_lib/searchRangeValidation";
 
 //config
 import {
@@ -26,7 +26,7 @@ import {
   SEARCHADDRESS_PARAM_NAME,
   SEARCHRANGE_PARAM_NAME,
   FILTEREDBANKS_PARAM_NAME,
-} from "@/config/app.config";
+} from "@/app/_config/app.config";
 
 export async function GET(req: NextRequest) {
   try {
