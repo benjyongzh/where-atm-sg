@@ -1,5 +1,3 @@
-include .env
-
 IMAGE=benjyongzh/where-atm-sg
 TAG=1.0.3
 	
