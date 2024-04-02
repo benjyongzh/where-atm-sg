@@ -1,7 +1,7 @@
-import AtmList from "@/components/AtmList";
-import Navbar from "@/components/Navbar";
-import GoogleMap from "@/components/GoogleMap";
-import AtmDetailsModal from "@/components/AtmDetailsModal";
+import AtmList from "@/app/_components/AtmList";
+import Navbar from "@/app/_components/Navbar";
+import GoogleMap from "@/app/_components/mapItems/GoogleMap";
+import AtmDetailsModal from "@/app/_components/AtmDetailsModal";
 
 const page = () => {
   return (
