@@ -1,7 +1,7 @@
 include .env
 
 IMAGE=benjyongzh/where-atm-sg
-TAG=1.0.2
+TAG=1.0.3
 	
 build-image:
 	docker build . -t "$(IMAGE):$(TAG)"
