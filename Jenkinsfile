@@ -15,8 +15,6 @@ pipeline {
                 // '''
                 sh '''
                     node --version
-                    git --version
-                    curl --version
                 '''
                 echo "Running a job with build #: ${env.BUILD_NUMBER} on ${env.JENKINS_URL}"
             }
