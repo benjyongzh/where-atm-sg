@@ -4,6 +4,8 @@ WORKDIR /app
 COPY package*.json ./
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
+ARG NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT
+ARG GMAPS_API_KEY
 RUN npm install
 COPY . .
 RUN npm run build

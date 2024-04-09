@@ -7,7 +7,7 @@ pipeline {
     }
     agent {
         dockerfile {
-            additionalBuildArgs  '--build-arg NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT=${env.NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT} --build-arg GMAPS_API_KEY=${env.GMAPS_API_KEY}'
+            additionalBuildArgs  "--build-arg NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT=${env.NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT} --build-arg GMAPS_API_KEY=${env.GMAPS_API_KEY}"
         }
     }
     stages {
