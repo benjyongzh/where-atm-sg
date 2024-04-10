@@ -11,29 +11,31 @@ def get_additional_build_args() {
 }
 
 pipeline {
-    agent {
-        dockerfile {
-            additionalBuildArgs get_additional_build_args()
-            label 'docker-agent-1'
-        }
-    }
+    agent none
+    
     stages {
         stage("Environment") {
             steps {
-                sh '''
-                    node --version
-                '''
-                echo "Running a job with build #: ${env.BUILD_NUMBER} on ${env.JENKINS_URL}"
+                echo "Running a job with build #: ${BUILD_NUMBER}, SCM on ${GIT_URL}"
             }
         }
         stage("Build") {
+            agent {
+                dockerfile {
+                    additionalBuildArgs get_additional_build_args()
+                }
+            }
             steps {
-                echo "Building the app..."
+                echo "Building the app on ${NODE_NAME} agent..."
             }
         }
         stage("Test") {
+            agent {
+                docker { image 'node:18-alpine' }
+            }
             steps {
-                echo "Testing the app..."
+                echo "Testing the app on ${NODE_NAME} agent..."
+                sh 'node --version'
             }
         }
         stage("Deploy") {
@@ -45,7 +47,7 @@ pipeline {
     post {
         always {
             echo "This will always run regardless of the completion status"
-            emailext body: 'test jenkins email body', recipientProviders: [buildUser()], subject: 'test jenkins email subject'
+            // emailext body: 'test jenkins email body', recipientProviders: [buildUser()], subject: 'test jenkins email subject'
         }
         success {
             echo "Job success!"
@@ -65,8 +67,8 @@ pipeline {
         }
         cleanup {
             echo "Cleaning the workspace"
-            cleanWs()
             sh 'docker images -q -f dangling=true | xargs --no-run-if-empty docker rmi'
+            cleanWs()
         }
     }
 }
