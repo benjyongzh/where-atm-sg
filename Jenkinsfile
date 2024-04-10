@@ -12,11 +12,10 @@ def get_additional_build_args() {
 
 pipeline {
     agent none
-    
     stages {
         stage("Environment") {
             steps {
-                echo "Running a job with build #: ${BUILD_NUMBER}, SCM on ${GIT_URL}"
+                echo "Running a job as build #: ${BUILD_NUMBER}, workspace at ${WORKSPACE}"
             }
         }
         stage("Build") {
@@ -31,7 +30,9 @@ pipeline {
         }
         stage("Test") {
             agent {
-                docker { image 'node:18-alpine' }
+                docker {
+                    image 'node:18-alpine'
+                }
             }
             steps {
                 echo "Testing the app on ${NODE_NAME} agent..."
@@ -39,8 +40,15 @@ pipeline {
             }
         }
         stage("Deploy") {
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                    label 'docker-agent-1'
+                }
+            }
             steps {
-                echo "Deploying the app..."
+                echo "Deploying the app on ${NODE_NAME} agent using label docker-agent-1..."
+                sh 'node --version'
             }
         }
     }
