@@ -15,7 +15,7 @@ pipeline {
     stages {
         stage("Environment") {
             steps {
-                echo "Running a job as build #: ${BUILD_NUMBER}, workspace at ${WORKSPACE}"
+                echo "Running a job as build #: ${BUILD_NUMBER}"
             }
         }
         stage("Build") {
