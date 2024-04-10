@@ -11,24 +11,14 @@ def get_additional_build_args() {
 }
 
 pipeline {
-    // environment { 
-    //     NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT=credentials('NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT')
-    //     GMAPS_API_KEY=credentials('GMAPS_API_KEY')
-//      DB_URL = 'mysql+pymysql://usr:pwd@host:/db'
-//      DISABLE_AUTH = true
-    // }
-
-    // withCredentials([string(credentialsId: 'NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT', variable: 'NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT'), string(credentialsId: 'GMAPS_API_KEY', variable: 'GMAPS_API_KEY')]) {
-    // some block
-    // }
     agent {
         dockerfile {
-            // additionalBuildArgs '--build-arg NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT=$NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT --build-arg GMAPS_API_KEY=$GMAPS_API_KEY'
             additionalBuildArgs get_additional_build_args()
+            label 'docker-agent-1'
         }
     }
     stages {
-        stage("Enviroment") {
+        stage("Environment") {
             steps {
                 sh '''
                     node --version
@@ -55,6 +45,7 @@ pipeline {
     post {
         always {
             echo "This will always run regardless of the completion status"
+            emailext body: 'test jenkins email body', recipientProviders: [buildUser()], subject: 'test jenkins email subject'
         }
         success {
             echo "Job success!"
