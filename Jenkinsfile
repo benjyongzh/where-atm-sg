@@ -1,13 +1,13 @@
 pipeline {
     environment { 
-        NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT=credentials('where-atm-sg-map-id')
-        GMAPS_API_KEY=credentials('where-atm-sg-api-key')
+        NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT=credentials('NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT')
+        GMAPS_API_KEY=credentials('GMAPS_API_KEY')
 //      DB_URL = 'mysql+pymysql://usr:pwd@host:/db'
 //      DISABLE_AUTH = true
     }
     agent {
         dockerfile {
-            additionalBuildArgs  "--build-arg NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT=${env.NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT} --build-arg GMAPS_API_KEY=${env.GMAPS_API_KEY}"
+            additionalBuildArgs '--build-arg NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT=$NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT --build-arg GMAPS_API_KEY=$GMAPS_API_KEY'
         }
     }
     stages {
@@ -17,7 +17,6 @@ pipeline {
                     node --version
                 '''
                 echo "Running a job with build #: ${env.BUILD_NUMBER} on ${env.JENKINS_URL}"
-                // echo "map ID #: ${env.NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT}"
             }
         }
         stage("Build") {
