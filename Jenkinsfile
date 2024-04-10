@@ -52,6 +52,7 @@ pipeline {
             }
         }
     }
+    /*
     post {
         always {
             echo "This will always run regardless of the completion status"
@@ -79,4 +80,5 @@ pipeline {
             cleanWs()
         }
     }
+    */
 }
