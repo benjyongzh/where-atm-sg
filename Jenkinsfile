@@ -12,9 +12,10 @@ def get_additional_build_args() {
 
 pipeline {
     agent {
-        docker {
-            image 'node:lts-alpine3.19'
-        }
+        // docker {
+        //     image 'node:lts-alpine3.19'
+        // }
+        label "docker-agent-1"
     }
     environment {
         TAG="test-image"
@@ -22,15 +23,19 @@ pipeline {
     stages {
         stage("Environment") {
             steps {
-                echo "Running a job as build #: ${BUILD_NUMBER}"
+                echo "Running a job as build #: ${BUILD_NUMBER} on ${NODE_NAME} agent"
             }
         }
         stage("Build") {
-            // agent {
+            agent {
             //     dockerfile {
             //         additionalBuildArgs get_additional_build_args()
             //     }
-            // }
+                docker {
+                    image 'node:lts-alpine3.19'
+                    reuseNode true
+                }
+            }
             steps {
                 echo "Building the app on ${NODE_NAME} agent..."
                 sh "docker build " + get_additional_build_args() + " -t ${TAG} ."
