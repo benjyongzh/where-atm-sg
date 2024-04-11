@@ -33,8 +33,8 @@ pipeline {
             // }
             steps {
                 echo "Building the app on ${NODE_NAME} agent..."
-                // sh "docker build " + get_additional_build_args() + " -t $TAG ."
-                sh("docker build $get_additional_build_args() -t $TAG .")
+                sh "docker build " + get_additional_build_args() + " -t $TAG ."
+                // sh("docker build ${get_additional_build_args} -t ${TAG} .")
             }
         }
         stage("Test") {
