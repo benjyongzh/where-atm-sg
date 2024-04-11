@@ -1,5 +1,5 @@
 # Stage 1: install dependencies and build
-FROM node:18-alpine AS builder
+FROM node:lts-alpine3.19 AS builder
 WORKDIR /app
 COPY package*.json ./
 ARG NODE_ENV=production
@@ -11,14 +11,12 @@ COPY . .
 RUN npm run build
 
 # Stage 2: run
-FROM node:18-alpine
+FROM node:lts-alpine3.19
 WORKDIR /app
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./
-
-# RUN rm -f ./.env
 
 EXPOSE 3000
 

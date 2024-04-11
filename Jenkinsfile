@@ -11,7 +11,14 @@ def get_additional_build_args() {
 }
 
 pipeline {
-    agent none
+    agent {
+        docker {
+            image 'node:lts-alpine3.19'
+        }
+    }
+    environment {
+        TAG=""
+    }
     stages {
         stage("Environment") {
             steps {
@@ -19,45 +26,36 @@ pipeline {
             }
         }
         stage("Build") {
-            agent {
-                dockerfile {
-                    additionalBuildArgs get_additional_build_args()
-                }
-            }
+            // agent {
+            //     dockerfile {
+            //         additionalBuildArgs get_additional_build_args()
+            //     }
+            // }
             steps {
                 echo "Building the app on ${NODE_NAME} agent..."
+                // sh "docker build " + get_additional_build_args() + " -t $TAG ."
+                sh("docker build $get_additional_build_args() -t $TAG .")
             }
         }
         stage("Test") {
-            agent {
-                docker {
-                    image 'node:18-alpine'
-                }
-            }
             steps {
                 echo "Testing the app on ${NODE_NAME} agent..."
                 sh 'node --version'
             }
         }
         stage("Deploy") {
-            agent {
-                docker {
-                    image 'node:18-alpine'
-                    label 'docker-agent-1'
-                }
-            }
             steps {
                 echo "Deploying the app on ${NODE_NAME} agent using label docker-agent-1..."
                 sh 'node --version'
             }
         }
     }
-    /*
+    
     post {
-        always {
-            echo "This will always run regardless of the completion status"
-            // emailext body: 'test jenkins email body', recipientProviders: [buildUser()], subject: 'test jenkins email subject'
-        }
+        // always {
+        //     echo "This will always run regardless of the completion status"
+        //     emailext body: 'test jenkins email body', recipientProviders: [buildUser()], subject: 'test jenkins email subject'
+        // }
         success {
             echo "Job success!"
         }
@@ -71,14 +69,13 @@ pipeline {
         //     echo "This will run if the state of the pipeline has changed"
         //     echo "For example, if the previous run failed but is now successful"
         // }
-        fixed {
-            echo "Pipeline is now fixed from previous run!"
-        }
+        // fixed {
+        //     echo "Pipeline is now fixed from previous run!"
+        // }
         cleanup {
-            echo "Cleaning the workspace"
+            echo "Cleaning the workspace..."
             sh 'docker images -q -f dangling=true | xargs --no-run-if-empty docker rmi'
             cleanWs()
         }
     }
-    */
 }
