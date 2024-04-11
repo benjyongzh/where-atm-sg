@@ -17,7 +17,7 @@ pipeline {
         }
     }
     environment {
-        TAG=""
+        TAG="test-image"
     }
     stages {
         stage("Environment") {
@@ -33,7 +33,7 @@ pipeline {
             // }
             steps {
                 echo "Building the app on ${NODE_NAME} agent..."
-                sh "docker build " + get_additional_build_args() + " -t $TAG ."
+                sh "docker build " + get_additional_build_args() + " -t ${TAG} ."
                 // sh("docker build ${get_additional_build_args} -t ${TAG} .")
             }
         }
