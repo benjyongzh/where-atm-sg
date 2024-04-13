@@ -11,13 +11,13 @@ def get_additional_build_args() {
 }
 
 pipeline {
-    agent any
-    // agent {
+    // agent any
+    agent {
         // docker {
         //     image 'node:lts-alpine3.19'
         // }
-        // label "docker-agent-1"
-    // }
+        label "docker-agent-1"
+    }
     environment {
         TAG="test-image"
     }
