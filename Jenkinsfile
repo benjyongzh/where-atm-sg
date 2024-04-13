@@ -19,12 +19,15 @@ pipeline {
         label "docker-agent-1"
     }
     environment {
-        TAG="test-image"
+        REPO="benjyongzh/where-atm-sg"
+        TAG="1.0.4"
     }
     stages {
         stage("Environment") {
             steps {
                 echo "Running a job as build #: ${BUILD_NUMBER} on ${NODE_NAME} agent"
+                sh 'which docker'
+                sh 'docker version'
             }
         }
         stage("Build") {
@@ -39,20 +42,17 @@ pipeline {
             // }
             steps {
                 echo "Building the app on ${NODE_NAME} agent..."
-                sh "docker build " + get_additional_build_args() + " -t ${TAG} ."
-                // sh("docker build ${get_additional_build_args} -t ${TAG} .")
+                sh "docker build " + get_additional_build_args() + " -t ${REPO}:${TAG} ."\
             }
         }
         stage("Test") {
             steps {
                 echo "Testing the app on ${NODE_NAME} agent..."
-                sh 'node --version'
             }
         }
         stage("Deploy") {
             steps {
-                echo "Deploying the app on ${NODE_NAME} agent using label docker-agent-1..."
-                sh 'node --version'
+                echo "Deploying the app on ${NODE_NAME} agent..."
             }
         }
     }
