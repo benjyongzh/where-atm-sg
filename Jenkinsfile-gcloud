@@ -1,0 +1,89 @@
+def get_credential(credentialName) {
+    def v;
+    withCredentials([string(credentialsId: credentialName, variable: "someVarName")]) {
+        v = env.someVarName;
+    }
+    return v
+}
+
+def get_additional_build_args() {
+    return "--build-arg NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT=" + get_credential("NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT") + " --build-arg GMAPS_API_KEY=" + get_credential("GMAPS_API_KEY")
+}
+
+pipeline {
+    agent {
+        docker { image 'gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine' }
+        // label "docker-agent-1"
+    }
+    environment {
+    //     SERVICE_ACCOUNT_KEY=credentials('gcloud-jenkins-service-account-key')
+        DOCKERHUB_USERNAME=credentials('dockerhub-username')
+        DOCKERHUB_PASSWORD=credentials('dockerhub-password')
+        PROJECT_ID=credentials('where-atm-sg-project-id')
+        LOCATION="asia-southeast1"
+        REPO="where-atm-sg"
+        TAG="1.0.4"
+    }
+    stages {
+        stage("GCloud Environment"){
+            steps {
+                sh 'gcloud version'
+                
+                withCredentials([file(credentialsId: 'gcloud-jenkins-service-account-key', variable: 'keyFile')]) {
+                    // do something with the file, for instance 
+                    // sh 'cat $keyFile'
+                    sh 'gcloud auth activate-service-account --key-file=$keyFile --project=$PROJECT_ID'
+                    // sh "gcloud config set project ${PROJECT_ID}"
+                }
+                    
+                sh 'gcloud info'
+            }
+        }
+        stage("Git SCM Checkout"){
+            steps {
+                sh 'git --version'
+                git branch: 'ATM-8-get-jenkins-pipeline-to-initiate-based-on-github-action-hook-on-push', url: 'https://github.com/benjyongzh/where-atm-sg.git'
+                // sh 'cat $GIT_URL'
+            }
+        }
+        stage("Docker Environment") {
+            steps {
+                // echo "Running a job as build #: ${BUILD_NUMBER} on ${NODE_NAME} agent"
+                echo "Establishing docker environment..."
+                sh 'which docker'
+                sh 'docker version'
+                sh "docker login --username=${DOCKERHUB_USERNAME} --password=${DOCKERHUB_PASSWORD}"
+            }
+        }
+        stage("Build Docker Image") {
+            steps {
+                echo "Building the docker images on ${NODE_NAME} agent..."
+                sh "docker build " + get_additional_build_args() + " -t ${DOCKERHUB_USERNAME}/${REPO}:${TAG} -t ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPO}/app:${TAG} ."
+            }
+        }
+        stage("Push Images") {
+            steps {
+                sh "docker push ${DOCKERHUB_USERNAME}/${REPO}:${TAG}"
+                sh "docker push ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPO}/app:${TAG}"
+            }
+        }
+        stage("Run Container") {
+            steps {
+                sh "gcloud run deploy ${REPO} --image ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPO}/app:${TAG}"
+            }
+        }
+    }
+    post {
+        success {
+            echo "Job success!"
+        }
+        failure {
+            echo "Job failed..."
+        }
+        cleanup {
+            echo "Cleaning the workspace..."
+            sh 'docker images -q -f dangling=true | xargs --no-run-if-empty docker rmi'
+            cleanWs()
+        }
+    }
+}
