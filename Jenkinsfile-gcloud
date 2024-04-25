@@ -17,6 +17,7 @@ pipeline {
     }
     environment {
     //     SERVICE_ACCOUNT_KEY=credentials('gcloud-jenkins-service-account-key')
+        SERVICE_ACCOUNT_EMAIL="jenkins-service-account@resolute-clock-392803.iam.gserviceaccount.com"
         DOCKERHUB_USERNAME=credentials('dockerhub-username')
         DOCKERHUB_PASSWORD=credentials('dockerhub-password')
         PROJECT_ID=credentials('where-atm-sg-project-id')
