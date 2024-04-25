@@ -52,7 +52,7 @@ pipeline {
                 echo "Establishing docker environment..."
                 sh 'which docker'
                 sh 'docker version'
-                sh "docker login --username=${DOCKERHUB_USERNAME} --password=${DOCKERHUB_PASSWORD}"
+                sh 'echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin'
             }
         }
         stage("Build Docker Image") {
