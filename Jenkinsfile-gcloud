@@ -68,7 +68,7 @@ pipeline {
         }
         stage("Run Container") {
             steps {
-                sh "gcloud run deploy ${REPO} --image ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPO}/app:${TAG}"
+                sh "gcloud run deploy ${REPO} --image ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPO}/app:${TAG} --allow-unauthenticated"
             }
         }
     }
