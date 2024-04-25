@@ -28,14 +28,13 @@ pipeline {
     stages {
         stage("GCloud Environment"){
             steps {
+                echo "Running Jenkins job as build #: ${BUILD_NUMBER} on ${NODE_NAME} agent"
                 sh 'gcloud version'
-                
                 withCredentials([file(credentialsId: 'gcloud-jenkins-service-account-key', variable: 'keyFile')]) {
                     // do something with the file, for instance 
                     sh 'gcloud auth activate-service-account --key-file=$keyFile --project=$PROJECT_ID'
                     sh "gcloud auth configure-docker ${LOCATION}-docker.pkg.dev"
                 }
-                    
                 sh 'gcloud info'
             }
         }
@@ -48,7 +47,6 @@ pipeline {
         }
         stage("Docker Environment") {
             steps {
-                // echo "Running a job as build #: ${BUILD_NUMBER} on ${NODE_NAME} agent"
                 echo "Establishing docker environment..."
                 sh 'which docker'
                 sh 'docker version'
