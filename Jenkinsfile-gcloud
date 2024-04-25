@@ -34,6 +34,7 @@ pipeline {
                     // do something with the file, for instance 
                     sh 'gcloud auth activate-service-account --key-file=$keyFile --project=$PROJECT_ID'
                     sh "gcloud auth configure-docker ${LOCATION}-docker.pkg.dev"
+                    sh "gcloud config set run/region ${LOCATION}"
                 }
                 sh 'gcloud info'
             }
