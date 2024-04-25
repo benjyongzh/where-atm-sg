@@ -74,6 +74,10 @@ pipeline {
         }
     }
     post {
+        always {
+            sh 'gcloud auth revoke $SERVICE_ACCOUNT_EMAIL'
+            echo "Service account email revoked"
+        }
         success {
             echo "Job success!"
         }
