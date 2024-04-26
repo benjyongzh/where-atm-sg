@@ -69,6 +69,11 @@ pipeline {
         stage("Run Container") {
             steps {
                 sh "gcloud run deploy ${REPO} --image ${LOCATION}-docker.pkg.dev/${PROJECT_ID}/${REPO}/app:${TAG} --allow-unauthenticated"
+                // sh '''
+                // gcloud run services add-iam-policy-binding ${REPO} \
+                // --member="allUsers" \
+                // --role="roles/run.invoker"
+                // '''
             }
         }
     }
