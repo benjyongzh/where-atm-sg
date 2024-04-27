@@ -52,6 +52,8 @@ steps:
       - "--allow-unauthenticated"
       - "--image"
       - "${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/app:${_TAG}"
+      - "--region"
+      - "${_LOCATION}"
     # script: |
     #   gcloud run deploy ${_REPO_NAME} --image ${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/app:${_TAG} --allow-unauthenticated
     id: "deploy run"
