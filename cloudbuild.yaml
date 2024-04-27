@@ -44,10 +44,11 @@ steps:
     waitFor: ["push-dockerhub"]
   #deploy image from artifact registry to cloud run
   - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: gcloud
     args:
-      - run
-      - deploy
-      - ${_REPO_NAME}
+      - "run"
+      - "deploy"
+      - "${_REPO_NAME}"
       - "--allow-unauthenticated"
       - "--image"
       - "${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/app:${_TAG}"
