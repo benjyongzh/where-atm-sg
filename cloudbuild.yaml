@@ -1,0 +1,74 @@
+steps:
+  #login dockerhub account
+  - name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      # - "echo $$DOCKERHUB_PASSWORD | docker login -u $$DOCKERHUB_USERNAME --password-stdin"
+      - "docker login --username=$$DOCKER_USERNAME --password=$$DOCKER_PASSWORD"
+    secretEnv: ["DOCKER_USERNAME", "DOCKER_PASSWORD"]
+    id: "login"
+  #build container image for both dockerhub and google artifact registry
+  - name: "gcr.io/cloud-builders/docker"
+    # script: |
+    #   docker build --build-arg NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT=$$GMAPS_MAP_ID --build-arg GMAPS_API_KEY=$$GMAPS_API_KEY -t $$DOCKER_USERNAME/${_REPO_NAME}:${_TAG} -t ${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/app:${_TAG} .
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - "docker build --build-arg NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT=$$GMAPS_MAP_ID --build-arg GMAPS_API_KEY=$$GMAPS_API_KEY -t $$DOCKER_USERNAME/${_REPO_NAME}:${_TAG} -t ${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/app:${_TAG} ."
+      # - "--build-arg 'NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT=$$GMAPS_MAP_ID'"
+      # - "--build-arg 'GMAPS_API_KEY=$$GMAPS_API_KEY'"
+      # - "-t $$DOCKER_USERNAME/${_REPO_NAME}:${_TAG}"
+      # - "-t ${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/app:${_TAG}"
+      # - "."
+    secretEnv: ["DOCKER_USERNAME", "GMAPS_API_KEY", "GMAPS_MAP_ID"]
+    id: "build"
+    waitFor: ["login"]
+  #push container image to dockerhub
+  - name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - "docker push $$DOCKER_USERNAME/${_REPO_NAME}:${_TAG}"
+    secretEnv: ["DOCKER_USERNAME"]
+    id: "push-dockerhub"
+    waitFor: ["build"]
+  #push container image to artifact registry
+  - name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - "docker push ${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/app:${_TAG}"
+    secretEnv: ["DOCKER_USERNAME"]
+    id: "push-artifact-reg"
+    waitFor: ["push-dockerhub"]
+  #deploy image from artifact registry to cloud run
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: gcloud
+    args:
+      - "run"
+      - "deploy"
+      - "${_REPO_NAME}"
+      - "--allow-unauthenticated"
+      - "--image"
+      - "${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/app:${_TAG}"
+      - "--region"
+      - "${_LOCATION}"
+    # script: |
+    #   gcloud run deploy ${_REPO_NAME} --image ${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/app:${_TAG} --allow-unauthenticated
+    id: "deploy run"
+    waitFor: ["push-artifact-reg"]
+substitutions:
+  _REPO_NAME: where-atm-sg
+  _LOCATION: asia-southeast1
+  _TAG: 1.0.4
+availableSecrets:
+  secretManager:
+    - versionName: projects/$PROJECT_ID/secrets/dockerhub-username/versions/latest
+      env: "DOCKER_USERNAME"
+    - versionName: projects/$PROJECT_ID/secrets/dockerhub-password/versions/latest
+      env: "DOCKER_PASSWORD"
+    - versionName: projects/$PROJECT_ID/secrets/gmaps-api-key/versions/latest
+      env: "GMAPS_API_KEY"
+    - versionName: projects/$PROJECT_ID/secrets/gmaps-map-id/versions/latest
+      env: "GMAPS_MAP_ID"
