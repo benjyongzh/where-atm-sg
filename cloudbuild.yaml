@@ -4,24 +4,23 @@ steps:
     entrypoint: "bash"
     args:
       - "-c"
-      - "echo $$DOCKERHUB_PASSWORD | docker login -u $$DOCKERHUB_USERNAME --password-stdin"
-      # - "login"
-      # - "--username=$$DOCKER_USERNAME"
-      # - "--password=$$DOCKER_PASSWORD"
+      # - "echo $$DOCKERHUB_PASSWORD | docker login -u $$DOCKERHUB_USERNAME --password-stdin"
+      - "docker login --username=$$DOCKER_USERNAME --password=$$DOCKER_PASSWORD"
     secretEnv: ["DOCKER_USERNAME", "DOCKER_PASSWORD"]
     id: "login"
   #build container image for both dockerhub and google artifact registry
   - name: "gcr.io/cloud-builders/docker"
     # script: |
     #   docker build --build-arg NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT=$$GMAPS_MAP_ID --build-arg GMAPS_API_KEY=$$GMAPS_API_KEY -t $$DOCKER_USERNAME/${_REPO_NAME}:${_TAG} -t ${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/app:${_TAG} .
-    # entrypoint: "bash"
+    entrypoint: "bash"
     args:
-      - "build"
-      - "--build-arg NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT=$$GMAPS_MAP_ID"
-      - "--build-arg GMAPS_API_KEY=$$GMAPS_API_KEY"
-      - "-t $$DOCKER_USERNAME/${_REPO_NAME}:${_TAG}"
-      - "-t ${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/app:${_TAG}"
-      - "."
+      - "-c"
+      - "docker build --build-arg NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT=$$GMAPS_MAP_ID --build-arg GMAPS_API_KEY=$$GMAPS_API_KEY -t $$DOCKER_USERNAME/${_REPO_NAME}:${_TAG} -t ${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/app:${_TAG} ."
+      # - "--build-arg 'NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT=$$GMAPS_MAP_ID'"
+      # - "--build-arg 'GMAPS_API_KEY=$$GMAPS_API_KEY'"
+      # - "-t $$DOCKER_USERNAME/${_REPO_NAME}:${_TAG}"
+      # - "-t ${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/app:${_TAG}"
+      # - "."
     secretEnv: ["DOCKER_USERNAME", "GMAPS_API_KEY", "GMAPS_MAP_ID"]
     id: "build"
     waitFor: ["login"]
