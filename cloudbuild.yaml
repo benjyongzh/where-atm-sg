@@ -1,44 +1,45 @@
 steps:
   #login dockerhub account
   - name: "gcr.io/cloud-builders/docker"
-    entrypoint: "bash"
+    # entrypoint: "bash"
     args:
-      [
-        "-c",
-        "docker login --username=$$DOCKER_USERNAME --password=$$DOCKER_PASSWORD",
-      ]
+      # - "-c"
+      - "login"
+      - "--username=$$DOCKER_USERNAME"
+      - "--password=$$DOCKER_PASSWORD"
     secretEnv: ["DOCKER_USERNAME", "DOCKER_PASSWORD"]
     id: "login"
   #build container image for both dockerhub and google artifact registry
   - name: "gcr.io/cloud-builders/docker"
-    entrypoint: "bash"
+    # script: |
+    #   docker build --build-arg NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT=$$GMAPS_MAP_ID --build-arg GMAPS_API_KEY=$$GMAPS_API_KEY -t $$DOCKER_USERNAME/${_REPO_NAME}:${_TAG} -t ${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/app:${_TAG} .
+    # entrypoint: "bash"
     args:
-      [
-        "-c",
-        "docker build",
-        "--build-arg NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT=$$GMAPS_MAP_ID",
-        "--build-arg GMAPS_API_KEY=$$GMAPS_API_KEY",
-        "-t $$DOCKER_USERNAME/${_REPO_NAME}:${_TAG}",
-        "-t ${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/app:${_TAG}",
-        ".",
-      ]
+      - "build"
+      - "--build-arg NEXT_PUBLIC_GMAPS_MAP_ID_LIGHT=$$GMAPS_MAP_ID"
+      - "--build-arg GMAPS_API_KEY=$$GMAPS_API_KEY"
+      - "-t $$DOCKER_USERNAME/${_REPO_NAME}:${_TAG}"
+      - "-t ${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/app:${_TAG}"
+      - "."
     secretEnv: ["DOCKER_USERNAME", "GMAPS_API_KEY", "GMAPS_MAP_ID"]
     id: "build"
     waitFor: ["login"]
   #push container image to dockerhub
   - name: "gcr.io/cloud-builders/docker"
-    entrypoint: "bash"
-    args: ["-c", "docker push", "$$DOCKER_USERNAME/${_REPO_NAME}:${_TAG}"]
+    # entrypoint: "bash"
+    args:
+      # - "-c"
+      # - "docker"
+      - "push"
+      - "$$DOCKER_USERNAME/${_REPO_NAME}:${_TAG}"
     secretEnv: ["DOCKER_USERNAME"]
     id: "push-dockerhub"
     waitFor: ["build"]
   #push container image to artifact registry
   - name: "gcr.io/cloud-builders/docker"
     args:
-      [
-        "push",
-        "${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/app:${_TAG}",
-      ]
+      - "push"
+      - "${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/app:${_TAG}"
     secretEnv: ["DOCKER_USERNAME"]
     id: "push-artifact-reg"
     waitFor: ["build"]
