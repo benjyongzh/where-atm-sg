@@ -26,20 +26,19 @@ steps:
     waitFor: ["login"]
   #push container image to dockerhub
   - name: "gcr.io/cloud-builders/docker"
-    # entrypoint: "bash"
+    entrypoint: "bash"
     args:
-      # - "-c"
-      # - "docker"
-      - "push"
-      - "$$DOCKER_USERNAME/${_REPO_NAME}:${_TAG}"
+      - "-c"
+      - "docker push $$DOCKER_USERNAME/${_REPO_NAME}:${_TAG}"
     secretEnv: ["DOCKER_USERNAME"]
     id: "push-dockerhub"
     waitFor: ["build"]
   #push container image to artifact registry
   - name: "gcr.io/cloud-builders/docker"
+    entrypoint: "bash"
     args:
-      - "push"
-      - "${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/app:${_TAG}"
+      - "-c"
+      - "docker push ${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPO_NAME}/app:${_TAG}"
     secretEnv: ["DOCKER_USERNAME"]
     id: "push-artifact-reg"
     waitFor: ["build"]
