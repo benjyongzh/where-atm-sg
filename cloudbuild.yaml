@@ -3,10 +3,11 @@ steps:
   - name: "gcr.io/cloud-builders/docker"
     # entrypoint: "bash"
     args:
-      # - "-c"
-      - "login"
-      - "--username=$$DOCKER_USERNAME"
-      - "--password=$$DOCKER_PASSWORD"
+      - "-c"
+      - "echo $$DOCKERHUB_PASSWORD | docker login -u $$DOCKERHUB_USERNAME --password-stdin"
+      # - "login"
+      # - "--username=$$DOCKER_USERNAME"
+      # - "--password=$$DOCKER_PASSWORD"
     secretEnv: ["DOCKER_USERNAME", "DOCKER_PASSWORD"]
     id: "login"
   #build container image for both dockerhub and google artifact registry
